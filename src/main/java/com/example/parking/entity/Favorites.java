@@ -1,9 +1,14 @@
 package com.example.parking.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
-@Entity @Getter
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Favorites {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer likeId;
