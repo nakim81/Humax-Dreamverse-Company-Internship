@@ -1,5 +1,7 @@
 package com.example.parking.service;
 
+import com.example.parking.common.error.ErrorCode;
+import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.ParkinglotDto;
 import com.example.parking.parkinglot.converter.ParkinglotConverter;
 import com.example.parking.repository.ParkingLotRepository;
@@ -22,5 +24,13 @@ public class ParkingLotService {
         return nearestParkingLots.stream()
                 .map(parkinglotConverter::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public ParkinglotDto getParkinglot(String codeNumber) {
+        var entity = parkingLotRepository.findById(codeNumber).map(it -> {
+                    return it;
+                })
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
+        return parkinglotConverter.toDto(entity);
     }
 }

@@ -24,4 +24,12 @@ public class ParkinglotApiController {
         var response = parkinglotService.getNearByParkinglots(latitude, longitude);
         return Api.OK(response);
     }
+
+    @GetMapping("/codeNumber/{codeNumber}")
+    public Api<ParkinglotDto> getParkinglot(
+            @PathVariable("codeNumber") String codeNumber
+    ){
+        var response = parkinglotService.getParkinglot(codeNumber);
+        return Api.OK(response);
+    }
 }
