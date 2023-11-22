@@ -2,10 +2,11 @@ package com.example.parking.dto;
 
 import com.example.parking.entity.Book;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
+@Data @NoArgsConstructor
 public class BookInfoDTO {
     private Integer bookId;
     private String name;

@@ -1,7 +1,6 @@
 package com.example.parking.repository;
 
 import com.example.parking.entity.Book;
-import com.example.parking.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

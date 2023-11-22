@@ -1,13 +1,11 @@
 package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
+import com.example.parking.dto.BookInfoDTO;
 import com.example.parking.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController @RequiredArgsConstructor
 public class BookController {
@@ -19,9 +17,18 @@ public class BookController {
     ){
         return ResponseEntity
                 .status(200)
-                .body(
-                        Api.OK(bookService.getBookList(userId))
-                );
+                .body(Api.OK(bookService.getBookList(userId)));
+    }
+
+    @PostMapping("/user/{userId}/book")
+    public ResponseEntity<Api<Object>> addBook(
+            @PathVariable("userId") Integer userId,
+            @RequestBody BookInfoDTO bookInfoDTO
+    ){
+        bookService.addBook(userId, bookInfoDTO);
+        return ResponseEntity
+                .status(200)
+                .body(Api.OK(null));
     }
 
     @DeleteMapping("/user/{userId}/book/{bookId}")
@@ -32,8 +39,6 @@ public class BookController {
         bookService.deleteBook(userId, bookId);
         return ResponseEntity
                 .status(200)
-                .body(
-                        Api.OK(null)
-                );
+                .body(Api.OK(null));
     }
 }

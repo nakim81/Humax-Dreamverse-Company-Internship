@@ -31,7 +31,7 @@ public class Book {
 
     @Builder
     public Book(String name, String state, String carNumber, LocalDateTime startTime,
-                 LocalDateTime endTime, Integer price, String pay, String ticket){
+                LocalDateTime endTime, Integer price, String pay, String ticket, User user, Parkinglot parkinglot){
         this.name = name;
         this.state = state;
         this.carNumber = carNumber;
@@ -40,5 +40,7 @@ public class Book {
         this.price = price;
         this.pay =  pay;
         this.ticket = ticket;
+        this.user = user;
+        this.parkinglot = parkinglot;
     }
 }
