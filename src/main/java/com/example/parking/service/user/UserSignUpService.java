@@ -22,6 +22,8 @@ public class UserSignUpService {
         }
 
         validateDuplicateId(userSignUpDto.getId());
+        validateDuplicatePhoneNum(userSignUpDto.getPhoneNum());
+        validateDuplicateEmail(userSignUpDto.getEmail());
 
         // user 엔티티로 변환
         User user = User.builder()
@@ -42,7 +44,29 @@ public class UserSignUpService {
                 throw new ApiException(UserErrorCode.DUPLICATE_ID, "이미 사용 중인 아이디입니다.");
             }
         } else {
-            // userRepository가 null인 경우의 예외 처리
+            // userRepository null 경우의 예외 처리
+            throw new ApiException(UserErrorCode.USER_REPOSITORY_NOT_INITIALIZED, "UserRepository가 초기화되지 않았습니다.");
+        }
+    }
+
+    private void validateDuplicatePhoneNum(String phoneNum) {
+        if (userRepository != null) {
+            // 중복된 전화번호가 존재하는지 확인
+            if (userRepository.existsByPhoneNum(phoneNum)) {
+                throw new ApiException(UserErrorCode.DUPLICATE_PHONENUM, "이미 사용 중인 전화번호입니다.");
+            }
+        } else {
+            throw new ApiException(UserErrorCode.USER_REPOSITORY_NOT_INITIALIZED, "UserRepository가 초기화되지 않았습니다.");
+        }
+    }
+
+    private void validateDuplicateEmail(String email) {
+        if (userRepository != null) {
+            // 중복된 이메일이 존재하는지 확인
+            if (userRepository.existsByEmail(email)) {
+                throw new ApiException(UserErrorCode.DUPLICATE_EMAIL, "이미 사용 중인 이메일입니다.");
+            }
+        } else {
             throw new ApiException(UserErrorCode.USER_REPOSITORY_NOT_INITIALIZED, "UserRepository가 초기화되지 않았습니다.");
         }
     }
