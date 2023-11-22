@@ -7,6 +7,7 @@ import com.example.parking.parkinglot.converter.ParkinglotConverter;
 import com.example.parking.repository.ParkingLotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,5 +33,13 @@ public class ParkingLotService {
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
         return parkinglotConverter.toDto(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ParkinglotDto> findByNameOrAddressContains(String keyword) {
+        var filteredParkingLots =  parkingLotRepository.findByNameOrAddressContains(keyword);
+        return filteredParkingLots.stream()
+                .map(parkinglotConverter::toDto)
+                .collect(Collectors.toList());
     }
 }
