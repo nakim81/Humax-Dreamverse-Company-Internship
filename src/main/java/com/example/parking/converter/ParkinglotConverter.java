@@ -1,4 +1,4 @@
-package com.example.parking.parkinglot.converter;
+package com.example.parking.converter;
 
 import com.example.parking.common.annotation.Converter;
 import com.example.parking.common.error.ErrorCode;
@@ -12,7 +12,6 @@ import java.util.Optional;
 @Converter
 @RequiredArgsConstructor
 public class ParkinglotConverter {
-
 
     public ParkinglotDto toDto(Parkinglot entity) {
         return Optional.ofNullable(entity)
