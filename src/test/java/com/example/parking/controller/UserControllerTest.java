@@ -3,7 +3,7 @@ package com.example.parking.controller;
 import com.example.parking.ParkingApplication;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.error.UserErrorCode;
-import com.example.parking.dto.user.UserSignUpDto;
+import com.example.parking.dto.user.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @SpringBootTest(classes = ParkingApplication.class)
 @AutoConfigureMockMvc
-public class UserSignUpControllerTest {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,11 +28,11 @@ public class UserSignUpControllerTest {
 
     @Test
     void signUp_ValidInput() throws Exception{
-        UserSignUpDto userSignUpDto = new UserSignUpDto("hwang", "hello123", "01012345678", "kim@gamil.com");
+        UserDto userDto = new UserDto("hwang", "hello123", "01012345678", "kim@gamil.com");
 
         mockMvc.perform(post("/users/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userSignUpDto)))
+                        .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
                 .andExpect(result -> jsonPath("$.result.resultCode").value(ErrorCode.OK.getErrorCode()));
     }
@@ -40,11 +40,11 @@ public class UserSignUpControllerTest {
     @Test
     void signUp_DuplicateId_ShouldReturnError() throws Exception {
         // 유저ID가 이미 있다고 가정
-        UserSignUpDto userSignUpDto = new UserSignUpDto("existingUserTest", "password777", "01023451234", "existing@naver.com");
+        UserDto userDto = new UserDto("existingUserTest", "password777", "01023451234", "existing@naver.com");
 
         mockMvc.perform(post("/users/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userSignUpDto)))
+                        .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
                 .andExpect(result -> jsonPath("$.result.resultCode").value(UserErrorCode.DUPLICATE_ID.getErrorCode()));
     }

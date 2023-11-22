@@ -2,39 +2,45 @@ package com.example.parking.service.user;
 
 import com.example.parking.common.error.UserErrorCode;
 import com.example.parking.common.exception.ApiException;
-import com.example.parking.dto.user.UserSignUpDto;
+import com.example.parking.dto.user.UserDto;
 import com.example.parking.entity.User;
 import com.example.parking.repository.UserRepository;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserSignUpService {
+public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserSignUpService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public void signUp(UserSignUpDto userSignUpDto) {
+    public void signUp(UserDto userDto) {
         // userRepository 주입 확인
         if (userRepository == null) {
             throw new ApiException(UserErrorCode.USER_REPOSITORY_NOT_INITIALIZED, "UserRepository가 초기화되지 않았습니다.");
         }
 
-        validateDuplicateId(userSignUpDto.getId());
-        validateDuplicatePhoneNum(userSignUpDto.getPhoneNum());
-        validateDuplicateEmail(userSignUpDto.getEmail());
+        validateDuplicateId(userDto.getId());
+        validateDuplicatePhoneNum(userDto.getPhoneNum());
+        validateDuplicateEmail(userDto.getEmail());
 
         // user 엔티티로 변환
         User user = User.builder()
-                .id(userSignUpDto.getId())
-                .password(userSignUpDto.getPassword())
-                .phoneNum(userSignUpDto.getPhoneNum())
-                .email(userSignUpDto.getEmail())
+                .id(userDto.getId())
+                .password(passwordEncoder.encode(userDto.getPassword())) // 비밀번호 암호화
+                .phoneNum(userDto.getPhoneNum())
+                .email(userDto.getEmail())
                 .build();
 
         userRepository.save(user);
     }
+
 
     private void validateDuplicateId(String id) {
         // null 체크
@@ -70,4 +76,17 @@ public class UserSignUpService {
             throw new ApiException(UserErrorCode.USER_REPOSITORY_NOT_INITIALIZED, "UserRepository가 초기화되지 않았습니다.");
         }
     }
+
+
+    public User validateUser(UserDto userDto) {
+        User user = userRepository.findById(userDto.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+
+        return user;
+    }
+
 }
