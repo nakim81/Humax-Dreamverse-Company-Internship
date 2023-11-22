@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service @RequiredArgsConstructor
@@ -28,5 +29,17 @@ public class BookService {
             return bookInfoDTOS;
         }
         throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
+    }
+
+    public void deleteBook(Integer userId, Integer bookId){
+        Optional<Book> optionalBook = bookRepository.findByIDWithUser(bookId);
+        if(optionalBook.isPresent()) {
+            if(Objects.equals(optionalBook.get().getUser().getUserId(), userId))
+                bookRepository.delete(optionalBook.get());
+            else
+                throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
+        }else {
+            throw new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다.");
+        }
     }
 }
