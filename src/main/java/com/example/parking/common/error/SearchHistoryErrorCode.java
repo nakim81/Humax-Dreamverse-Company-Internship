@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SearchHistoryErrorCode implements ErrorCodeIfs {
 
-    SEARCH_HISTORY_NOT_FOUND(502, 2000, "Search History Not Found");
+    SEARCH_HISTORY_NOT_FOUND(404, 2000, "Search History Not Found");
 
     private final Integer httpStatusCode;
     private final Integer errorCode;
