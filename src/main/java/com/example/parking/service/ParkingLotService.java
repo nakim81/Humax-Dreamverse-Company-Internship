@@ -11,7 +11,6 @@ import com.example.parking.converter.ParkinglotConverter;
 import com.example.parking.repository.ParkingLotRepository;
 import com.example.parking.repository.SearchHistoryRepository;
 import com.example.parking.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +35,8 @@ public class ParkingLotService {
                 .collect(Collectors.toList());
     }
 
-    public ParkinglotDto getParkinglot(String codeNumber, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
+    // TODO 유저 인증 추가
+    public ParkinglotDto getParkinglot(String codeNumber, Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
 
         Parkinglot parkingLot = parkingLotRepository.findById(codeNumber).orElseThrow(() -> new ApiException(ParkinglotErrorCode.INVALID_CODENUMBER));
@@ -60,7 +59,7 @@ public class ParkingLotService {
         return parkinglotConverter.toDto(parkingLot);
     }
 
-    //유저 인증 추가되면 지울 예정
+    //TODO 유저 인증 추가되면 지우기
     public ParkinglotDto findParkinglotByCodenumber(String codenumber) {
         Parkinglot parkingLot = parkingLotRepository.findById(codenumber).orElseThrow(() -> new ApiException(ParkinglotErrorCode.INVALID_CODENUMBER));
         return parkinglotConverter.toDto(parkingLot);
