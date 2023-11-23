@@ -9,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Table(name = "search_history")
 public class SearchHistory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer historyId;
