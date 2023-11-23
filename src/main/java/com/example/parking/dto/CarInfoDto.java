@@ -11,14 +11,14 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class CarInfo {
+public class CarInfoDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer carId;
     private String carName;
     private String carNumber;
 
-    public CarInfo(Integer carId, String carName, String carNumber) {
+    public CarInfoDto(Integer carId, String carName, String carNumber) {
         this.carId = carId;
         this.carName = carName;
         this.carNumber = carNumber;

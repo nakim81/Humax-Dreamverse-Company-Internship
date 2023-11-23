@@ -3,7 +3,7 @@ package com.example.parking.service;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.CarDto;
-import com.example.parking.dto.CarInfo;
+import com.example.parking.dto.CarInfoDto;
 import com.example.parking.entity.Car;
 import com.example.parking.entity.User;
 import com.example.parking.repository.CarRepository;
@@ -27,12 +27,12 @@ public class CarService {
     }
 
     // 조회
-    public List<CarInfo> getCarsByUserId(Integer userId) {
+    public List<CarInfoDto> getCarsByUserId(Integer userId) {
         List<Car> cars = carRepository.findByUserUserId(userId);
 
         if (!cars.isEmpty()) {
             return cars.stream()
-                    .map(car -> new CarInfo(car.getCarId(), car.getCarName(), car.getCarNumber()))
+                    .map(car -> new CarInfoDto(car.getCarId(), car.getCarName(), car.getCarNumber()))
                     .collect(Collectors.toList());
         } else {
             throw new ApiException(ErrorCode.NULL_POINT, "차량을 등록해주세요.");
