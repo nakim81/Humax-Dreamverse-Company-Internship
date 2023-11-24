@@ -1,9 +1,12 @@
 package com.example.parking.service;
 
+import com.example.parking.common.error.ErrorCode;
+import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.PayDto;
 import com.example.parking.entity.Pay;
 import com.example.parking.entity.User;
 import com.example.parking.repository.PayRepository;
+import com.example.parking.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +19,16 @@ import java.util.List;
 public class PayServiceImpl implements PayService {
 
     private final PayRepository payRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PayServiceImpl(PayRepository payRepository) {
+    public PayServiceImpl(PayRepository payRepository, UserRepository userRepository) {
         this.payRepository = payRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public PayDto getPayById(Integer payId) throws EntityNotFoundException {
+    public PayDto getPayById(Long payId) throws EntityNotFoundException {
 
         Pay payEntity = payRepository.getReferenceById(payId);
 
@@ -31,7 +36,7 @@ public class PayServiceImpl implements PayService {
     }
 
     @Override
-    public List<PayDto> getPayByUserId(Integer userId) {
+    public List<PayDto> getPayByUserId(Long userId) {
 
         List<Pay> payEntity = payRepository.findByUserUserId(userId);
         List<PayDto> payDtos = new ArrayList<>();
@@ -46,7 +51,10 @@ public class PayServiceImpl implements PayService {
     @Transactional
     public void updatePayInfo(PayDto payDto) throws EntityNotFoundException {
 
-        Pay pay = payRepository.getReferenceById(payDto.getPay_id());
+        Pay pay = payRepository
+                .findById(payDto.getPay_id())
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "결제수단 정보가 없습니다."));
+
         pay.setPayName(payDto.getPay_name());
         pay.setPayType(payDto.getPay_type());
         pay.setPayNumber(payDto.getPay_number());
@@ -57,7 +65,7 @@ public class PayServiceImpl implements PayService {
 
     @Override
     @Transactional
-    public void registerPayInfo(PayDto payDto, Integer userId) throws EntityNotFoundException {
+    public void registerPayInfo(PayDto payDto, Long userId) throws EntityNotFoundException {
 
         Pay pay = Pay.builder()
                 .payName(payDto.getPay_name())
@@ -68,11 +76,15 @@ public class PayServiceImpl implements PayService {
 
 
         // TODO: 유저 검색 후 맞는 유저를 주입
+        /*
 
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
+        */
 
-
-
+        // (기능 구현 완료 시 삭제)
         // TEST: 더미 유저 대입 후 밀어 넣기
         // =====================================================================
         User dummy = User.builder()
@@ -92,10 +104,12 @@ public class PayServiceImpl implements PayService {
 
     @Override
     @Transactional
-    public PayDto deletePayInfo(Integer payId) throws EntityNotFoundException {
-        // TODO : pay table 에서 payId를 이용 하여 검색 후 나온 결과 값 존재 시 삭제
+    public PayDto deletePayInfo(Long payId) throws EntityNotFoundException {
 
-        Pay pay = payRepository.getReferenceById(payId);
+        Pay pay = payRepository
+                .findById(payId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "결제수단 정보가 없습니다."));
+
         payRepository.deleteById(payId);
 
         return PayDto.of(pay);

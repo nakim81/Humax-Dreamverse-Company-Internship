@@ -11,7 +11,7 @@ import lombok.*;
 @ToString
 public class Pay {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer payId;
+    private Long payId;
     private String payName;
     private String payType;
     private Integer payNumber;

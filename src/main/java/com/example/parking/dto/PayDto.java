@@ -12,7 +12,7 @@ import lombok.*;
 @ToString
 public class PayDto {
 
-    private Integer pay_id;
+    private Long pay_id;
 
     private String pay_name;
 

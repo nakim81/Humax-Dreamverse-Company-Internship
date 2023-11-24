@@ -31,7 +31,7 @@ public class FavoritesServiceImpl implements FavoritesService{
      * 즐겨 찾기 ID로 조회
      */
     @Override
-    public FavoritesDto getFavoritesById(Integer favoritesId) throws Exception {
+    public FavoritesDto getFavoritesById(Long favoritesId) throws Exception {
 
         Favorites favorites = favoritesRepository.getReferenceById(favoritesId);
 
@@ -43,7 +43,7 @@ public class FavoritesServiceImpl implements FavoritesService{
      * 유저 ID로 즐겨 찾기 조회
      */
     @Override
-    public List<FavoritesDto> getFavoritesByUserId(Integer userId) throws Exception {
+    public List<FavoritesDto> getFavoritesByUserId(Long userId) throws Exception {
 
         List<Favorites> favoritesList = favoritesRepository.findByUserUserId(userId);
         List<FavoritesDto> results = new ArrayList<>();
@@ -66,7 +66,7 @@ public class FavoritesServiceImpl implements FavoritesService{
      * 즐겨찾기 정보 등록
      */
     @Override
-    public void registerFavoritesInfo(Integer userId, FavoritesDto favoritesDto) throws Exception {
+    public void registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception {
 
         Favorites favorites = new Favorites();
 
@@ -113,7 +113,7 @@ public class FavoritesServiceImpl implements FavoritesService{
      * 즐겨찾기 정보 삭제
      */
     @Override
-    public FavoritesDto deleteFavoritesInfo(Integer favoritesId) throws Exception {
+    public FavoritesDto deleteFavoritesInfo(Long favoritesId) throws Exception {
 
         Favorites favorites = favoritesRepository
                 .findById(favoritesId)

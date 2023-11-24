@@ -11,11 +11,11 @@ import lombok.*;
 @ToString
 public class Favorites {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer likeId;
+    private Long likeId;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="code_number")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="parking_id")
     private Parkinglot parkinglot;
 }

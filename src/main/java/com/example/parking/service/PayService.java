@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface PayService {
 
-    PayDto getPayById(Integer payId) throws Exception;
+    PayDto getPayById(Long payId) throws Exception;
 
-    List<PayDto> getPayByUserId(Integer userId) throws Exception;
+    List<PayDto> getPayByUserId(Long userId) throws Exception;
 
     void updatePayInfo(PayDto payDto) throws Exception;
 
-    void registerPayInfo(PayDto payDto, Integer userId) throws Exception;
+    void registerPayInfo(PayDto payDto, Long userId) throws Exception;
 
-    PayDto deletePayInfo(Integer payId) throws Exception;
+    PayDto deletePayInfo(Long payId) throws Exception;
 }
