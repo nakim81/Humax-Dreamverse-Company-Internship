@@ -19,5 +19,6 @@ public class UserDto {
     private String phoneNum;
     @NotEmpty(message = "이메일은 필수 입력값입니다.")
     private String email;
+    private boolean admin;
 }
 
