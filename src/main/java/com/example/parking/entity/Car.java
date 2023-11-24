@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class Car {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer carId;
+    private Long carId;
     private String carName;
     private String carNumber;
 
