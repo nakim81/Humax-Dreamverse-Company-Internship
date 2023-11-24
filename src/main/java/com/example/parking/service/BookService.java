@@ -2,13 +2,9 @@ package com.example.parking.service;
 
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
-import com.example.parking.dto.BookInfoDTO;
-import com.example.parking.entity.Book;
-import com.example.parking.entity.Parkinglot;
-import com.example.parking.entity.User;
-import com.example.parking.repository.BookRepository;
-import com.example.parking.repository.ParkingLotRepository;
-import com.example.parking.repository.UserRepository;
+import com.example.parking.dto.BookDTO;
+import com.example.parking.entity.*;
+import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,27 +15,31 @@ import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 public class BookService {
-    private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final UserRepository userRepository;
     private final ParkingLotRepository parkingLotRepository;
+    private final CarRepository carRepository;
+    private final PayRepository payRepository;
 
-    public List<BookInfoDTO> getBookList(Integer userId){
+    public List<BookDTO> getBookList(Long userId){
 
         Optional<User> optionalUser = userRepository.findByIDWithBookList(userId);
 
         if(optionalUser.isPresent()) {
-            List<BookInfoDTO> bookInfoDTOS = new ArrayList<>();
+            List<BookDTO> bookDTOS = new ArrayList<>();
             for(Book book: optionalUser.get().getBookList())
-                bookInfoDTOS.add(new BookInfoDTO(book));
-            return bookInfoDTOS;
+                bookDTOS.add(new BookDTO(book));
+            return bookDTOS;
         }
         throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
     }
 
-    public void addBook(Integer userId, BookInfoDTO bookInfoDTO){
+    public void addBook(Integer userId, BookDTO bookDTO){
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findByName(bookInfoDTO.getName());
+        Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findById(bookDTO.getBookId());
+        Optional<Car> optionalCar = carRepository.findById(bookDTO.getCarId());
+        Optional<Pay> optionalPay = payRepository.findById(bookDTO.getPayId());
 
         if(optionalUser.isEmpty()){
             throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
@@ -47,17 +47,22 @@ public class BookService {
         else if(optionalParkinglot.isEmpty()){
             throw new ApiException(ErrorCode.NULL_POINT, "주차장 정보가 존재하지 않습니다.");
         }
+        else if(optionalCar.isEmpty()){
+            throw new ApiException(ErrorCode.NULL_POINT, "차 정보가 존재하지 않습니다.");
+        }
+        else if(optionalPay.isEmpty()){
+            throw new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다.");
+        }
         else{
-            Book book = new Book(bookInfoDTO.getName(),
-                    bookInfoDTO.getState(),
-                    bookInfoDTO.getCarNumber(),
-                    bookInfoDTO.getStartTime(),
-                    bookInfoDTO.getEndTime(),
-                    bookInfoDTO.getPrice(),
-                    bookInfoDTO.getPay(),
-                    bookInfoDTO.getTicket(),
+            Book book = new Book(bookDTO.getState(),
+                    bookDTO.getStartTime(),
+                    bookDTO.getEndTime(),
+                    bookDTO.getPrice(),
+                    bookDTO.getTicket(),
                     optionalUser.get(),
-                    optionalParkinglot.get());
+                    optionalParkinglot.get(),
+                    optionalCar.get(),
+                    optionalPay.get());
             bookRepository.save(book);
         }
     }

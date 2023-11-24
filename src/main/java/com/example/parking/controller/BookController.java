@@ -1,7 +1,7 @@
 package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
-import com.example.parking.dto.BookInfoDTO;
+import com.example.parking.dto.BookDTO;
 import com.example.parking.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ public class BookController {
 
     @GetMapping("/user/{userId}/book")
     public ResponseEntity<Api<Object>> getBookList(
-            @PathVariable("userId") Integer userId
+            @PathVariable("userId") Long userId
     ){
         return ResponseEntity
                 .status(200)
@@ -23,9 +23,9 @@ public class BookController {
     @PostMapping("/user/{userId}/book")
     public ResponseEntity<Api<Object>> addBook(
             @PathVariable("userId") Integer userId,
-            @RequestBody BookInfoDTO bookInfoDTO
+            @RequestBody BookDTO bookDTO
     ){
-        bookService.addBook(userId, bookInfoDTO);
+        bookService.addBook(userId, bookDTO);
         return ResponseEntity
                 .status(200)
                 .body(Api.OK(null));
