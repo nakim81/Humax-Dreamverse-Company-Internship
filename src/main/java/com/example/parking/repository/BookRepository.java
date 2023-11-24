@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select b from Book b left join fetch b.user where b.bookId=:bookId")
-    public Optional<Book> findByIDWithUser(@Param("bookId") Integer bookId);
+    public Optional<Book> findByIDWithUser(@Param("bookId") Long bookId);
 
     @Query(value = "select b from Book b where b.state='이용대기' and b.startTime<=:currentTime")
     public List<Book> findChangeStateToUsing(@Param("currentTime")LocalDateTime currentTime);
