@@ -11,6 +11,7 @@ import java.util.List;
 @Builder
 @ToString
 public class ParkinglotDto {
+    private Long parkingId;
     private String codeNumber;
     private String name;
     private String address;

@@ -10,6 +10,4 @@ import lombok.*;
 @ToString
 public class SearchHistoryDto {
     private Integer historyId;
-    private String codeNumber;
-    private String name;
 }
