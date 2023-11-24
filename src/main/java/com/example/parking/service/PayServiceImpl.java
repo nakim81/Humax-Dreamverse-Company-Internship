@@ -73,31 +73,11 @@ public class PayServiceImpl implements PayService {
                 .payNumber(payDto.getPay_number())
                 .build();
 
-
-
-        // TODO: 유저 검색 후 맞는 유저를 주입
-        /*
-
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
-        */
-
-        // (기능 구현 완료 시 삭제)
-        // TEST: 더미 유저 대입 후 밀어 넣기
-        // =====================================================================
-        User dummy = User.builder()
-                .id("ksw")
-                .email("n@gmail.com")
-                .password("1234")
-                .phoneNum(1012345678).build();
-        dummy.setUserId(1);
-        pay.setUser(dummy);
-        System.out.println(pay.getUser());
-        // =====================================================================
-
-
+        pay.setUser(user);
 
         payRepository.save(pay);
     }

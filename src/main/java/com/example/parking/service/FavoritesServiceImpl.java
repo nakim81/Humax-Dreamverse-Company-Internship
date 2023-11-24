@@ -8,6 +8,7 @@ import com.example.parking.entity.Parkinglot;
 import com.example.parking.entity.User;
 import com.example.parking.repository.FavoritesRepository;
 import com.example.parking.repository.ParkingLotRepository;
+import com.example.parking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,15 @@ public class FavoritesServiceImpl implements FavoritesService{
 
     private final FavoritesRepository favoritesRepository;
     private final ParkingLotRepository parkingLotRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public FavoritesServiceImpl(FavoritesRepository favoritesRepository,
-                                ParkingLotRepository parkingLotRepository) {
+                                ParkingLotRepository parkingLotRepository,
+                                UserRepository userRepository) {
         this.favoritesRepository = favoritesRepository;
         this.parkingLotRepository = parkingLotRepository;
+        this.userRepository = userRepository;
     }
     
     /*
@@ -75,28 +79,13 @@ public class FavoritesServiceImpl implements FavoritesService{
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 주차장 정보입니다."));
 
 
-/*
-
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
-*/
-
-        // (기능 구현 완료 시 삭제)
-        // TEST: 더미 유저 대입 후 밀어 넣기
-        // =====================================================================
-        User dummy = User.builder()
-                .id("ksw")
-                .email("n@gmail.com")
-                .password("1234")
-                .phoneNum(1012345678).build();
-        dummy.setUserId(1);
-        // =====================================================================
-
 
         favorites.setParkinglot(parkinglot);
-        favorites.setUser(dummy);
+        favorites.setUser(user);
 
         try {
             favoritesRepository.save(favorites);
