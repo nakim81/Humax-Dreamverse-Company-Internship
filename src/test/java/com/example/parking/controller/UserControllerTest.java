@@ -3,7 +3,7 @@ package com.example.parking.controller;
 import com.example.parking.ParkingApplication;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.error.UserErrorCode;
-import com.example.parking.dto.user.UserDto;
+import com.example.parking.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

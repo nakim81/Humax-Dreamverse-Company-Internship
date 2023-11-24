@@ -1,9 +1,9 @@
-package com.example.parking.controller.user;
+package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
-import com.example.parking.dto.user.UserDto;
+import com.example.parking.dto.UserDto;
 import com.example.parking.security.JwtTokenProvider;
-import com.example.parking.service.user.UserService;
+import com.example.parking.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.redis.core.StringRedisTemplate;

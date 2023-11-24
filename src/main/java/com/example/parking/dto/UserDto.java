@@ -1,4 +1,4 @@
-package com.example.parking.dto.user;
+package com.example.parking.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
-package com.example.parking.service.user;
+package com.example.parking.service;
 
 import com.example.parking.common.error.UserErrorCode;
 import com.example.parking.common.exception.ApiException;
-import com.example.parking.dto.user.UserDto;
+import com.example.parking.dto.UserDto;
 import com.example.parking.entity.User;
 import com.example.parking.repository.UserRepository;
 import org.springframework.security.authentication.BadCredentialsException;
