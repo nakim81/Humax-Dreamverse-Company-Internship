@@ -7,25 +7,32 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data @NoArgsConstructor
-public class BookInfoDTO {
-    private Integer bookId;
-    private String name;
+public class BookDTO {
+    private Long bookId;
+    private Long parkingLotId;
+    private String parkingLotName;
     private String state;
-    private String carNumber;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Long carId;
+    private String carNumber;
     private Integer price;
-    private String pay;
     private String ticket;
-    public BookInfoDTO(Book book){
+    private Long payId;
+    private String payName;
+
+    public BookDTO(Book book){
         this.bookId = book.getBookId();
-        this.name = book.getName();
+        this.parkingLotId = book.getParkinglot().getParkingId();
+        this.parkingLotName = book.getParkinglot().getName();
         this.state = book.getState();
-        this.carNumber = book.getCarNumber();
         this.startTime = book.getStartTime();
         this.endTime = book.getEndTime();
+        this.carId = book.getCar().getCarId();
+        this.carNumber = book.getCar().getCarNumber();
         this.price = book.getPrice();
-        this.pay = book.getPay();
         this.ticket = book.getTicket();
+        this.payId = book.getPay().getPayId();
+        this.payName = book.getPay().getPayName();
     }
 }
