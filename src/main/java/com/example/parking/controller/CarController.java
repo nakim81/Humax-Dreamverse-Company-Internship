@@ -1,6 +1,7 @@
 package com.example.parking.controller;
 
 import com.example.parking.dto.CarDto;
+import com.example.parking.dto.CarInfoDto;
 import com.example.parking.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,10 @@ public class CarController {
 
     // 조회
     @GetMapping
-    public ResponseEntity<List<CarDto>> getCarsByUserId(@PathVariable Integer userId) {
+    public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Integer userId) {
 
-        List<CarDto> carDtos = carService.getCarsByUserId(userId);
-        return ResponseEntity.ok(carDtos);
+        List<CarInfoDto> carInfoDtos = carService.getCarsByUserId(userId);
+        return ResponseEntity.ok(carInfoDtos);
     }
 
     // 등록
