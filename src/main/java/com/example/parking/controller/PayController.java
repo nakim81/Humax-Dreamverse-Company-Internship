@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/{userId}/pay")
 public class PayController {
     private final PayService payService;
 
@@ -27,26 +27,18 @@ public class PayController {
     /*
      * 결제 수단 확인
      */
-    @GetMapping("/{userId}/pay")
-    public ResponseEntity<List<PayDto>> checkPaymentInfo(@PathVariable("userId") String userId) {
+    @GetMapping
+    public ResponseEntity<List<PayDto>> checkPaymentInfo(@PathVariable("userId") String userId) throws Exception {
 
-        // TODO: 토큰 유효성 확인
+        // TODO: 토큰 유효성 검증
         
 
 
 
+        List<PayDto> payDtos = payService.getPayByUserId(Long.parseLong(userId));
 
-        List<PayDto> results = null;
-
-        try {
-            results = payService.getPayByUserId(Integer.parseInt(userId));
-        }
-        catch (Exception e) {
-            throw new RuntimeException();
-        }
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(results);
+        return new ResponseEntity<List<PayDto>>(payDtos,
+                HttpStatus.OK);
     }
 
 
@@ -56,23 +48,17 @@ public class PayController {
     /*
      * 결제 수단 등록
      */
-    @PostMapping("/{userId}/pay")
-    public ResponseEntity<PayDto> registerPaymentInfo(@PathVariable("userId") Integer userId,
-                                                      @RequestBody PayDto payDto) {
-        // TODO: 토큰 유효성 확인
+    @PostMapping
+    public ResponseEntity<PayDto> registerPaymentInfo(@PathVariable("userId") Long userId,
+                                                      @RequestBody PayDto payDto) throws Exception {
+        // TODO: 토큰 유효성 검증
 
 
 
 
-
-
-        try {
-            payService.registerPayInfo(payDto, userId);
-        }
-        catch (Exception e) {
-            throw new RuntimeException();
-        }
-
+        
+        payService.registerPayInfo(payDto, userId);
+       
         return new ResponseEntity<PayDto>(payDto,
                 HttpStatus.OK);
     }
@@ -84,24 +70,19 @@ public class PayController {
     /*
      * 결제 수단 수정
      */
-    @PatchMapping("/{userId}/pay/{payId}")
+    @PatchMapping("/{payId}")
     public ResponseEntity<PayDto> updatePaymentInfo(@PathVariable("userId") String userId,
-                                                 @PathVariable("payId") String payId,
-                                                 @RequestBody PayDto payDto) {
+                                                    @PathVariable("payId") String payId,
+                                                    @RequestBody PayDto payDto) throws Exception {
 
-        // TODO: 토큰 유효성 확인
-
-
+        // TODO: 토큰 유효성 검증
 
 
 
-        try {
-            payService.updatePayInfo(payDto);
-        }
-        catch (Exception e) {
-            throw new RuntimeException();
-        }
 
+        
+        payService.updatePayInfo(payDto);
+        
         return new ResponseEntity<PayDto>(payDto,
                 HttpStatus.OK);
     }
@@ -112,26 +93,17 @@ public class PayController {
     /*
      * 결제 수단 삭제
      */
-    @DeleteMapping("/{userId}/pay/{payId}")
+    @DeleteMapping("/{payId}")
     public ResponseEntity<PayDto> deletePaymentInfo(@PathVariable("userId") String userId,
-                                                 @PathVariable("payId") String payId) {
+                                                 @PathVariable("payId") String payId) throws Exception {
 
-        // TODO: 토큰 유효성 확인
-
-
+        // TODO: 토큰 유효성 검증
 
 
 
-        PayDto deletedData = null;
-
-        try {
-            deletedData = payService.deletePayInfo(Integer.parseInt(payId));
-
-        }
-        catch (Exception e) {
-            throw new RuntimeException();
-        }
-
+        
+        PayDto deletedData = payService.deletePayInfo(Long.parseLong(payId));
+        
         return new ResponseEntity<PayDto>(deletedData,
                 HttpStatus.OK);
     }

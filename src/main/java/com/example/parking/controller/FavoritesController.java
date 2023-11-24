@@ -26,7 +26,7 @@ public class FavoritesController {
      * 즐겨찾기 목록 조회
      */
     @GetMapping
-    public ResponseEntity<List<FavoritesDto>> getFavoritesByUserId(@PathVariable Integer userId) throws Exception {
+    public ResponseEntity<List<FavoritesDto>> getFavoritesByUserId(@PathVariable Long userId) throws Exception {
 
         // TODO : 토큰 유효성 검증
 
@@ -46,7 +46,7 @@ public class FavoritesController {
      * 즐겨찾기 등록
      */
     @PostMapping
-    public ResponseEntity<FavoritesDto> registerFavoritesInfo(@PathVariable Integer userId,
+    public ResponseEntity<FavoritesDto> registerFavoritesInfo(@PathVariable Long userId,
                                                               @RequestBody FavoritesDto favoritesDto) throws Exception {
 
         // TODO : 토큰 유효성 검증
@@ -63,7 +63,7 @@ public class FavoritesController {
     }
 
     @DeleteMapping("/{favoritesId}")
-    public ResponseEntity<FavoritesDto> deleteFavoritesInfo(@PathVariable Integer userId,
+    public ResponseEntity<FavoritesDto> deleteFavoritesInfo(@PathVariable Long userId,
                                                             @PathVariable String favoritesId) throws Exception {
 
         // TODO : 토큰 유효성 검증
@@ -71,7 +71,7 @@ public class FavoritesController {
 
 
 
-        FavoritesDto deletedData = favoritesService.deleteFavoritesInfo(Integer.parseInt(favoritesId));
+        FavoritesDto deletedData = favoritesService.deleteFavoritesInfo(Long.parseLong(favoritesId));
 
         return new ResponseEntity<FavoritesDto>(deletedData,
                 HttpStatus.OK);
