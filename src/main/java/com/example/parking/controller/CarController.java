@@ -22,7 +22,7 @@ public class CarController {
 
     // 조회
     @GetMapping
-    public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Integer userId) {
+    public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Long userId) {
 
         List<CarInfoDto> carInfoDtos = carService.getCarsByUserId(userId);
         return ResponseEntity.ok(carInfoDtos);
@@ -30,21 +30,21 @@ public class CarController {
 
     // 등록
     @PostMapping
-    public ResponseEntity<CarDto> addCarToUser(@PathVariable Integer userId, @RequestBody CarDto carDto) {
+    public ResponseEntity<CarDto> addCarToUser(@PathVariable Long userId, @RequestBody CarDto carDto) {
         CarDto savedCarDto = carService.addCarToUser(userId, carDto);
         return ResponseEntity.ok(savedCarDto);
     }
 
     // 수정
     @PatchMapping("/{carId}")
-    public ResponseEntity<CarDto> updateCar(@PathVariable Integer carId, @RequestBody CarDto carDto) {
+    public ResponseEntity<CarDto> updateCar(@PathVariable Long carId, @RequestBody CarDto carDto) {
         CarDto updatedCarDto = carService.updateCar(carId, carDto);
         return ResponseEntity.ok(updatedCarDto);
     }
 
     // 삭제
     @DeleteMapping("/{carId}")
-    public ResponseEntity<String> deleteCar(@PathVariable Integer userId, @PathVariable Integer carId) {
+    public ResponseEntity<String> deleteCar(@PathVariable Long userId, @PathVariable Long carId) {
         carService.deleteCar(userId, carId);
 
         return ResponseEntity.ok("차량이 삭제되었습니다.");
