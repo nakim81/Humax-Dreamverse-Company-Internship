@@ -13,12 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long userId;
     private String id;
     private String password;
-    private Integer phoneNum;
+    private String phoneNum;
     private String email;
+    private boolean admin;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Car> car = new ArrayList<>();
@@ -36,10 +37,11 @@ public class User {
     private List<Book> bookList = new ArrayList<>();
 
     @Builder
-    public User(String id, String password, Integer phoneNum, String email){
+    public User(String id, String password, String phoneNum, String email, boolean admin){
         this.id = id;
         this.password = password;
         this.phoneNum = phoneNum;
         this.email = email;
+        this.admin = admin;
     }
 }
