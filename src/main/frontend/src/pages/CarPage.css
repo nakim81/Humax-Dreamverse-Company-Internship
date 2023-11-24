@@ -1,31 +1,85 @@
+.carAddContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.carAddBtnContainer {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addBtn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+        color: #FFA07A;
+    }
+}
+
+.carAddInputContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carAddInputContainer.disable {
+    display: none;
+}
+
+.carAddHeader {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.carAddContent {
+    width: 100%;
+}
+
+.carAddFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.carsContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .carContainer {
     display: flex;
     justify-content: space-between;
     background-color: #CD853F;
-    width: 200px;
-    height: 100px;
+    width: 80%;
     color: white;
     margin:10px;
     border-radius: 10px;
+    padding: 10px;
 }
 
 .carTextContainer {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    width: 100px;
+    width: 80%;
     padding: 5px;
     margin-left: 10px;
 }
 
 .carNameText {
-    font-size: x-large;
+    font-size: 50px;
     font-weight: bolder;
     margin: 0;
 }
 
 .carNumberText {
-    font-size: medium;
+    font-size: 30px;
     margin: 0;
 }
 
@@ -35,6 +89,8 @@
     justify-content: space-evenly;
     padding: 5px;
     margin-right: 10px;
+    width: 20%;
+    align-items: flex-end;
 }
 
 .carUpdateContainer {
@@ -42,35 +98,201 @@
     flex-direction: column;
     justify-content: space-evenly;
     margin-left: 10px;
-    width: 100px;
+    width: 80%;
 }
 
 .carNameInput {
-    width: 100%;
-    height: 35%;
-    border: none;
-    border-radius: 10px;
-    &:focus {
-        outline: none;
-        border-color: #FFA07A;
-    }
+    width: 50%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
 }
 
-.updateBtn {
+.updateCarNumberContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.carNumberInput {
+    width: 50%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.carNumberInput.invalid {
+    border-color: red;
+}
+
+.isValidText {
+    color: red;
+    font-size: 15px;
+    margin-left: 10px;
+}
+
+.createBtn {
+    padding: 10px;
     background-color: #FFA07A;
+    color: white;
     border: none;
     border-radius: 5px;
-    padding: 5px;
-    color: white;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
     &:hover {
         background-color: #CD853F;
     }
 }
 
+.createBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.updateBtn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        color: #FFA07A;
+    }
+}
+
 .deleteBtn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        color: #FFA07A;
+    }
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    max-width: 600px;
     background-color: white;
+}
+
+.closeBtn {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    color: #CD853F;
+    cursor: pointer;
+}
+
+.modalContentHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalContentHeaderText {
+    font-size: 30px;
+}
+
+.modalContentBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modalContentFooter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submitBtn {
+    padding: 10px;
+    background-color: #FFA07A;
+    color: white;
     border: none;
     border-radius: 5px;
-    padding: 5px;
-    color: #FFA07A;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
+    &:hover {
+        background-color: #CD853F;
+    }
+}
+
+.submitBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.modalCloseBtn {
+    padding: 10px;
+    margin-right: 10px;
+    background-color: #CD853F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
+    &:hover {
+        background-color: #FFA07A;
+    }
+}
+
+.modalDeleteBtn {
+    padding: 10px;
+    background-color: #FFA07A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    font-size: 15px;
+    &:hover {
+        background-color: #CD853F;
+    }
+}
+
+.addErrorModalContentHeader {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.addErrorModalContentBody {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
 }
