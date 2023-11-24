@@ -4,6 +4,7 @@ import com.example.parking.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -24,6 +25,9 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -53,6 +57,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
     }
 
     private JwtConfigurer jwtConfigurer() {
-        return new JwtConfigurer(jwtTokenProvider);
+        return new JwtConfigurer(jwtTokenProvider, redisTemplate);
     }
 }
