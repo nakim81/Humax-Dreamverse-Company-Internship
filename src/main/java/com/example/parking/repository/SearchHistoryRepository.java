@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SearchHistoryRepository extends JpaRepository<SearchHistory, Integer> {
+public interface SearchHistoryRepository extends JpaRepository<SearchHistory, Long> {
     List<SearchHistory> findByUserOrderByHistoryIdDesc(User user);
 }
