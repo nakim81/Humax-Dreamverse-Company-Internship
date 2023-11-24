@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Book, Integer> {
+public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select b from Book b left join fetch b.user where b.bookId=:bookId")
     public Optional<Book> findByIDWithUser(@Param("bookId") Integer bookId);
 
