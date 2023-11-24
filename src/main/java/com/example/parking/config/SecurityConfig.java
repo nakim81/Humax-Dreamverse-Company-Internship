@@ -36,7 +36,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
                                 "/user/**",
-                                "/parkinglot",
+                                "/parkinglot/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/configuration/ui",
