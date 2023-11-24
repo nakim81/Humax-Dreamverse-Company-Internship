@@ -19,7 +19,7 @@ public class SearchHistoryApiController {
 
     @GetMapping("/user/{userId}/searchHistory")
     public Api<List<SearchHistoryDto>> getSearchHistory(
-        @PathVariable("userId") Integer userId
+        @PathVariable("userId") Long userId
     ){
         var response = searchHistoryService.getSearchHistory(userId);
         return Api.OK(response);
@@ -27,8 +27,8 @@ public class SearchHistoryApiController {
 
     @DeleteMapping("/user/{userId}/{historyId}")
     public Api<Void> deleteSearchHistory(
-            @PathVariable("userId") Integer userId,
-            @PathVariable("historyId") Integer historyId
+            @PathVariable("userId") Long userId,
+            @PathVariable("historyId") Long historyId
     ){
         searchHistoryService.deleteSearchHistory(userId, historyId);
         return Api.OK(null);

@@ -24,7 +24,7 @@ public class SearchHistoryService {
     private final UserRepository userRepository;
     private final SearchHistoryConverter searchHistoryConverter;
 
-    public List<SearchHistoryDto> getSearchHistory(Integer userId) {
+    public List<SearchHistoryDto> getSearchHistory(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
         List<SearchHistory> searchHistoryList = searchHistoryRepository.findByUserOrderByHistoryIdDesc(user);
         return searchHistoryList.stream()
@@ -33,7 +33,7 @@ public class SearchHistoryService {
     }
 
     //TODO 유저 인증 방버 바꾸기 EX) Spring Security 등
-    public void deleteSearchHistory(Integer userId, Integer historyId) {
+    public void deleteSearchHistory(Long userId, Long historyId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
         SearchHistory searchHistory = searchHistoryRepository.findById(historyId).orElseThrow(() -> new ApiException(SearchHistoryErrorCode.SEARCH_HISTORY_NOT_FOUND));
 
