@@ -15,7 +15,10 @@ import java.util.List;
 @ToString
 @Builder
 public class Parkinglot {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long parkingId;
     private String codeNumber;
     private String name;
     private String address;
@@ -41,10 +44,14 @@ public class Parkinglot {
     private Double lon;
     private String time;
     private String price;
+    private Boolean deleteFlag;
 
     @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
     private List<Favorites> favoritesList = new ArrayList<>();
 
     @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
     private List<Book> bookList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
+    private List<SearchHistory> searchHistoryList = new ArrayList<>();
 }

@@ -13,15 +13,9 @@ import lombok.*;
 public class SearchHistory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer historyId;
-    private String codeNumber;
-    private String name;
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "parking_id")
+    private Parkinglot parkinglot;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="user_id")
     private User user;
-
-    @Builder
-    public SearchHistory(String codeNumber, String name){
-        this.codeNumber = codeNumber;
-        this.name = name;
-    }
 }
