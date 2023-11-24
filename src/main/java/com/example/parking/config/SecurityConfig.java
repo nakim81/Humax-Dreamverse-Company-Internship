@@ -38,7 +38,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
                                 "/user/**",
                                 "/parkinglot",
                                 "/swagger-ui/**",
-                                "/v2/api-docs",
+                                "/v3/api-docs/**",
                                 "/configuration/ui",
                                 "/swagger-resources/**",
                                 "/configuration/security",
