@@ -22,7 +22,7 @@ public class BookController {
 
     @PostMapping("/user/{userId}/book")
     public ResponseEntity<Api<Object>> addBook(
-            @PathVariable("userId") Integer userId,
+            @PathVariable("userId") Long userId,
             @RequestBody BookDTO bookDTO
     ){
         bookService.addBook(userId, bookDTO);
@@ -33,8 +33,8 @@ public class BookController {
 
     @DeleteMapping("/user/{userId}/book/{bookId}")
     public ResponseEntity<Api<Object>> deleteBook(
-            @PathVariable("userId") Integer userId,
-            @PathVariable("bookId") Integer bookId
+            @PathVariable("userId") Long userId,
+            @PathVariable("bookId") Long bookId
     ){
         bookService.deleteBook(userId, bookId);
         return ResponseEntity
