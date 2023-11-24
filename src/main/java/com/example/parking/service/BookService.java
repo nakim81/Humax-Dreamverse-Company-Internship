@@ -34,7 +34,7 @@ public class BookService {
         throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
     }
 
-    public void addBook(Integer userId, BookDTO bookDTO){
+    public void addBook(Long userId, BookDTO bookDTO){
 
         Optional<User> optionalUser = userRepository.findById(userId);
         Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findById(bookDTO.getBookId());
@@ -67,7 +67,7 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Integer userId, Integer bookId){
+    public void deleteBook(Long userId, Long bookId){
 
         Optional<Book> optionalBook = bookRepository.findByIDWithUser(bookId);
 

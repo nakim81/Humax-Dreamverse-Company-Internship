@@ -34,7 +34,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/users/login", "/users/sign-up").permitAll()
+                        .requestMatchers("/user/login", "/user/sign-up").permitAll()
                         .anyRequest().authenticated()
                 )
                 .apply(jwtConfigurer());
