@@ -34,7 +34,16 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/user/login", "/user/sign-up").permitAll()
+                        .requestMatchers(
+                                "/user/**",
+                                "/parkinglot",
+                                "/swagger-ui/**",
+                                "/v2/api-docs",
+                                "/configuration/ui",
+                                "/swagger-resources/**",
+                                "/configuration/security",
+                                "/swagger-ui/**",
+                                "/webjars/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .apply(jwtConfigurer());
