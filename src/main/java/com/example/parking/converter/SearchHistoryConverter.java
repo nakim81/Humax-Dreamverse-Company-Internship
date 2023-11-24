@@ -18,8 +18,6 @@ public class SearchHistoryConverter {
                 .map(it -> {
                     return SearchHistoryDto.builder()
                             .historyId(entity.getHistoryId())
-                            .codeNumber(entity.getCodeNumber())
-                            .name(entity.getName())
                             .build();
                 })
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));

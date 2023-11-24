@@ -17,6 +17,7 @@ public class ParkinglotConverter {
         return Optional.ofNullable(entity)
                 .map(it -> {
                     return ParkinglotDto.builder()
+                            .parkingId(entity.getParkingId())
                             .codeNumber(entity.getCodeNumber())
                             .name(entity.getName())
                             .address(entity.getAddress())

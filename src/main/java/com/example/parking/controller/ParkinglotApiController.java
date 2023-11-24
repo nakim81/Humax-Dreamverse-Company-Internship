@@ -3,10 +3,8 @@ package com.example.parking.controller;
 import com.example.parking.common.api.Api;
 import com.example.parking.dto.ParkinglotDto;
 import com.example.parking.service.ParkingLotService;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,33 +17,42 @@ public class ParkinglotApiController {
 
     @GetMapping("/parkinglot/nearby")
     public Api<List<ParkinglotDto>> getNearByParkinglots(
-            @RequestParam double latitude, @RequestParam double longitude
+            @RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius
     ) {
-        var response = parkinglotService.getNearByParkinglots(latitude, longitude);
+        var response = parkinglotService.getNearByParkinglots(latitude, longitude, radius);
         return Api.OK(response);
     }
 
-    @GetMapping("/parkinglot/codeNumber/{codeNumber}")
+
+    @GetMapping("/parkinglot/codeNumber/{parkingId}")
     public Api<ParkinglotDto> getParkinglotByCodeNumber(
-            @PathVariable("codeNumber") String codeNumber, @RequestParam Integer userId
+            @PathVariable("parkingId") Long parkingId, @RequestParam Long userId
     ){
-        var response = parkinglotService.getParkinglot(codeNumber, userId);
+        var response = parkinglotService.getParkinglot(parkingId, userId);
         return Api.OK(response);
     }
 
-    @GetMapping("/parkinglot/codenumber/{codenumber}")
+    @GetMapping("/parkinglot/parkingId/{parkingId}")
     public Api<ParkinglotDto> findParkinglotByCodenumber(
-            @PathVariable("codenumber") String codenumber
+            @PathVariable("parkingId") Long parkingId
     ){
-        var response = parkinglotService.findParkinglotByCodenumber(codenumber);
+        var response = parkinglotService.findParkinglotByParkingId(parkingId);
         return Api.OK(response);
     }
 
     @GetMapping("/parkinglot/search")
-    public Api<List<ParkinglotDto>> findParkingLotsByNameOrAddressContains(
-            @RequestParam String keyword
+    public Api<Page<ParkinglotDto>> findParkingLotsByNameOrAddressContains(
+            @RequestParam String keyword, @RequestParam int page, @RequestParam int size
     ){
-        var response = parkinglotService.findByNameOrAddressContains(keyword);
+        var response = parkinglotService.findByNameOrAddressContains(keyword, page, size);
+        return Api.OK(response);
+    }
+
+    @GetMapping("/parkinglot/all")
+    public Api<Page<ParkinglotDto>> getAllParkinglot(
+            @RequestParam int page, @RequestParam int size
+    ){
+        var response = parkinglotService.getAllParkinglot(page, size);
         return Api.OK(response);
     }
 }
