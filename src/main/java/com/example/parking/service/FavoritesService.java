@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface FavoritesService {
 
-    FavoritesDto getFavoritesById(Integer favoritesId) throws Exception;
+    FavoritesDto getFavoritesById(Long favoritesId) throws Exception;
 
-    List<FavoritesDto> getFavoritesByUserId(Integer userId) throws Exception;
+    List<FavoritesDto> getFavoritesByUserId(Long userId) throws Exception;
 
-    void registerFavoritesInfo(Integer userId, FavoritesDto favoritesDto) throws Exception;
+    void registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception;
 
-    FavoritesDto deleteFavoritesInfo(Integer favoritesId) throws Exception;
+    FavoritesDto deleteFavoritesInfo(Long favoritesId) throws Exception;
 
 }
