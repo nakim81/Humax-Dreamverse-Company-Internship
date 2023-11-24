@@ -1,0 +1,76 @@
+.carContainer {
+    display: flex;
+    justify-content: space-between;
+    background-color: #CD853F;
+    width: 200px;
+    height: 100px;
+    color: white;
+    margin:10px;
+    border-radius: 10px;
+}
+
+.carTextContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100px;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+.carNameText {
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 0;
+}
+
+.carNumberText {
+    font-size: medium;
+    margin: 0;
+}
+
+.carBtnContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.carUpdateContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-left: 10px;
+    width: 100px;
+}
+
+.carNameInput {
+    width: 100%;
+    height: 35%;
+    border: none;
+    border-radius: 10px;
+    &:focus {
+        outline: none;
+        border-color: #FFA07A;
+    }
+}
+
+.updateBtn {
+    background-color: #FFA07A;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    &:hover {
+        background-color: #CD853F;
+    }
+}
+
+.deleteBtn {
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: #FFA07A;
+}

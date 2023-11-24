@@ -1,23 +1,16 @@
-package com.example.parking.entity;
+package com.example.parking.dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "parking_lot")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
-public class Parkinglot {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@ToString
+public class ParkinglotDto {
     private Long parkingId;
     private String codeNumber;
     private String name;
@@ -44,14 +37,6 @@ public class Parkinglot {
     private Double lon;
     private String time;
     private String price;
-    private Boolean deleteFlag;
-
-    @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
-    private List<Favorites> favoritesList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
-    private List<Book> bookList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "parkinglot", fetch = FetchType.LAZY)
-    private List<SearchHistory> searchHistoryList = new ArrayList<>();
+    private List<Object> favoritesList = List.of();
+    private List<Object> bookList = List.of();
 }
