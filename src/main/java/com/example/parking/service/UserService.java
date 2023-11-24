@@ -36,6 +36,7 @@ public class UserService {
                 .password(passwordEncoder.encode(userDto.getPassword())) // 비밀번호 암호화
                 .phoneNum(userDto.getPhoneNum())
                 .email(userDto.getEmail())
+                .admin(userDto.isAdmin())
                 .build();
 
         userRepository.save(user);
