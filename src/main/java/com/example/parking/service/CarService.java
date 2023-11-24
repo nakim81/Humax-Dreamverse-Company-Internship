@@ -27,7 +27,7 @@ public class CarService {
     }
 
     // 조회
-    public List<CarInfoDto> getCarsByUserId(Integer userId) {
+    public List<CarInfoDto> getCarsByUserId(Long userId) {
         List<Car> cars = carRepository.findByUserUserId(userId);
 
         if (!cars.isEmpty()) {
@@ -40,7 +40,7 @@ public class CarService {
     }
 
     // 등록
-    public CarDto addCarToUser(Integer userId, CarDto carDto) {
+    public CarDto addCarToUser(Long userId, CarDto carDto) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
@@ -55,7 +55,7 @@ public class CarService {
     }
 
     // 수정
-    public CarDto updateCar(Integer carId, CarDto carDto) {
+    public CarDto updateCar(Long carId, CarDto carDto) {
         Car existingCar = carRepository.findById(carId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "해당 차량이 존재하지 않습니다."));
 
@@ -73,7 +73,7 @@ public class CarService {
     }
 
     // 삭제
-    public void deleteCar(Integer userId, Integer carId) {
+    public void deleteCar(Long userId, Long carId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
