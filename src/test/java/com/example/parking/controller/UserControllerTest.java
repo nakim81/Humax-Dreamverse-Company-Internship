@@ -28,9 +28,9 @@ public class UserControllerTest {
 
     @Test
     void signUp_ValidInput() throws Exception{
-        UserDto userDto = new UserDto("hwang", "hello123", "01012345678", "kim@gamil.com");
+        UserDto userDto = new UserDto("hwang", "hello123", "01012345678", "kim@gamil.com",false);
 
-        mockMvc.perform(post("/users/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
@@ -40,9 +40,9 @@ public class UserControllerTest {
     @Test
     void signUp_DuplicateId_ShouldReturnError() throws Exception {
         // 유저ID가 이미 있다고 가정
-        UserDto userDto = new UserDto("existingUserTest", "password777", "01023451234", "existing@naver.com");
+        UserDto userDto = new UserDto("existingUserTest", "password777", "01023451234", "existing@naver.com",false);
 
-        mockMvc.perform(post("/users/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userDto)))
                 .andExpect(status().isOk())
