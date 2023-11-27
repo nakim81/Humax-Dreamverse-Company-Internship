@@ -1,5 +1,6 @@
 package com.example.parking.dto;
 
+import com.example.parking.common.enums.BookState;
 import com.example.parking.entity.Book;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ public class BookDTO {
     private Long bookId;
     private Long parkingLotId;
     private String parkingLotName;
-    private String state;
+    private BookState state;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Long carId;

@@ -1,5 +1,7 @@
 package com.example.parking.entity;
 
+import com.example.parking.common.enums.BookState;
+import com.example.parking.converter.BookStateTypeConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +16,8 @@ import java.time.LocalDateTime;
 public class Book {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
-    private String state;
+    @Convert(converter = BookStateTypeConverter.class)
+    private BookState state;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer price;
@@ -33,7 +36,7 @@ public class Book {
     private Pay pay;
 
     @Builder
-    public Book(String state, LocalDateTime startTime, LocalDateTime endTime, Integer price, String ticket,
+    public Book(BookState state, LocalDateTime startTime, LocalDateTime endTime, Integer price, String ticket,
                 User user, Parkinglot parkinglot, Car car, Pay pay){
         this.state = state;
         this.startTime = startTime;

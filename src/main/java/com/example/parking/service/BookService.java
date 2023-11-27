@@ -1,5 +1,6 @@
 package com.example.parking.service;
 
+import com.example.parking.common.enums.BookState;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.BookDTO;
@@ -55,7 +56,7 @@ public class BookService {
             throw new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다.");
         }
         else{
-            Book book = new Book(bookDTO.getState(),
+            Book book = new Book(BookState.READY_TO_USE,
                     bookDTO.getStartTime(),
                     bookDTO.getEndTime(),
                     bookDTO.getPrice(),
@@ -79,7 +80,7 @@ public class BookService {
             else if(LocalDateTime.now().isAfter(book.getStartTime()))
                 throw new ApiException(ErrorCode.BAD_REQUEST, "예약 취소 기간이 아닙니다.");
             else{
-                book.setState("예약 취소");
+                book.setState(BookState.CANCELED);
                 bookRepository.save(book);
             }
 
