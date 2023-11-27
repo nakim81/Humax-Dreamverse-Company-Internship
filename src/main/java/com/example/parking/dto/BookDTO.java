@@ -1,6 +1,7 @@
 package com.example.parking.dto;
 
 import com.example.parking.common.enums.BookState;
+import com.example.parking.common.enums.TicketType;
 import com.example.parking.entity.Book;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class BookDTO {
     private Long carId;
     private String carNumber;
     private Integer price;
-    private String ticket;
+    private TicketType ticket;
     private Long payId;
     private String payName;
 
