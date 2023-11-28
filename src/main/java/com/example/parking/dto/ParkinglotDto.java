@@ -37,6 +37,7 @@ public class ParkinglotDto {
     private Double lon;
     private String time;
     private String price;
+    private Boolean deleteFlag;
     private List<Object> favoritesList = List.of();
     private List<Object> bookList = List.of();
 }
