@@ -9,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserDto {
+    private Long userId;
     @NotEmpty(message = "아이디는 필수 입력값입니다.")
     private String id;
     @NotEmpty(message = "비밀번호는 필수 입력값입니다.")
