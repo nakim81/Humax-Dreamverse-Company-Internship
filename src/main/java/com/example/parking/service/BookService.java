@@ -4,9 +4,12 @@ import com.example.parking.common.enums.BookState;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.BookDTO;
+import com.example.parking.dto.UserDto;
 import com.example.parking.entity.*;
 import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,7 +26,7 @@ public class BookService {
     private final CarRepository carRepository;
     private final PayRepository payRepository;
 
-    public List<BookDTO> getBookList(Long userId){
+    public List<BookDTO> getBookList(String userId){
 
         Optional<User> optionalUser = userRepository.findByIDWithBookList(userId);
 
@@ -36,17 +39,17 @@ public class BookService {
         throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
     }
 
-    public void addBook(Long userId, BookDTO bookDTO){
+    public void addBook(String userId, BookDTO bookDTO){
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findById(bookDTO.getParkingLotId());
+        Optional<Parkinglot> optionalParkingLot = parkingLotRepository.findById(bookDTO.getParkingLotId());
         Optional<Car> optionalCar = carRepository.findById(bookDTO.getCarId());
         Optional<Pay> optionalPay = payRepository.findById(bookDTO.getPayId());
 
         if(optionalUser.isEmpty()){
             throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
         }
-        else if(optionalParkinglot.isEmpty()){
+        else if(optionalParkingLot.isEmpty()){
             throw new ApiException(ErrorCode.NULL_POINT, "주차장 정보가 존재하지 않습니다.");
         }
         else if(optionalCar.isEmpty()){
@@ -62,20 +65,20 @@ public class BookService {
                     bookDTO.getPrice(),
                     bookDTO.getTicket(),
                     optionalUser.get(),
-                    optionalParkinglot.get(),
+                    optionalParkingLot.get(),
                     optionalCar.get(),
                     optionalPay.get());
             bookRepository.save(book);
         }
     }
 
-    public void cancelBook(Long userId, Long bookId){
+    public void cancelBook(String userId, Long bookId){
 
         Optional<Book> optionalBook = bookRepository.findByIDWithUser(bookId);
 
         if(optionalBook.isPresent()) {
             Book book = optionalBook.get();
-            if(!Objects.equals(book.getUser().getUserId(), userId))
+            if(!Objects.equals(book.getUser().getId(), userId))
                 throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
             else if(book.getState()==BookState.CANCELED)
                 throw new ApiException(ErrorCode.BAD_REQUEST, "이미 취소된 내역입니다.");
