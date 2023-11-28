@@ -3,6 +3,7 @@ package com.example.parking.dto;
 import com.example.parking.common.enums.BookState;
 import com.example.parking.common.enums.TicketType;
 import com.example.parking.entity.Book;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,9 @@ public class BookDTO {
     private Long parkingLotId;
     private String parkingLotName;
     private BookState state;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
     private Long carId;
     private String carNumber;
