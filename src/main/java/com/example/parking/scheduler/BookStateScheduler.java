@@ -1,5 +1,6 @@
 package com.example.parking.scheduler;
 
+import com.example.parking.common.enums.BookState;
 import com.example.parking.entity.Book;
 import com.example.parking.repository.BookRepository;
 import jakarta.transaction.Transactional;
@@ -22,14 +23,15 @@ public class BookStateScheduler {
         log.info("예약 상태 변경 스케줄러 작동");
 
         LocalDateTime currentTime = LocalDateTime.now();
-        List<Book> toUsingList = bookRepository.findChangeStateToUsing(currentTime);
+
+        List<Book> toUsingList = bookRepository.findChangeToUsing(BookState.READY_TO_USE, currentTime);
         for(Book book: toUsingList)
-            book.setState("이용중");
+            book.setState(BookState.IN_USE);
         bookRepository.saveAll(toUsingList);
 
-        List<Book> toFinishList = bookRepository.findChangeStateToFinish(currentTime);
+        List<Book> toFinishList = bookRepository.findChangeToFinish(BookState.IN_USE, currentTime);
         for(Book book: toFinishList)
-            book.setState("이용완료");
+            book.setState(BookState.USED);
         bookRepository.saveAll(toFinishList);
 
         log.info("예약 상태 변경 스케줄러 작동 완료");
