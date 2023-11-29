@@ -19,8 +19,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
+import useAuth from "../useAuth";
 
 const ParkinglotPage = () => {
+  useAuth();
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [radius, setRadius] = useState("");
@@ -387,7 +389,7 @@ const ParkinglotPage = () => {
                 variant="outlined"
                 label="주차장 번호"
                 value={parkingId}
-                onChange={(e) => setParkingId(e.target.value)}}
+                onChange={(e) => setParkingId(e.target.value)}
               />
               <Button
                 variant="contained"

@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -52,7 +54,15 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = jwtTokenProvider.createToken(userDto.getId());
-        return ResponseEntity.ok(jwt);
+
+        // UserDto 찾기
+        UserDto loggedInUser = userService.findByUserId(userDto.getId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", jwt);
+        response.put("userId", loggedInUser.getUserId());
+
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
