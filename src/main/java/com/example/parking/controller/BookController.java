@@ -1,8 +1,8 @@
 package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
+import com.example.parking.dto.AddBookDTO;
 import com.example.parking.dto.BookDTO;
-import com.example.parking.dto.UserDto;
 import com.example.parking.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +26,18 @@ public class BookController {
 
     @PostMapping("/user/book")
     public ResponseEntity<Api<Object>> addBook(
-            @RequestBody BookDTO bookDTO
+            @RequestBody AddBookDTO addBookDTO
     ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
-        bookService.addBook(userId, bookDTO);
+        bookService.addBook(userId, addBookDTO);
         return ResponseEntity
                 .status(200)
                 .body(Api.OK(null));
     }
 
-    @PatchMapping("/user/book/{bookId}/cancel-book")
+    @PatchMapping("/user/book/cancel/{bookId}")
     public ResponseEntity<Api<Object>> cancelBook(
             @PathVariable("bookId") Long bookId
     ){

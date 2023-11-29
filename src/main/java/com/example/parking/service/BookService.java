@@ -3,13 +3,11 @@ package com.example.parking.service;
 import com.example.parking.common.enums.BookState;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
+import com.example.parking.dto.AddBookDTO;
 import com.example.parking.dto.BookDTO;
-import com.example.parking.dto.UserDto;
 import com.example.parking.entity.*;
 import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,20 +29,20 @@ public class BookService {
         Optional<User> optionalUser = userRepository.findByIDWithBookList(userId);
 
         if(optionalUser.isPresent()) {
-            List<BookDTO> bookDTOS = new ArrayList<>();
+            List<BookDTO> getBookDTOS = new ArrayList<>();
             for(Book book: optionalUser.get().getBookList())
-                bookDTOS.add(new BookDTO(book));
-            return bookDTOS;
+                getBookDTOS.add(new BookDTO(book));
+            return getBookDTOS;
         }
         throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
     }
 
-    public void addBook(String userId, BookDTO bookDTO){
+    public void addBook(String userId, AddBookDTO addBookDTO){
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<Parkinglot> optionalParkingLot = parkingLotRepository.findById(bookDTO.getParkingLotId());
-        Optional<Car> optionalCar = carRepository.findById(bookDTO.getCarId());
-        Optional<Pay> optionalPay = payRepository.findById(bookDTO.getPayId());
+        Optional<Parkinglot> optionalParkingLot = parkingLotRepository.findById(addBookDTO.getParkingLotId());
+        Optional<Car> optionalCar = carRepository.findById(addBookDTO.getCarId());
+        Optional<Pay> optionalPay = payRepository.findById(addBookDTO.getPayId());
 
         if(optionalUser.isEmpty()){
             throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
@@ -60,10 +58,10 @@ public class BookService {
         }
         else{
             Book book = new Book(BookState.READY_TO_USE,
-                    bookDTO.getStartTime(),
-                    bookDTO.getEndTime(),
-                    bookDTO.getPrice(),
-                    bookDTO.getTicket(),
+                    addBookDTO.getStartTime(),
+                    addBookDTO.getEndTime(),
+                    addBookDTO.getPrice(),
+                    addBookDTO.getTicket(),
                     optionalUser.get(),
                     optionalParkingLot.get(),
                     optionalCar.get(),
