@@ -7,8 +7,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import useAuth from "../useAuth";
 
 const CarPage = () => {
+    useAuth();
 
     const {userId} = useParams();
     const [carData, setCarData] = useState([]);
