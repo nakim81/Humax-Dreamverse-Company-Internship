@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import useAuth from "../useAuth";
+import styles from "./MyPage.module.css";
 
 const MyPage = () => {
     useAuth();
@@ -40,8 +41,8 @@ const MyPage = () => {
                 return;
             }
 
-            const phoneNum = prompt('새로운 전화번호를 입력하세요. (수정하지 않는다면 현재 전화번호 입력)');
-            const email = prompt('새로운 이메일을 입력하세요. (수정하지 않는다면 현재 이메일 입력)');
+            const phoneNum = prompt('새로운 전화번호를 입력하세요. (전화번호를 수정하지 않는다면 취소 클릭)');
+            const email = prompt('새로운 이메일을 입력하세요. (이메일을 수정하지 않는다면 취소 클릭)');
 
             const response = await axios.put('http://localhost:8080/user/mypage', {
                 phoneNum,
@@ -88,11 +89,12 @@ const MyPage = () => {
 
     return (
         <>
-            <div>
+            <div className={styles["mypage-container"]}>
                 <h1>MyPage</h1>
                 <button onClick={handleViewInfo}>내 정보 조회</button>
                 <button onClick={handleUpdateInfo}>내 정보 수정</button>
                 <button onClick={handleDeleteAccount}>회원탈퇴</button>
+                <Link to="/"><button className={styles["home-button"]}>홈으로</button></Link>
             </div>
         </>
     );

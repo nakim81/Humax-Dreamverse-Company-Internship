@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from "./SignUpPage.module.css";
 
 const SignUpPage = () => {
@@ -50,6 +50,7 @@ const SignUpPage = () => {
             />
             <br />
             <button onClick={handleSignUp}>회원가입</button>
+            <Link to="/"><button className={styles["home-button"]}>홈으로</button></Link>
         </div>
     );
 };

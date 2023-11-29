@@ -1,7 +1,6 @@
-// LoginPage.js
 import React, { useState } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
@@ -39,6 +38,7 @@ const LoginPage = () => {
             />
             <br />
             <button onClick={handleLogin}>로그인</button>
+            <Link to="/"><button className={styles["home-button"]}>홈으로</button></Link>
         </div>
     );
 };
