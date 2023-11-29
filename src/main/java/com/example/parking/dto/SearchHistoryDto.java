@@ -9,5 +9,5 @@ import lombok.*;
 @Builder
 @ToString
 public class SearchHistoryDto {
-    private Integer historyId;
+    private Long historyId;
 }
