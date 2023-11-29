@@ -61,6 +61,7 @@ const ParkinglotPage = () => {
     setTabValue(newValue);
   };
 
+
   // 버튼 클릭 이벤트 핸들러 내에서 직접 API 호출
   const handleFetchParkinglotsButtonClick = async () => {
     setAllParkinglots([]);
@@ -386,7 +387,7 @@ const ParkinglotPage = () => {
                 variant="outlined"
                 label="주차장 번호"
                 value={parkingId}
-                onChange={(e) => setParkingId(e.target.value)}
+                onChange={(e) => setParkingId(e.target.value)}}
               />
               <Button
                 variant="contained"
@@ -415,7 +416,7 @@ const ParkinglotPage = () => {
               </Button>
             </Box>
           )}
-
+          
           {tabValue === 4 && (
             <Box
               sx={{

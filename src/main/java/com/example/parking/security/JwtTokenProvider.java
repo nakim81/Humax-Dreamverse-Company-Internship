@@ -53,13 +53,13 @@ public class JwtTokenProvider {
 
     // 토큰에서 사용자 이름 추출
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
     // HTTP 요청에서 JWT 토큰 해결
     public String resolveToken(HttpServletRequest req) {
         String bearerToken = req.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7).trim();
         }
         return null;
     }
@@ -67,7 +67,7 @@ public class JwtTokenProvider {
     // JWT 토큰 유효성 검사
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -76,7 +76,7 @@ public class JwtTokenProvider {
 
     public long getRemainingSeconds(String token) {
         try {
-            DefaultClaims claims = (DefaultClaims) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+            DefaultClaims claims = (DefaultClaims) Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
             return (claims.getExpiration().getTime() - Instant.now().toEpochMilli()) / 1000;
         } catch (JwtException | IllegalArgumentException e) {
             throw new InvalidJwtAuthenticationException("만료됐거나 유효하지 않은 토큰입니다.");

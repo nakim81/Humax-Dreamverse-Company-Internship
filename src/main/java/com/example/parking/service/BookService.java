@@ -1,5 +1,6 @@
 package com.example.parking.service;
 
+import com.example.parking.common.enums.BookState;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.BookDTO;
@@ -8,6 +9,7 @@ import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +39,7 @@ public class BookService {
     public void addBook(Long userId, BookDTO bookDTO){
 
         Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findById(bookDTO.getBookId());
+        Optional<Parkinglot> optionalParkinglot = parkingLotRepository.findById(bookDTO.getParkingLotId());
         Optional<Car> optionalCar = carRepository.findById(bookDTO.getCarId());
         Optional<Pay> optionalPay = payRepository.findById(bookDTO.getPayId());
 
@@ -54,7 +56,7 @@ public class BookService {
             throw new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다.");
         }
         else{
-            Book book = new Book(bookDTO.getState(),
+            Book book = new Book(BookState.READY_TO_USE,
                     bookDTO.getStartTime(),
                     bookDTO.getEndTime(),
                     bookDTO.getPrice(),
@@ -67,15 +69,23 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Long userId, Long bookId){
+    public void cancelBook(Long userId, Long bookId){
 
         Optional<Book> optionalBook = bookRepository.findByIDWithUser(bookId);
 
         if(optionalBook.isPresent()) {
-            if(Objects.equals(optionalBook.get().getUser().getUserId(), userId))
-                bookRepository.delete(optionalBook.get());
-            else
+            Book book = optionalBook.get();
+            if(!Objects.equals(book.getUser().getUserId(), userId))
                 throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
+            else if(book.getState()==BookState.CANCELED)
+                throw new ApiException(ErrorCode.BAD_REQUEST, "이미 취소된 내역입니다.");
+            else if(LocalDateTime.now().isAfter(book.getStartTime()))
+                throw new ApiException(ErrorCode.BAD_REQUEST, "예약 취소 기간이 아닙니다.");
+            else{
+                book.setState(BookState.CANCELED);
+                bookRepository.save(book);
+            }
+
         }else {
             throw new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다.");
         }

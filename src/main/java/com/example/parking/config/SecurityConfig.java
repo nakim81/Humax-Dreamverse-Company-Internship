@@ -37,6 +37,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
                         .requestMatchers(
                                 "/user/**",
                                 "/parkinglot/**",
+                                "/admin/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/configuration/ui",
