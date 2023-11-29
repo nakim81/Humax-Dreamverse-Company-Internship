@@ -50,7 +50,7 @@ public class SearchHistoryApiController {
         }
     }
 
-    @DeleteMapping("/user/{historyId}")
+    @DeleteMapping("/user/searchHistory/{historyId}")
     public Api<Void> deleteSearchHistory(
             HttpServletRequest request,
             @PathVariable("historyId") Long historyId
