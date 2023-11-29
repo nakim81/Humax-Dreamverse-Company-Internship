@@ -1,5 +1,6 @@
 package com.example.parking.dto;
 
+import com.example.parking.entity.User;
 import lombok.*;
 
 @Getter
@@ -9,5 +10,6 @@ import lombok.*;
 @Builder
 @ToString
 public class SearchHistoryDto {
-    private Integer historyId;
+    private Long historyId;
+    private ParkinglotDto parkinglot;
 }

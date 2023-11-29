@@ -31,12 +31,12 @@ public class BookController {
                 .body(Api.OK(null));
     }
 
-    @DeleteMapping("/user/{userId}/book/{bookId}")
-    public ResponseEntity<Api<Object>> deleteBook(
+    @PatchMapping("/user/{userId}/book/{bookId}")
+    public ResponseEntity<Api<Object>> cancelBook(
             @PathVariable("userId") Long userId,
             @PathVariable("bookId") Long bookId
     ){
-        bookService.deleteBook(userId, bookId);
+        bookService.cancelBook(userId, bookId);
         return ResponseEntity
                 .status(200)
                 .body(Api.OK(null));
