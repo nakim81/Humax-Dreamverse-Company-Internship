@@ -23,19 +23,24 @@ import Pagination from "@mui/material/Pagination";
 const ParkinglotPage = () => {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [radius, setRadius] = useState("");
+
   const [keyword, setKeyword] = useState("");
-  const [codeNumber, setCodeNumber] = useState("");
+  const [keywordPage, setKeywordPage] = useState(0);
+  const [keywordTotalPages, setKeywordTotalPages] = useState(0);
+
+  const [allParkinglots, setAllParkinglots] = useState([]);
+
+  const [parkingId, setParkingId] = useState("");
   const [parkinglotData, setParkinglotData] = useState([]);
   const [selectedParkinglot, setSelectedParkinglot] = useState(null);
+  const [isParkinglotSelected, setIsParkinglotSelected] = useState(false);
+
+  const [searchHistory, setSearchHistory] = useState([]);
+
   const [tabValue, setTabValue] = useState(0);
-  const [radius, setRadius] = useState("");
-  const [allParkinglots, setAllParkinglots] = useState([]);
-  const [keywordPage, setKeywordPage] = useState(1);
-  const [allPage, setAllPage] = useState(1);
-  const [canGoNextKeywordPage, setCanGoNextKeywordPage] = useState(true);
-  const [canGoNextAllPage, setCanGoNextAllPage] = useState(true);
-  const [keywordTotalPages, setKeywordTotalPages] = useState(0);
-  const [allTotalPages, setAllTotalPages] = useState(0);
+
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const { userId } = useParams();
 
@@ -56,25 +61,9 @@ const ParkinglotPage = () => {
     setTabValue(newValue);
   };
 
-  const handleFetchAllParkinglots = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/parkinglot/all", {
-        params: {
-          page: allPage,
-          size: size,
-        },
-      });
-      setAllParkinglots(response.data.body.content);
-      setCanGoNextAllPage(response.data.body.content.length === size);
-    } catch (error) {
-      console.error(
-        "전체 주차장 정보를 가져오는 중 오류가 발생했습니다.",
-        error
-      );
-    }
-  };
-
-  const handleFetchParkinglots = async () => {
+  // 버튼 클릭 이벤트 핸들러 내에서 직접 API 호출
+  const handleFetchParkinglotsButtonClick = async () => {
+    setAllParkinglots([]);
     try {
       const response = await axios.get(
         "http://localhost:8080/parkinglot/nearby",
@@ -99,7 +88,38 @@ const ParkinglotPage = () => {
     }
   };
 
-  const handleFetchParkinglotsByKeyword = async () => {
+  const handleFetchParkinglotByParkingIdButtonClick = async () => {
+    setAllParkinglots([]);
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/parkinglot/parkingId/${parkingId}`
+      );
+      setParkinglotData([response.data.body]);
+    } catch (error) {
+      console.error("주차장 코드넘버 기반 검색 중 오류가 발생했습니다.", error);
+    }
+  };
+
+  // 전체 주차장 정보를 가져오는 함수
+  const handleFetchAllParkinglotsButtonClick = async () => {
+    setParkinglotData([]);
+    try {
+      const response = await axios.get("http://localhost:8080/parkinglot/all");
+      if (response.data.body && Array.isArray(response.data.body)) {
+        setAllParkinglots(response.data.body);
+      } else {
+        console.error("Unexpected response", response);
+      }
+    } catch (error) {
+      console.error(
+        "전체 주차장 정보를 가져오는 중 오류가 발생했습니다.",
+        error
+      );
+    }
+  };
+
+  const fetchParkinglotsByKeyword = async () => {
+    setAllParkinglots([]);
     try {
       const response = await axios.get(
         "http://localhost:8080/parkinglot/search",
@@ -112,50 +132,70 @@ const ParkinglotPage = () => {
         }
       );
       setParkinglotData(response.data.body.content);
-      setCanGoNextKeywordPage(response.data.body.content.length === size);
+      setKeywordTotalPages(response.data.body.totalPages);
     } catch (error) {
       console.error("키워드 기반 주차장 검색 중 오류가 발생했습니다.", error);
     }
   };
 
-  const handleFetchParkinglotByCodeNumber = async () => {
+  const fetchSearchHistory = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/parkinglot/codenumber/${codeNumber}`
+        "http://localhost:8080/user/searchHistory"
       );
-      setParkinglotData([response.data.body]);
+      setSearchHistory(response.data.body);
     } catch (error) {
-      console.error("주차장 코드넘버 기반 검색 중 오류가 발생했습니다.", error);
+      console.error("검색 내역을 가져오는 중 오류가 발생했습니다.", error);
     }
   };
 
-  // 키워드 기반 검색 결과의 페이지 이동 함수
-  const handleKeywordPageChange = (event, value) => {
-    setKeywordPage(value);
-    handleFetchParkinglotsByKeyword(); // 페이지가 변경된 후 API 호출
+  const deleteSearchHistoryItem = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/user/searchHistory/${id}`);
+      fetchSearchHistory(); // 삭제 후 검색 내역을 다시 불러옵니다.
+    } catch (error) {
+      console.error("검색 내역을 삭제하는 중 오류가 발생했습니다.", error);
+    }
   };
 
-  // 전체 주차장 정보의 페이지 이동 함수
-  const handleAllPageChange = (event, value) => {
-    setAllPage(value);
-    handleFetchAllParkinglots(); // 페이지가 변경된 후 API 호출
-  };
-
-  const handleParkinglotClick = (parkinglot) => {
-    setSelectedParkinglot(parkinglot);
+  // 검색 버튼 클릭 이벤트 핸들러
+  const handleFetchParkinglotsByKeywordButtonClick = async () => {
+    setKeywordPage(0); // 검색 버튼을 누르면 페이지를 초기화
+    fetchParkinglotsByKeyword();
   };
 
   useEffect(() => {
-    if (keywordPage !== 0) {
-      handleFetchParkinglotsByKeyword();
+    if (!initialLoad) {
+      fetchParkinglotsByKeyword();
+    } else {
+      setInitialLoad(false);
     }
   }, [keywordPage]);
 
-  useEffect(() => {
-    if (allPage !== 0) {
-      handleFetchAllParkinglots();
+  // 키워드 기반 검색 결과의 페이지 이동 함수
+  const handleKeywordPageChange = (event, value) => {
+    setKeywordPage(value - 1); // 페이지 번호를 0부터 시작하도록 -1을 해줌
+  };
+
+  const handleParkinglotClick = async (parkinglot) => {
+    console.log(`sending request with parking ID : ${parkinglot.parkingId}`);
+    try {
+      // 주차장 클릭 시 해당 주차장의 id를 서버에 POST 요청으로 보냅니다.
+      await axios.post(
+        `http://localhost:8080/user/searchHistory/${parkinglot.parkingId}`
+      );
+    } catch (error) {
+      console.error("검색 내역 등록 실패", error);
     }
-  }, [allPage]);
+
+    setSelectedParkinglot(parkinglot);
+    setIsParkinglotSelected(true);
+  };
+
+  const handleDismissClick = () => {
+    setSelectedParkinglot(null);
+    setIsParkinglotSelected(false);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -186,105 +226,70 @@ const ParkinglotPage = () => {
           </Toolbar>
         </AppBar>
 
-        {selectedParkinglot && (
-          <Card
-            sx={{
-              p: 2,
-              mt: 4,
-              borderColor: "secondary",
-              borderWidth: 1,
-              borderStyle: "solid",
-            }}
-          >
-            <Box
+        <Box
+          sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+        >
+          {/* MapComponent 추가 */}
+          <MapComponent
+            parkinglotData={tabValue !== 3 ? parkinglotData : allParkinglots}
+            isParkinglotSelected={isParkinglotSelected}
+            selectedParkinglot={selectedParkinglot}
+          />
+          {selectedParkinglot && (
+            <Card
+              className="infoCard"
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
+                p: 2,
+                marginTop: "20px",
+                borderColor: "secondary",
+                borderWidth: 1,
+                borderStyle: "solid",
+                width: "20vw", // 카드 크기 고정
+                height: "56vh", // 카드 크기 고정
+                overflow: "auto", // 내용이 많아질 경우 스크롤 생김
               }}
             >
-              <Typography variant="h5">주차장 상세 정보</Typography>
-              <IconButton onClick={() => setSelectedParkinglot(null)}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-            <Typography variant="h5">
-              코드넘버: {selectedParkinglot.codeNumber}
-            </Typography>
-            <Typography variant="h5">
-              이름: {selectedParkinglot.name}
-            </Typography>
-            <Typography variant="h5">
-              주소: {selectedParkinglot.address}
-            </Typography>
-            <Typography variant="h5">
-              운영시간: {selectedParkinglot.operatingTime}
-            </Typography>
-            <Typography variant="h5">
-              일반 시즌: {selectedParkinglot.normalSeason}
-            </Typography>
-            <Typography variant="h5">
-              임차 시즌: {selectedParkinglot.tenantSeason}
-            </Typography>
-            <Typography variant="h5">
-              시간 티켓: {selectedParkinglot.timeTicket}
-            </Typography>
-            <Typography variant="h5">
-              일 티켓: {selectedParkinglot.dayTicket}
-            </Typography>
-            <Typography variant="h5">
-              특별일: {selectedParkinglot.specialDay}
-            </Typography>
-            <Typography variant="h5">
-              특별시간: {selectedParkinglot.specialHour}
-            </Typography>
-            <Typography variant="h5">
-              특별밤: {selectedParkinglot.specialNight}
-            </Typography>
-            <Typography variant="h5">
-              특별주말: {selectedParkinglot.specialWeekend}
-            </Typography>
-            <Typography variant="h5">
-              적용일: {selectedParkinglot.applyDay}
-            </Typography>
-            <Typography variant="h5">
-              적용시간: {selectedParkinglot.applyHour}
-            </Typography>
-            <Typography variant="h5">
-              적용밤: {selectedParkinglot.applyNight}
-            </Typography>
-            <Typography variant="h5">
-              적용주말: {selectedParkinglot.applyWeekend}
-            </Typography>
-            <Typography variant="h5">
-              활성화 상태: {selectedParkinglot.is_active}
-            </Typography>
-            <Typography variant="h5">
-              운영: {selectedParkinglot.operation}
-            </Typography>
-            <Typography variant="h5">
-              생성 시간: {selectedParkinglot.createdAt}
-            </Typography>
-            <Typography variant="h5">
-              업데이트 시간: {selectedParkinglot.updatedAt}
-            </Typography>
-            <Typography variant="h5">
-              삭제 시간: {selectedParkinglot.deletedAt}
-            </Typography>
-            <Typography variant="h5">위도: {selectedParkinglot.lat}</Typography>
-            <Typography variant="h5">경도: {selectedParkinglot.lon}</Typography>
-            <Typography variant="h5">
-              시간: {selectedParkinglot.time}
-            </Typography>
-            <Typography variant="h5">
-              가격: {selectedParkinglot.price}
-            </Typography>
-          </Card>
-        )}
-
-        {/* MapComponent 추가 */}
-        <MapComponent
-          parkinglotData={tabValue !== 3 ? parkinglotData : allParkinglots}
-        />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="h5">주차장 상세 정보</Typography>
+                <IconButton onClick={handleDismissClick}>
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Typography variant="body2">
+                ID: {selectedParkinglot.parkingId}
+              </Typography>
+              <Typography variant="body2">
+                코드넘버: {selectedParkinglot.codeNumber}
+              </Typography>
+              <Typography variant="body2">
+                이름: {selectedParkinglot.name}
+              </Typography>
+              <Typography variant="body2">
+                주소: {selectedParkinglot.address}
+              </Typography>
+              <Typography variant="body2">
+                운영시간: {selectedParkinglot.operatingTime}
+              </Typography>
+              <Typography variant="body2">
+                시간 티켓: {selectedParkinglot.timeTicket}
+              </Typography>
+              <Typography variant="body2">
+                위도: {selectedParkinglot.lat}
+              </Typography>
+              <Typography variant="body2">
+                경도: {selectedParkinglot.lon}
+              </Typography>
+              <Typography variant="body2">
+                가격: {selectedParkinglot.price}
+              </Typography>
+            </Card>
+          )}
+        </Box>
 
         <Box
           sx={{
@@ -298,8 +303,9 @@ const ParkinglotPage = () => {
           <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth">
             <Tab label="위치 기반 검색" />
             <Tab label="키워드 검색" />
-            <Tab label="코드넘버 검색" />
+            <Tab label="주차장 번호 검색" />
             <Tab label="전체 리스트 가져오기" />
+            <Tab label="검색 내역 확인" />
           </Tabs>
 
           {tabValue === 0 && (
@@ -333,7 +339,7 @@ const ParkinglotPage = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleFetchParkinglots}
+                onClick={handleFetchParkinglotsButtonClick}
               >
                 주변 주차장 정보 가져오기
               </Button>
@@ -359,7 +365,7 @@ const ParkinglotPage = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleFetchParkinglotsByKeyword}
+                onClick={handleFetchParkinglotsByKeywordButtonClick}
               >
                 키워드로 주차장 검색하기
               </Button>
@@ -378,16 +384,16 @@ const ParkinglotPage = () => {
             >
               <TextField
                 variant="outlined"
-                label="코드넘버"
-                value={codeNumber}
-                onChange={(e) => setCodeNumber(e.target.value)}
+                label="주차장 번호"
+                value={parkingId}
+                onChange={(e) => setParkingId(e.target.value)}
               />
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleFetchParkinglotByCodeNumber}
+                onClick={handleFetchParkinglotByParkingIdButtonClick}
               >
-                코드넘버로 주차장 검색하기
+                주차장 Id로 주차장 검색하기
               </Button>
             </Box>
           )}
@@ -403,10 +409,60 @@ const ParkinglotPage = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleFetchAllParkinglots}
+                onClick={handleFetchAllParkinglotsButtonClick}
               >
                 전체 주차장 정보 가져오기
               </Button>
+            </Box>
+          )}
+
+          {tabValue === 4 && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                alignItems: "center",
+                mt: 4,
+              }}
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={fetchSearchHistory}
+              >
+                검색 내역 가져오기
+              </Button>
+              {searchHistory.map((item, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    direction: "row",
+                    alignItems: "center",
+                    width: "50%",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    p: 2,
+                    mt: 2,
+                  }}
+                >
+                  <Typography variant="body1">
+                    {item.parkinglot.codeNumber}
+                  </Typography>
+                  <Typography variant="body1">
+                    {item.parkinglot.name}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => deleteSearchHistoryItem(item.historyId)}
+                  >
+                    삭제
+                  </Button>
+                </Box>
+              ))}
             </Box>
           )}
         </Box>
@@ -433,6 +489,7 @@ const ParkinglotPage = () => {
                   }}
                   onClick={() => handleParkinglotClick(parkinglot)}
                 >
+                  <Typography variant="h6">{parkinglot.parkingId}</Typography>
                   <Typography variant="h6">{parkinglot.name}</Typography>
                   <Typography variant="body1">{parkinglot.address}</Typography>
                   <Typography variant="body1">
@@ -456,22 +513,6 @@ const ParkinglotPage = () => {
               page={keywordPage}
               onChange={handleKeywordPageChange}
               color="primary"
-            />
-          </Box>
-        )}
-        {tabValue === 3 && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 4,
-            }}
-          >
-            <Pagination
-              count={allTotalPages}
-              page={allPage}
-              onChange={handleAllPageChange}
-              color="secondary"
             />
           </Box>
         )}
