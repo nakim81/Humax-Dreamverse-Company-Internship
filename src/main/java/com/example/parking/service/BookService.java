@@ -8,6 +8,8 @@ import com.example.parking.dto.BookDTO;
 import com.example.parking.entity.*;
 import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,17 +26,13 @@ public class BookService {
     private final CarRepository carRepository;
     private final PayRepository payRepository;
 
-    public List<BookDTO> getBookList(String userId){
+    public Page<BookDTO> getBookList(String userId, Integer page){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isEmpty())
+            throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
 
-        Optional<User> optionalUser = userRepository.findByIDWithBookList(userId);
-
-        if(optionalUser.isPresent()) {
-            List<BookDTO> getBookDTOS = new ArrayList<>();
-            for(Book book: optionalUser.get().getBookList())
-                getBookDTOS.add(new BookDTO(book));
-            return getBookDTOS;
-        }
-        throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
+        Page<Book> bookList = bookRepository.findByUserId(userId, PageRequest.of(page, 4));
+        return bookList.map(BookDTO::new);
     }
 
     public void addBook(String userId, AddBookDTO addBookDTO){
@@ -86,7 +84,6 @@ public class BookService {
                 book.setState(BookState.CANCELED);
                 bookRepository.save(book);
             }
-
         }else {
             throw new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다.");
         }

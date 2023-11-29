@@ -15,13 +15,15 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/user/book")
-    public ResponseEntity<Api<Object>> getBookList(){
+    public ResponseEntity<Api<Object>> getBookList(
+            @RequestParam(name="page") Integer page
+    ){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
         return ResponseEntity
                 .status(200)
-                .body(Api.OK(bookService.getBookList(userId)));
+                .body(Api.OK(bookService.getBookList(userId, page)));
     }
 
     @PostMapping("/user/book")

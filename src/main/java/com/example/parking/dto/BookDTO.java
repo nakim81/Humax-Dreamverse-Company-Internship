@@ -20,7 +20,7 @@ public class BookDTO {
     private Long carId;
     private String carNumber;
     private Integer price;
-    private TicketType ticket;
+    private String ticket;
     private Long payId;
     private String payName;
 
@@ -34,7 +34,7 @@ public class BookDTO {
         this.carId = book.getCar().getCarId();
         this.carNumber = book.getCar().getCarNumber();
         this.price = book.getPrice();
-        this.ticket = book.getTicket();
+        this.ticket = book.getTicket().getNameValue();
         this.payId = book.getPay().getPayId();
         this.payName = book.getPay().getPayName();
     }
