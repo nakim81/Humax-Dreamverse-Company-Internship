@@ -43,7 +43,11 @@ const Home = () => {
       <h1>주차장 관리</h1>
       <br />
       {userId ? (
+
+          <>
+            <h2>유저 번호: {userId}</h2>
           <button onClick={handleLogout}>로그아웃</button>
+          </>
       ) : (
           <>
             <button><Link to="/login">로그인</Link></button>
@@ -54,7 +58,7 @@ const Home = () => {
       <div className="btnContainer">
         <button
           className="btn"
-          onClick={() => (document.location.href = `/user/${userId}`)}
+          onClick={() => (document.location.href = `/user/${userId}/mypage`)}
         >
           마이페이지
         </button>
