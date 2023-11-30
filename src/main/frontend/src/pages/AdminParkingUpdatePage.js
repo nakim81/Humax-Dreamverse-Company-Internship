@@ -38,7 +38,7 @@ const AdminParkingUpdatePage = () => {
     const handleOpenAddressPost = useCallback(() => {
         setAddressPostOpen((isAddressPostOpen) =>  !isAddressPostOpen);
         setSearchKey((prevKey) => prevKey + 1);
-    }, [isAddressPostOpen]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, checked, type } = e.target;
