@@ -101,6 +101,21 @@ public class UserService {
                 .email(user.getEmail())
                 .build();
     }
+    public UserDto findByUserId(String id) {
+        // id로 사용자를 찾는다
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // UserDto로 변환
+        return UserDto.builder()
+                .userId(user.getUserId())
+                .id(user.getId())
+                .phoneNum(user.getPhoneNum())
+                .email(user.getEmail())
+                .admin(user.isAdmin())
+                .build();
+    }
+
     public void updateUserProfile(String userId, UserDto updateUserDto) {
         // 사용자 정보 가져오기
         User existingUser = userRepository.findById(userId)

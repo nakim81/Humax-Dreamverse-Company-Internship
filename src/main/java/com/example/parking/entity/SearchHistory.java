@@ -9,10 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @Table(name = "search_history")
 public class SearchHistory {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer historyId;
+    private Long historyId;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "parking_id")
     private Parkinglot parkinglot;
 

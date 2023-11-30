@@ -36,36 +36,9 @@ public class ParkingLotService {
         return nearestParkingLots.stream().map(parkinglotConverter::toDto).collect(Collectors.toList());
     }
 
-    // TODO 유저 인증 추가
-    public ParkinglotDto getParkinglot(Long parkingId, Long userId) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT));
-//
-        Parkinglot parkingLot = parkingLotRepository.findById(parkingId).orElseThrow(() -> new ApiException(ParkinglotErrorCode.INVALID_CODENUMBER));
-//
-//        if(user.getSearchHistoryList().size() >= 3) {
-//            SearchHistory oldestSearchHistory = user.getSearchHistoryList().get(0);
-//            searchHistoryRepository.delete(oldestSearchHistory);
-//            user.getSearchHistoryList().remove(oldestSearchHistory);
-//        }
-
-//        SearchHistory newSearchHistory = SearchHistory.builder()
-//                .codeNumber(parkingLot.getCodeNumber())
-//                .name(parkingLot.getName())
-//                .build();
-        SearchHistory newSearchHistory = new SearchHistory();
-
-//        newSearchHistory.setUser(user);
-//        user.getSearchHistoryList().add(newSearchHistory);
-//        searchHistoryRepository.save(newSearchHistory);
-//
-        return parkinglotConverter.toDto(parkingLot);
-    }
-
-    //TODO 유저 인증 추가되면 지우기
-    public ParkinglotDto findParkinglotByParkingId(Long parkingId) {
+    public ParkinglotDto getParkinglot(Long parkingId) {
         Parkinglot parkingLot = parkingLotRepository.findById(parkingId).orElseThrow(() -> new ApiException(ParkinglotErrorCode.INVALID_CODENUMBER));
         return parkinglotConverter.toDto(parkingLot);
-
     }
 
     @Transactional(readOnly = true)
@@ -75,8 +48,8 @@ public class ParkingLotService {
         return filteredParkingLots.map(parkinglotConverter::toDto);
     }
 
-    public Page<ParkinglotDto> getAllParkinglot(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return parkingLotRepository.findAll(pageable).map(parkinglotConverter::toDto);
+    public List<ParkinglotDto> getAllParkinglot() {
+        List<Parkinglot> allParkinglot = parkingLotRepository.findAll();
+        return allParkinglot.stream().map(parkinglotConverter::toDto).collect(Collectors.toList());
     }
 }
