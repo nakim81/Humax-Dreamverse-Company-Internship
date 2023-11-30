@@ -78,6 +78,18 @@ public class UserService {
         }
     }
 
+    public boolean isDuplicateId(String id) {
+        return userRepository.existsById(id);
+    }
+
+    public boolean isDuplicatePhoneNum(String phoneNum) {
+        return userRepository.existsByPhoneNum(phoneNum);
+    }
+
+    public boolean isDuplicateEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
 
     public User validateUser(UserDto userDto) {
         User user = userRepository.findById(userDto.getId())

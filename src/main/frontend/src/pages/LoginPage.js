@@ -10,14 +10,27 @@ const LoginPage = () => {
     const history = useNavigate();
 
     const handleLogin = async () => {
+        if (!userId) {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
+        if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
         try {
             const res = await axios.post('http://localhost:8080/user/login', { id: userId, password });
-            localStorage.setItem('token', res.data.token);
-            localStorage.setItem('userId', res.data.userId);
-            alert('로그인되었습니다.');
-            history('/');
+            if (res.data.success) {
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('userId', res.data.userId);
+                alert('로그인되었습니다.');
+                history('/');
+            } else {
+                alert('아이디와 비밀번호를 확인해주세요.');
+            }
         } catch (error) {
             console.error(error);
+            alert('아이디와 비밀번호를 확인해주세요');
         }
     };
 

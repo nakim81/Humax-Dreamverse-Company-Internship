@@ -11,7 +11,59 @@ const SignUpPage = () => {
 
     const history = useNavigate();
 
+    const checkDuplicateId = async () => {
+        try {
+            const res = await axios.post('http://localhost:8080/user/check-duplicate-id', { id });
+            if (res.data.duplicate) {
+                alert('이미 사용 중인 아이디입니다.');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const checkDuplicatePhoneNum = async () => {
+        try {
+            const res = await axios.post('http://localhost:8080/user/check-duplicate-phoneNum', { phoneNum });
+            if (res.data.duplicate) {
+                alert('이미 사용 중인 전화번호입니다.');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const checkDuplicateEmail = async () => {
+        try {
+            const res = await axios.post('http://localhost:8080/user/check-duplicate-email', { email });
+            if (res.data.duplicate) {
+                alert('이미 사용 중인 이메일입니다.');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSignUp = async () => {
+        await checkDuplicateId();
+        await checkDuplicatePhoneNum();
+        await checkDuplicateEmail();
+        if (!id) {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
+        if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
+        if (!phoneNum) {
+            alert('전화번호를 입력해주세요.');
+            return;
+        }
+        if (!email) {
+            alert('이메일을 입력해주세요.');
+            return;
+        }
         try {
             await axios.post('http://localhost:8080/user/sign-up', { id, password, phoneNum, email });
             alert('회원가입되었습니다.');
