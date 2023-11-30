@@ -1,19 +1,28 @@
 package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
+import com.example.parking.common.error.ErrorCode;
+import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.ParkinglotDto;
+import com.example.parking.security.JwtTokenProvider;
 import com.example.parking.service.ParkingLotService;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 public class ParkinglotApiController {
 
     private final ParkingLotService parkinglotService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/parkinglot/nearby")
     public Api<List<ParkinglotDto>> getNearByParkinglots(
@@ -24,19 +33,11 @@ public class ParkinglotApiController {
     }
 
 
-    @GetMapping("/parkinglot/codeNumber/{parkingId}")
-    public Api<ParkinglotDto> getParkinglotByCodeNumber(
-            @PathVariable("parkingId") Long parkingId, @RequestParam Long userId
-    ){
-        var response = parkinglotService.getParkinglot(parkingId, userId);
-        return Api.OK(response);
-    }
-
     @GetMapping("/parkinglot/parkingId/{parkingId}")
-    public Api<ParkinglotDto> findParkinglotByCodenumber(
+    public Api<ParkinglotDto> getParkinglotByParkingId(
             @PathVariable("parkingId") Long parkingId
     ){
-        var response = parkinglotService.findParkinglotByParkingId(parkingId);
+        var response = parkinglotService.getParkinglot(parkingId);
         return Api.OK(response);
     }
 
@@ -49,10 +50,8 @@ public class ParkinglotApiController {
     }
 
     @GetMapping("/parkinglot/all")
-    public Api<Page<ParkinglotDto>> getAllParkinglot(
-            @RequestParam int page, @RequestParam int size
-    ){
-        var response = parkinglotService.getAllParkinglot(page, size);
+    public Api<List<ParkinglotDto>> getAllParkinglot(){
+        List<ParkinglotDto> response = parkinglotService.getAllParkinglot();
         return Api.OK(response);
     }
 }
