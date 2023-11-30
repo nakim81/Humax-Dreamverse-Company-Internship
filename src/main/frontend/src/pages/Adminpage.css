@@ -1,0 +1,51 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.adminPage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #CD853F;
+}
+
+.adminHeader {
+    color: white;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.adminBody {
+    width: 90%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.parkingListContainer {
+    width: 95%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.parkingAddBtn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    height: 50%;
+    color: #FFA07A;
+    cursor: pointer;
+    &:hover {
+        color: white;
+        background-color: #FFA07A;
+    }
+}
