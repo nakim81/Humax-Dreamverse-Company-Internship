@@ -31,11 +31,7 @@ function PaymentList({ payments }) {
   // 결제 수단 삭제
   const handleDelete = (id) => {
     const updatedData = data.filter(item => item.payId !== id);
-
-    // TODO : URL 값 수정
     const url = `http://localhost:8080/user/${userId}/pay/${id}`;
-
-
 
     axios.delete(url, {
       headers: {
@@ -53,7 +49,6 @@ function PaymentList({ payments }) {
 
   // 결제 수단 추가
   const handleAddPayment = () => {
-
     const updatedData = [...data, newPayment];
     setData(updatedData);
 
@@ -70,7 +65,6 @@ function PaymentList({ payments }) {
       .catch(error => {
         console.log('데이터 추가 실패');
       });
-
 
     // 추가 후에 입력 필드 초기화
     setNewPayment({
@@ -111,9 +105,7 @@ function PaymentList({ payments }) {
 
     setData(updatedData);
 
-    // TODO : URL 값 수정
     const url = `http://localhost:8080/user/${userId}/pay/${id}`;
-
 
     const updatedItem = editedData;
 
@@ -230,7 +222,9 @@ function PaymentList({ payments }) {
 
 function PayPage() {
   const [responseData, setResponseData] = useState(null);
+
   const url = `http://localhost:8080/user/${userId}/pay`;
+
   useEffect(() => {
     // GET 요청 보내기
     axios.get(url, {
