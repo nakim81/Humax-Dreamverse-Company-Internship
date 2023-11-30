@@ -70,7 +70,7 @@ const Home = () => {
         </button>
         <button
           className="btn"
-          onClick={() => (document.location.href = `/user/${userId}/book`)}
+          onClick={() => (document.location.href = `/user/${userId}/booklist`)}
         >
           주차권 예약
         </button>
