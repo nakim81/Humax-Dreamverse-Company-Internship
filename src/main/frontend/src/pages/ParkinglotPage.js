@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "./ParkinglotPage.css";
 import MapComponent from "../components/MapComponent";
 import {
   TextField,
@@ -45,6 +45,8 @@ const ParkinglotPage = () => {
   const [initialLoad, setInitialLoad] = useState(true);
 
   const { userId } = useParams();
+
+  const navigate = useNavigate();
 
   const size = 10;
 
@@ -195,6 +197,10 @@ const ParkinglotPage = () => {
     setIsParkinglotSelected(true);
   };
 
+  const goToReservationPage = () => {
+    navigate(`/user/${userId}/book`, { state: { selectedParkinglot } });
+  };
+
   const handleDismissClick = () => {
     setSelectedParkinglot(null);
     setIsParkinglotSelected(false);
@@ -290,6 +296,13 @@ const ParkinglotPage = () => {
               <Typography variant="body2">
                 가격: {selectedParkinglot.price}
               </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={goToReservationPage}
+              >
+                예약하기
+              </Button>
             </Card>
           )}
         </Box>
