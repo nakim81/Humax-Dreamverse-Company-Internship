@@ -39,10 +39,10 @@ public class PayController {
      * 결제 수단 확인
      */
     @GetMapping
-    public ResponseEntity<List<PayDto>> checkPaymentInfo(/*@RequestHeader("Authorization") String requestAccessToken,
-                                                         */@PathVariable("userId") String userId) throws Exception {
+    public ResponseEntity<List<PayDto>> checkPaymentInfo(@RequestHeader("Authorization") String requestAccessToken,
+                                                         @PathVariable("userId") String userId) throws Exception {
 
-        /*String userToken = null;
+        String userToken = null;
 
         if (requestAccessToken != null && requestAccessToken.startsWith("Bearer ")) {
             userToken = requestAccessToken.substring(7, requestAccessToken.length());
@@ -57,9 +57,9 @@ public class PayController {
 
         if(user.isEmpty()) {
             throw new ApiException(ErrorCode.NULL_POINT, "잘못된 유저 정보입니다.");
-        }*/
+        }
 
-        List<PayDto> payDtos = payService.getPayByUserId(1L);
+        List<PayDto> payDtos = payService.getPayByUserId(user.get().getUserId());
 
         return new ResponseEntity<List<PayDto>>(payDtos,
                 HttpStatus.OK);

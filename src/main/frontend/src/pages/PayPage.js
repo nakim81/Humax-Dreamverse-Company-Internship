@@ -1,9 +1,12 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'
 
+const token = "Bearer " + localStorage.getItem('token');
+const userId = localStorage.getItem('userId');
+
 function PaymentList({ payments }) {
+
   const [data, setData] = useState(payments);
   const [newPayment, setNewPayment] = useState({
     payId: '',
@@ -15,9 +18,6 @@ function PaymentList({ payments }) {
     setShowAddPayment(prevState => !prevState); // 현재 상태의 반대로 변경하여 토글합니다.
   };
 
-  // TEST: 유저 정보 토큰
-  Cookies.set('test', 'Bearer ' + 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdW1teSIsImlhdCI6MTcwMTMxMjk3MywiZXhwIjoxNzAxMzE2NTczfQ.fLBXRYAtsqGcQ9mxdNoo1F5nQngpOC0Kjft4ig9a8UA');
-
   const [showAddPayment, setShowAddPayment] = useState(false);
   const [editItemId, setEditItemId] = useState(null);
   const [editedData, setEditedData] = useState({
@@ -28,15 +28,14 @@ function PaymentList({ payments }) {
   });
 
 
-
   // 결제 수단 삭제
   const handleDelete = (id) => {
     const updatedData = data.filter(item => item.payId !== id);
 
     // TODO : URL 값 수정
-    const url = `http://localhost:8080/user/1/pay/${id}`;
+    const url = `http://localhost:8080/user/${userId}/pay/${id}`;
 
-    const token = Cookies.get('test');
+
 
     axios.delete(url, {
       headers: {
@@ -58,11 +57,7 @@ function PaymentList({ payments }) {
     const updatedData = [...data, newPayment];
     setData(updatedData);
 
-    const token = Cookies.get('test');
-
-    // TODO : URL 값 수정
-    const url = `http://localhost:8080/user/1/pay`;
-
+    const url = `http://localhost:8080/user/${userId}/pay`;
 
     axios.post(url, newPayment, {
       headers: {
@@ -117,9 +112,8 @@ function PaymentList({ payments }) {
     setData(updatedData);
 
     // TODO : URL 값 수정
-    const url = `http://localhost:8080/user/1/pay/${id}`;
+    const url = `http://localhost:8080/user/${userId}/pay/${id}`;
 
-    const token = Cookies.get('test');
 
     const updatedItem = editedData;
 
@@ -150,7 +144,7 @@ function PaymentList({ payments }) {
           {data.map(payment => (
             <li key={payment.payId} style={{ marginBottom: '10px', backgroundColor: 'orange', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               {editItemId === payment.payId ? (
-                <div style={{ padding: '5px', borderRadius: '5px'}}>
+                <div style={{ padding: '5px', borderRadius: '5px' }}>
                   <div>
                     <label>ID:</label>
                   </div>
@@ -207,8 +201,8 @@ function PaymentList({ payments }) {
               </select>
               {/* payType이 카드인 경우에만 노출 */}
               {newPayment.payType === '카드' && (
-                <select 
-                  value={newPayment.payName} 
+                <select
+                  value={newPayment.payName}
                   onChange={(e) => setNewPayment({ ...newPayment, payName: e.target.value })}
                 >
                   <option value="">결제 은행</option>
@@ -226,17 +220,6 @@ function PaymentList({ payments }) {
                 </input>
               )}
               <button onClick={handleAddPayment}>추가하기</button>
-=======
-import React from "react";
-import useAuth from "../useAuth";
-
-const PayPage = () => {
-    useAuth();
-    return (
-        <>
-            <div>
-                <h1>PayPage</h1>
->>>>>>> 6a099d10c70034b44a1fb5e176d2614c3241d236
             </div>
           )}
         </div>
@@ -247,10 +230,14 @@ const PayPage = () => {
 
 function PayPage() {
   const [responseData, setResponseData] = useState(null);
-
+  const url = `http://localhost:8080/user/${userId}/pay`;
   useEffect(() => {
     // GET 요청 보내기
-    axios.get('http://localhost:8080/user/1/pay')
+    axios.get(url, {
+      headers: {
+        'Authorization': token
+      }
+    })
       .then(response => {
         // 응답 데이터를 상태(State)에 저장
         setResponseData(response.data);
