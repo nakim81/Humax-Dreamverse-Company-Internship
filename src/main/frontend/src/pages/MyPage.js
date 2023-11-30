@@ -1,11 +1,9 @@
 import React from "react";
 import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
-import useAuth from "../useAuth";
 import styles from "./MyPage.module.css";
 
 const MyPage = () => {
-    useAuth();
     const history = useNavigate();
     const handleViewInfo = async () => {
         try {

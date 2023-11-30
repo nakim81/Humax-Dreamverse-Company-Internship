@@ -1,8 +1,6 @@
 import React from "react";
-import useAuth from "../useAuth";
 
 const BookPage = () => {
-    useAuth();
     return (
         <>
             <div>
