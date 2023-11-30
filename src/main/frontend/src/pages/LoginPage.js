@@ -20,7 +20,7 @@ const LoginPage = () => {
         }
         try {
             const res = await axios.post('http://localhost:8080/user/login', { id: userId, password });
-            if (res.data.success) {
+            if (res.data.token) { // 로그인 성공을 토큰의 유무로 판단
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('userId', res.data.userId);
                 alert('로그인되었습니다.');
