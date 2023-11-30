@@ -1,21 +1,59 @@
 package com.example.parking.repository;
 
+import com.example.parking.common.enums.BookState;
 import com.example.parking.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query(value = "select b from Book b left join fetch b.user where b.bookId=:bookId")
+    @Query(value = "select b from Book b " +
+            "left join fetch b.user " +
+            "where b.bookId=:bookId")
     public Optional<Book> findByIDWithUser(@Param("bookId") Long bookId);
 
-    @Query(value = "select b from Book b where b.state='이용대기' and b.startTime<=:currentTime")
-    public List<Book> findChangeStateToUsing(@Param("currentTime")LocalDateTime currentTime);
+    @Query(value = "select b from Book b " +
+            "join fetch b.pay " +
+            "join fetch b.car " +
+            "join fetch b.parkinglot " +
+            "where b.user.id=:id " +
+            "order by b.endTime desc")
+    public Page<Book> findByUserId(@Param("id") String id, Pageable pageable);
 
-    @Query(value = "select b from Book b where b.state='이용중' and b.endTime<=:currentTime")
-    public List<Book> findChangeStateToFinish(@Param("currentTime")LocalDateTime currentTime);
+    @Query(value = "select b from Book b " +
+            "where b.car.carNumber=:carNumber " +
+            "and b.parkinglot.name=:parkingLotName " +
+            "and date_format(b.startTime, '%Y-%m-%d')=:currentDate " +
+            "and b.state='1'")
+    public Optional<Book> findBookByCarAndParkingLotAndDate(
+            @Param("carNumber")String carNumber,
+            @Param("parkingLotName")String parkingLotName,
+            @Param("currentDate") LocalDate currentDate
+    );
+
+    @Query(value = "select b from Book b " +
+            "where b.car.carNumber=:carNumber " +
+            "and b.parkinglot.name=:parkingLotName " +
+            "and :currentTime between b.startTime and b.endTime " +
+            "and b.state='1'")
+    public Optional<Book> findBookByCarAndParkingLotAndTime(
+            @Param("carNumber")String carNumber,
+            @Param("parkingLotName")String parkingLotName,
+            @Param("currentTime")LocalDateTime currentTime
+    );
+
+    @Query(value = "select b from Book b " +
+            "where b.state=:state " +
+            "and b.endTime<=:currentTime")
+    public List<Book> findChangeToFinish(
+            @Param("state")BookState state,
+            @Param("currentTime")LocalDateTime currentTime
+    );
 }

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'
@@ -225,6 +226,17 @@ function PaymentList({ payments }) {
                 </input>
               )}
               <button onClick={handleAddPayment}>추가하기</button>
+=======
+import React from "react";
+import useAuth from "../useAuth";
+
+const PayPage = () => {
+    useAuth();
+    return (
+        <>
+            <div>
+                <h1>PayPage</h1>
+>>>>>>> 6a099d10c70034b44a1fb5e176d2614c3241d236
             </div>
           )}
         </div>

@@ -46,4 +46,8 @@ public class Api<T> {
         api.result = Result.ERROR(errorCodeIfs, description);
         return api;
     }
+
+    public static Api<Object> ERROR(String message) {
+        return new Api<>(null, message);
+    }
 }
