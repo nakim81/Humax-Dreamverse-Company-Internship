@@ -15,7 +15,6 @@ import {
   Toolbar,
   IconButton,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
@@ -232,25 +231,6 @@ const ParkinglotPage = () => {
           alignItems: "center",
         }}
       >
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="primay"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              ParkinglotPage
-            </Typography>
-            <Typography variant="h6" component="div">
-              User Id: {userId}
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
         <Box
           sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
         >
