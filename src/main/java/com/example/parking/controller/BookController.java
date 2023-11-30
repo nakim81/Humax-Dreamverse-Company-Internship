@@ -3,6 +3,7 @@ package com.example.parking.controller;
 import com.example.parking.common.api.Api;
 import com.example.parking.dto.AddBookDTO;
 import com.example.parking.dto.BookDTO;
+import com.example.parking.dto.EntranceDTO;
 import com.example.parking.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,16 @@ public class BookController {
         String userId = authentication.getName();
 
         bookService.cancelBook(userId, bookId);
+        return ResponseEntity
+                .status(200)
+                .body(Api.OK(null));
+    }
+
+    @PatchMapping("/book/entrance")
+    public ResponseEntity<Api<Object>> entrance(
+            @RequestBody EntranceDTO entranceDTO
+    ){
+        bookService.entrance(entranceDTO.getCarNumber(), entranceDTO.getParkingLotName());
         return ResponseEntity
                 .status(200)
                 .body(Api.OK(null));

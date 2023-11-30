@@ -18,20 +18,15 @@ public class BookStateScheduler {
     private final BookRepository bookRepository;
 
     @Transactional
-    @Scheduled(cron = "0 0 0/1 * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     public void changeBookState(){
         log.info("예약 상태 변경 스케줄러 작동");
 
         LocalDateTime currentTime = LocalDateTime.now();
 
-        List<Book> toUsingList = bookRepository.findChangeToUsing(BookState.READY_TO_USE, currentTime);
-        for(Book book: toUsingList)
-            book.setState(BookState.IN_USE);
-        bookRepository.saveAll(toUsingList);
-
-        List<Book> toFinishList = bookRepository.findChangeToFinish(BookState.IN_USE, currentTime);
+        List<Book> toFinishList = bookRepository.findChangeToFinish(BookState.READY_TO_USE, currentTime);
         for(Book book: toFinishList)
-            book.setState(BookState.USED);
+            book.setState(BookState.NO_USE);
         bookRepository.saveAll(toFinishList);
 
         log.info("예약 상태 변경 스케줄러 작동 완료");

@@ -88,4 +88,17 @@ public class BookService {
             throw new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다.");
         }
     }
+
+    public void entrance(String carNumber, String parkingLotName){
+
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        Optional<Book> optionalBook = bookRepository.findBook(carNumber, parkingLotName, currentTime);
+        if(optionalBook.isEmpty())
+            throw new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다.");
+
+        Book book = optionalBook.get();
+        book.setState(BookState.USED);
+        bookRepository.save(book);
+    }
 }
