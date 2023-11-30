@@ -45,6 +45,7 @@ const ParkinglotPage = () => {
   const [initialLoad, setInitialLoad] = useState(true);
 
   const { userId } = useParams();
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
 
@@ -64,7 +65,6 @@ const ParkinglotPage = () => {
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
 
   // 버튼 클릭 이벤트 핸들러 내에서 직접 API 호출
   const handleFetchParkinglotsButtonClick = async () => {
@@ -146,7 +146,12 @@ const ParkinglotPage = () => {
   const fetchSearchHistory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/user/searchHistory"
+        "http://localhost:8080/user/searchHistory",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setSearchHistory(response.data.body);
     } catch (error) {
@@ -156,7 +161,11 @@ const ParkinglotPage = () => {
 
   const deleteSearchHistoryItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/user/searchHistory/${id}`);
+      await axios.delete(`http://localhost:8080/user/searchHistory/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       fetchSearchHistory(); // 삭제 후 검색 내역을 다시 불러옵니다.
     } catch (error) {
       console.error("검색 내역을 삭제하는 중 오류가 발생했습니다.", error);
@@ -183,11 +192,18 @@ const ParkinglotPage = () => {
   };
 
   const handleParkinglotClick = async (parkinglot) => {
+    console.log(token);
     console.log(`sending request with parking ID : ${parkinglot.parkingId}`);
     try {
       // 주차장 클릭 시 해당 주차장의 id를 서버에 POST 요청으로 보냅니다.
       await axios.post(
-        `http://localhost:8080/user/searchHistory/${parkinglot.parkingId}`
+        `http://localhost:8080/user/searchHistory/${parkinglot.parkingId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
     } catch (error) {
       console.error("검색 내역 등록 실패", error);
@@ -431,7 +447,7 @@ const ParkinglotPage = () => {
               </Button>
             </Box>
           )}
-          
+
           {tabValue === 4 && (
             <Box
               sx={{
