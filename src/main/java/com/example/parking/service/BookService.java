@@ -12,7 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -36,36 +38,47 @@ public class BookService {
     }
 
     public void addBook(String userId, AddBookDTO addBookDTO){
+        verifyDate(addBookDTO.getStartTime().toLocalDate(), addBookDTO.getEndTime().toLocalDate());
 
-        Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<Parkinglot> optionalParkingLot = parkingLotRepository.findById(addBookDTO.getParkingLotId());
-        Optional<Car> optionalCar = carRepository.findById(addBookDTO.getCarId());
-        Optional<Pay> optionalPay = payRepository.findById(addBookDTO.getPayId());
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다."));
+        Parkinglot parkingLot = parkingLotRepository.findById(addBookDTO.getParkingLotId())
+                .orElseThrow(()-> new ApiException(ErrorCode.NULL_POINT, "주차장 정보가 존재하지 않습니다."));
+        Car car = carRepository.findById(addBookDTO.getCarId())
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "차 정보가 존재하지 않습니다."));
+        Pay pay = payRepository.findById(addBookDTO.getPayId())
+                .orElseThrow(()->  new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다."));
 
-        if(optionalUser.isEmpty()){
-            throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
-        }
-        else if(optionalParkingLot.isEmpty()){
-            throw new ApiException(ErrorCode.NULL_POINT, "주차장 정보가 존재하지 않습니다.");
-        }
-        else if(optionalCar.isEmpty()){
-            throw new ApiException(ErrorCode.NULL_POINT, "차 정보가 존재하지 않습니다.");
-        }
-        else if(optionalPay.isEmpty()){
-            throw new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다.");
-        }
-        else{
-            Book book = new Book(BookState.READY_TO_USE,
-                    addBookDTO.getStartTime(),
-                    addBookDTO.getEndTime(),
-                    addBookDTO.getPrice(),
-                    addBookDTO.getTicket(),
-                    optionalUser.get(),
-                    optionalParkingLot.get(),
-                    optionalCar.get(),
-                    optionalPay.get());
-            bookRepository.save(book);
-        }
+        verifyBook(car.getCarNumber(), parkingLot.getName(), addBookDTO.getStartTime());
+
+        Book book = new Book(
+                BookState.READY_TO_USE,
+                addBookDTO.getStartTime(),
+                addBookDTO.getEndTime(),
+                addBookDTO.getPrice(),
+                addBookDTO.getTicket(),
+                user, parkingLot, car, pay
+        );
+        bookRepository.save(book);
+    }
+
+    public void verifyDate(LocalDate startDate, LocalDate endDate){
+        if(!startDate.equals(endDate))
+            throw new ApiException(ErrorCode.BAD_REQUEST, "시작 시간과 끝 시간의 날짜가 같아야합니다.");
+
+        LocalDate cur_date = LocalDate.now();
+        if(startDate.isBefore(cur_date) || Period.between(cur_date, startDate).getDays() >= 7)
+            throw new ApiException(ErrorCode.BAD_REQUEST, "예약 기간이 아닙니다.");
+    }
+
+    public void verifyBook(String carNumber, String parkingLotName, LocalDateTime startTime){
+        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndDate(
+                carNumber,
+                parkingLotName,
+                startTime.toLocalDate()
+        );
+        if(optionalBook.isPresent())
+            throw new ApiException(ErrorCode.BAD_REQUEST, "이미 예약이 존재합니다.");
     }
 
     public void cancelBook(String userId, Long bookId){
@@ -90,10 +103,11 @@ public class BookService {
     }
 
     public void entrance(String carNumber, String parkingLotName){
-
         LocalDateTime currentTime = LocalDateTime.now();
 
-        Optional<Book> optionalBook = bookRepository.findBook(carNumber, parkingLotName, currentTime);
+        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndTime(
+                carNumber, parkingLotName, currentTime
+        );
         if(optionalBook.isEmpty())
             throw new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다.");
 

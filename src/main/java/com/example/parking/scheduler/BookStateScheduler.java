@@ -18,7 +18,7 @@ public class BookStateScheduler {
     private final BookRepository bookRepository;
 
     @Transactional
-    @Scheduled(cron = "0/10 * * * * *")
+    @Scheduled(cron = "0 0 0/1 * * *")
     public void changeBookState(){
         log.info("예약 상태 변경 스케줄러 작동");
 
