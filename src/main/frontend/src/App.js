@@ -11,18 +11,20 @@ import AdminParkingAddPage from "./pages/AdminParkingAddPage";
 import AdminParkingUpdatePage from "./pages/AdminParkingUpdatePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
+import Navbar from "./components/NavBar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-
   return (
-      <>
+    <>
+      <Navbar />
         <Routes>
             <Route element={<Home />} path="/"/>
             <Route element={<MyPage />} path="/user/:userId/mypage"/>
             <Route element={<BookPage />} path="/user/:userId/book"/>
             <Route element={<CarPage />} path="/user/:userId/car"/>
             <Route element={<PayPage />} path="/user/:userId/pay"/>
-            <Route element={<ParkinglotPage />} path="/user/:userId/parkinglot"/>
+            <Route element={<ParkinglotPage />} path="/user/parkinglot"/>
             <Route element={<AdminPage />} path="/admin" />
             <Route element={<AdminParkingDetailPage />} path="/admin/parking/:parkingId" />
             <Route element={<AdminParkingAddPage />} path="/admin/parking/add" />
