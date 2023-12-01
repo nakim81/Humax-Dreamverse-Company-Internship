@@ -166,7 +166,7 @@ function MyNavbar() {
                 마이페이지
               </NavLink>
               <NavLink
-                to={`/user/${userId}/car`}
+                to={`/user/car`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isCarHovered ? "large" : "medium",

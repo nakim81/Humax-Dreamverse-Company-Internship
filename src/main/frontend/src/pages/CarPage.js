@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import "./CarPage.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -7,21 +7,21 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import useAuth from "../useAuth";
+import AuthContext from "../hooks/AuthContext";
 
 const CarPage = () => {
     useAuth();
-
-    const [userId, setUserId] = useState('');
-    const jwtToken = localStorage.getItem('token');
-    useEffect(() => {
-        if (jwtToken) {
-            const tokenParts = jwtToken.split('.');
-            const payload = JSON.parse(atob(tokenParts[1]));
-            setUserId(payload.sub);
-        } else {
-            console.log('토큰이 없습니다.');
-        }
-    }, [jwtToken]);
+    const { userId } = useContext(AuthContext);
+    // const jwtToken = localStorage.getItem('token');
+    // useEffect(() => {
+    //     if (jwtToken) {
+    //         const tokenParts = jwtToken.split('.');
+    //         const payload = JSON.parse(atob(tokenParts[1]));
+    //         // setUserId(payload.sub);
+    //     } else {
+    //         console.log('토큰이 없습니다.');
+    //     }
+    // }, [jwtToken]);
 
     const [carData, setCarData] = useState([]);
     const [addCarName, setAddCarName] = useState(undefined);
