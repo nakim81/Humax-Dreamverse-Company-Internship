@@ -8,6 +8,14 @@ const BookPage = () => {
             </div>
         </>
     );
+  useAuth();
+  return (
+    <>
+      <div>
+        <h1>BookPage</h1>
+      </div>
+    </>
+  );
 };
 
 export default BookPage;
