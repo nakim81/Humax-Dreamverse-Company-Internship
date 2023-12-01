@@ -1,7 +1,10 @@
 .gridContainer{
     display: grid;
-    grid-template-columns: 600px;
+    grid-template-columns: 50% 50%;
     grid-column-gap: 50px;
+    place-items: center;
+    margin-left: 20%;
+    margin-right: 20%;
  }
 
 .bookState{
@@ -25,4 +28,5 @@
 .buttons{
     margin-left: 10px;
     margin-bottom: 10px;
+    border: 0.5px solid gray;
 }

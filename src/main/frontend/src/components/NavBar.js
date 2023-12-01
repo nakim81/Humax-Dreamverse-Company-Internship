@@ -153,7 +153,7 @@ function MyNavbar() {
                 주차장 조회
               </NavLink>
               <NavLink
-                to={`/user/${userId}/booklist`}
+                to={`/user/booklist`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isBookHovered ? "large" : "medium",

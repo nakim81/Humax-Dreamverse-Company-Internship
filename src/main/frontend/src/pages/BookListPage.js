@@ -66,43 +66,51 @@ const BookListPage = () => {
 
     return (
         <>
-            <div>
-                <h1>이용 내역 조회</h1>
-                <div className = "gridContainer">
-                    {bookData.map((book, index) => (
-                        <div key={index} className="bookContainer">
-                            <p><span className="bookState">{book.state}</span> {book.parkingLotName}</p>
-                            <p>차 번호: {book.carNumber}</p>
-                            <p>티켓 종류: {book.ticket}</p>
-                            <p>이용 시간: {book.startTime} ~ {book.endTime}</p>
-                            <button
-                                onClick={() => handlePayClick(index)}
-                                className="buttons"
-                            >
-                                결제 상세
-                            </button>
-                            <button
-                                onClick={() => cancelBookClick(index, book.bookId, jwtToken)}
-                                className="buttons"
-                            >
-                                예약 취소
-                            </button>
-                            {showPay[index] && (
-                                <div>
-                                    <p>결제 수단: {book.payName}</p>
-                                    <p>결제 금액: {book.price}</p>
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-                <Pagination
-                    onChange={handlePageChange}
-                    page={page}
-                    count={totalPage}
-                />
+            {bookData == '' ? (
+                <h3 style={{textAlign: 'center', marginTop: '20%'}}> 이용 내역이 없습니다. </h3>
+            ):(
+                <div>
+                    <h1 style={{textAlign: 'center', marginTop: '20px'}}>이용 내역 조회</h1>
+                    <div className = "gridContainer">
+                        {bookData.map((book, index) => (
+                            <div key={index} className="bookContainer">
+                                <p><span className="bookState">{book.state}</span> {book.parkingLotName}</p>
+                                <p>차 번호: {book.carNumber}</p>
+                                <p>티켓 종류: {book.ticket}</p>
+                                <p>이용 시간: {book.startTime} ~ {book.endTime}</p>
+                                <button
+                                    onClick={() => handlePayClick(index)}
+                                    className="buttons"
+                                >
+                                    결제 상세
+                                </button>
+                                <button
+                                    onClick={() => cancelBookClick(index, book.bookId, jwtToken)}
+                                    className="buttons"
+                                >
+                                    예약 취소
+                                </button>
+                                {showPay[index] && (
+                                    <div>
+                                        <p>결제 수단: {book.payName}</p>
+                                        <p>결제 금액: {book.price}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
 
-            </div>
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <Pagination
+                            onChange={handlePageChange}
+                            page={page}
+                            count={totalPage}
+
+                        />
+                    </div>
+
+                </div>
+            )}
         </>
     );
 };

@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./BookPage.css";
 import useAuth from "../useAuth";
+import AuthContext from "../hooks/AuthContext";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 const BookPage = () => {
     useAuth();
-    const jwtToken = localStorage.getItem('token');
-
-    const {userId} = useParams();
+    const { userId, token } = useContext(AuthContext);
     const {parkingId} = useParams();
 
     const [carData, setCarData] = useState([]);
@@ -35,10 +34,10 @@ const BookPage = () => {
     const nextWeek = new Date(today);
     nextWeek.setDate(today.getDate() + 6);
 
-    const fetchCarData = async () => {
+    const fetchCarData = async (userId, token) => {
         try{
             const response = await axios.get(`http://localhost:8080/user/${userId}/car`, {
-                headers: {Authorization: `Bearer ${jwtToken}`}
+                headers: {Authorization: `Bearer ${token}`}
             })
             setCarData(response.data)
         }catch (error){
@@ -46,10 +45,10 @@ const BookPage = () => {
         }
     }
 
-    const fetchPayData = async () => {
+    const fetchPayData = async (userId, token) => {
         try{
             const response = await axios.get(`http://localhost:8080/user/${userId}/pay`, {
-                headers: {Authorization: `Bearer ${jwtToken}`}
+                headers: {Authorization: `Bearer ${token}`}
             })
             setPayData(response.data)
         }catch (error){
@@ -58,15 +57,14 @@ const BookPage = () => {
     }
 
      useEffect(() => {
-            fetchCarData()
-            fetchPayData()
-     }, [userId, jwtToken])
+            fetchCarData(userId, token)
+            fetchPayData(userId, token)
+     }, [userId, token])
 
     const handleSubmitClick = async () => {
         try{
-            console.log(jwtToken)
             await axios.post(`http://localhost:8080/user/book`, reserveForm, {
-                 headers: {'Authorization': `Bearer ${jwtToken}`}
+                 headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 완료되었습니다.')
         }catch (error){
@@ -81,14 +79,14 @@ const BookPage = () => {
 
      const handleDateChange = (date) => {
         setSelectedDate(date)
-        if(reserveForm.ticket!=''){
+        if(reserveForm.ticket!==''){
             setReserveForm((prevData) => ({
               ...prevData,
-              ["startTime"]: `${date.toISOString().split('T')[0]} ${reserveForm.startTime.split(' ')[1]}`,
+              "startTime": `${date.toISOString().split('T')[0]} ${reserveForm.startTime.split(' ')[1]}`,
             }))
             setReserveForm((prevData) => ({
               ...prevData,
-              ["endTime"]: `${date.toISOString().split('T')[0]} ${reserveForm.endTime.split(' ')[1]}`,
+              "endTime": `${date.toISOString().split('T')[0]} ${reserveForm.endTime.split(' ')[1]}`,
             }))
         }
      };
@@ -106,19 +104,19 @@ const BookPage = () => {
 
         setReserveForm((prevData) => ({
           ...prevData,
-          ["ticket"]: value=='-1' ? '' : tickets[value].type,
+          "ticket": value==='-1' ? '' : tickets[value].type,
         }))
         setReserveForm((prevData) => ({
           ...prevData,
-          ["startTime"]: value=='-1' ? '' : `${selectedDate.toISOString().split('T')[0]} ${tickets[value].startTime}`,
+          "startTime": value==='-1' ? '' : `${selectedDate.toISOString().split('T')[0]} ${tickets[value].startTime}`,
         }))
         setReserveForm((prevData) => ({
           ...prevData,
-          ["endTime"]: value=='-1' ? '' : `${selectedDate.toISOString().split('T')[0]} ${tickets[value].endTime}`,
+          "endTime": value==='-1' ? '' : `${selectedDate.toISOString().split('T')[0]} ${tickets[value].endTime}`,
         }))
         setReserveForm((prevData) => ({
           ...prevData,
-          ["price"]: value=='-1' ? '0' : tickets[value].price,
+          "price": value==='-1' ? '0' : tickets[value].price,
         }))
     }
 
@@ -155,7 +153,7 @@ const BookPage = () => {
                         <div>
                             <hr/>
                             <button
-                                className="select"
+                                className="linkButton"
                                 onClick={() => (document.location.href = `/user/${userId}/car`)}
                             >
                                 자동차를 등록해주세요.
@@ -181,7 +179,7 @@ const BookPage = () => {
                         <div>
                             <hr/>
                             <button
-                                className="select"
+                                className="linkButton"
                                 onClick={() => (document.location.href = `/user/${userId}/pay`)}
                             >
                                 결제 수단을 등록해주세요.
@@ -208,7 +206,7 @@ const BookPage = () => {
                         <p> <span>결제 금액</span> {reserveForm.price}원</p>
                     </div>
 
-                    <button onClick={()=>handleSubmitClick()} className="button"> 예약하기 </button>
+                    <button onClick={()=>handleSubmitClick()} className="reserveButton"> 예약하기 </button>
                 </div>
             </div>
         </>
