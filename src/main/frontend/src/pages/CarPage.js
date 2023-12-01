@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import "./CarPage.css";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -7,10 +6,23 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import useAuth from "../useAuth";
+import AuthContext from "../hooks/AuthContext";
 
 const CarPage = () => {
+    useAuth();
+    const { userId } = useContext(AuthContext);
+    // const jwtToken = localStorage.getItem('token');
+    // useEffect(() => {
+    //     if (jwtToken) {
+    //         const tokenParts = jwtToken.split('.');
+    //         const payload = JSON.parse(atob(tokenParts[1]));
+    //         // setUserId(payload.sub);
+    //     } else {
+    //         console.log('토큰이 없습니다.');
+    //     }
+    // }, [jwtToken]);
 
-    const {userId} = useParams();
     const [carData, setCarData] = useState([]);
     const [addCarName, setAddCarName] = useState(undefined);
     const [addCarNumber, setAddCarNumber] = useState(undefined);
@@ -52,7 +64,7 @@ const CarPage = () => {
     const handleNumberAdd = (e) => {
         setAddCarNumber(e.target.value);
 
-        const regex = /^[0-9]{2}[가-힣][0-9]{4}$/;
+        const regex = /^[0-9]{2,3}[가-힣][0-9]{4}$/;
         setIsValid(regex.test(e.target.value))
     }
 
@@ -83,7 +95,7 @@ const CarPage = () => {
     const handleNumberChange = (e) => {
         setUpdateCarNumber(e.target.value);
 
-        const regex = /^[0-9]{2}[가-힣][0-9]{4}$/;
+        const regex = /^[0-9]{2,3}[가-힣][0-9]{4}$/;
         setIsValid(regex.test(e.target.value))
     }
 
@@ -99,8 +111,7 @@ const CarPage = () => {
             setIsAddErrorOpen((isAddErrorOpen) => !isAddErrorOpen)
         } else {
             try {
-                // eslint-disable-next-line no-unused-vars
-                const res = await axios.post(`http://localhost:8080/user/${userId}/car`, addCarData)
+                await axios.post(`http://localhost:8080/user/${userId}/car`, addCarData)
                 setIsAddOpen((isAddOpen) => !isAddOpen);
                 setAddCarName('');
                 setAddCarNumber('');
@@ -122,8 +133,7 @@ const CarPage = () => {
 
         if (isValid) {
             try {
-                // eslint-disable-next-line no-unused-vars
-                const res = await axios.patch(`http://localhost:8080/user/${userId}/car/${updateCarId}`, updateCarData)
+                await axios.patch(`http://localhost:8080/user/${userId}/car/${updateCarId}`, updateCarData)
                 setIsUpdateOpen((isUpdateOpen) => !isUpdateOpen);
                 await fetchData();
                 // console.log(res.data)
@@ -139,8 +149,7 @@ const CarPage = () => {
         e.preventDefault();
 
         try {
-            // eslint-disable-next-line no-unused-vars
-            const res = await axios.delete(`http://localhost:8080/user/${userId}/car/${updateCarId}`)
+            await axios.delete(`http://localhost:8080/user/${userId}/car/${updateCarId}`)
             setIsDeleteOpen((isDeleteOpen) => !isDeleteOpen);
             await fetchData();
             // console.log(res.data)
@@ -151,7 +160,6 @@ const CarPage = () => {
 
     return (
         <>
-            <h1>CarPage</h1>
             <div className="carAddContainer">
                 <div className="carAddBtnContainer">
                     {isAddOpen ? (
@@ -190,7 +198,7 @@ const CarPage = () => {
                                 placeholder="차량 번호를 입력하세요" />
                             {!isValid && (
                                 <p className="isValidText">
-                                    12가1234 형식으로 입력하세요.
+                                    12가1234 / 123가1234 형식으로 입력하세요.
                                 </p>
                             )}
                         </div>
@@ -209,6 +217,13 @@ const CarPage = () => {
             </div>
 
             <div className="carsContainer">
+                {carData.length === 0 ? (
+                    <div>
+                        차량을 등록하세요.
+                    </div>
+                ):(
+                    <div></div>
+                )}
                 {carData.map((car, index) => (
                     <div key={index} className="carContainer">
                         <div className="carTextContainer">
@@ -328,7 +343,7 @@ const CarPage = () => {
                                 </button>
                             </div>
                             <div className="addErrorModalContentBody">
-                                차량 이름을 입력하세요.
+                                차량 이름/번호를 입력하세요.
                             </div>
                             <div className="modalContentFooter">
                             </div>

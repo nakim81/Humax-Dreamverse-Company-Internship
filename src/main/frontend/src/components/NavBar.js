@@ -1,13 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/MyNavbar.css";
 import Logo from "../assets/turuparking-hiparking.svg";
 import AuthContext from "../hooks/AuthContext";
 
 function MyNavbar() {
-  const { logout, isLoggedIn, admin, userId, token } = useContext(AuthContext);
+  const { logout, isLoggedIn, admin, userId, token, setToken, setIsLoggedIn } =
+    useContext(AuthContext);
 
   const [isParkinglotHovered, setIsParkinglotHovered] = useState(false);
   const [isParkinglotActive, setIsParkinglotActive] = useState(false);
@@ -22,6 +24,14 @@ function MyNavbar() {
   const [isAdminHovered, setIsAdminHovered] = useState(false);
   const [isAdminActive, setIsAdminActive] = useState(false);
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) {
+      setIsLoggedIn(true);
+      setToken(storedToken); // token 상태 업데이트
+    }
+  }, []);
+
   const handleLogout = async () => {
     try {
       if (!token) {
@@ -29,16 +39,14 @@ function MyNavbar() {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:8080/user/logout",
-        null,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+      await axios.post("http://localhost:8080/user/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.removeItem("userId");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
       logout();
 
       alert("로그아웃되었습니다.");
@@ -46,6 +54,15 @@ function MyNavbar() {
     } catch (error) {
       console.error("Logout error", error);
     }
+  };
+
+  const handleLogoClick = () => {
+    setIsParkinglotActive(false);
+    setIsBookActive(false);
+    setIsMyPageActive(false);
+    setIsCarActive(false);
+    setIsPayActive(false);
+    setIsAdminActive(false);
   };
 
   const handleParkinglotClick = () => {
@@ -108,7 +125,7 @@ function MyNavbar() {
       expand="lg"
       style={{ backgroundColor: "#FFA07A" }}
     >
-      <Navbar.Brand href="/">
+      <Navbar.Brand as={Link} to="/" onClick={handleLogoClick}>
         <img
           src={Logo}
           alt="Logo"
@@ -166,7 +183,7 @@ function MyNavbar() {
                 마이페이지
               </NavLink>
               <NavLink
-                to={`/user/${userId}/car`}
+                to={`/user/car`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isCarHovered ? "large" : "medium",
@@ -217,7 +234,7 @@ function MyNavbar() {
         </Nav>
       </Navbar.Collapse>
       <Nav>
-        {token ? (
+        {isLoggedIn ? (
           <Button variant="outline-light" onClick={handleLogout}>
             로그아웃
           </Button>

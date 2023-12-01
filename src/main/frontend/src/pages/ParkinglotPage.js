@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import MapComponent from "../components/MapComponent";
 import {
@@ -16,6 +15,8 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
+import useAuth from "../useAuth";
+import AuthContext from "../hooks/AuthContext";
 
 const ParkinglotPage = () => {
   const [latitude, setLatitude] = useState("");
@@ -39,8 +40,7 @@ const ParkinglotPage = () => {
 
   const [initialLoad, setInitialLoad] = useState(true);
 
-  const { userId } = useParams();
-  const token = localStorage.getItem("token");
+  const { token, userId } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -179,7 +179,7 @@ const ParkinglotPage = () => {
     } else {
       setInitialLoad(false);
     }
-  }, [keywordPage]);
+  }, [keywordPage, initialLoad]);
 
   // 키워드 기반 검색 결과의 페이지 이동 함수
   const handleKeywordPageChange = (event, value) => {
