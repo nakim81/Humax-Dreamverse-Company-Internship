@@ -12,17 +12,6 @@ import AuthContext from "../hooks/AuthContext";
 const CarPage = () => {
     useAuth();
     const { userId } = useContext(AuthContext);
-    // const jwtToken = localStorage.getItem('token');
-    // useEffect(() => {
-    //     if (jwtToken) {
-    //         const tokenParts = jwtToken.split('.');
-    //         const payload = JSON.parse(atob(tokenParts[1]));
-    //         // setUserId(payload.sub);
-    //     } else {
-    //         console.log('토큰이 없습니다.');
-    //     }
-    // }, [jwtToken]);
-
     const [carData, setCarData] = useState([]);
     const [addCarName, setAddCarName] = useState(undefined);
     const [addCarNumber, setAddCarNumber] = useState(undefined);
