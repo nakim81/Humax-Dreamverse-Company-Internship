@@ -52,12 +52,12 @@ public class PayServiceImpl implements PayService {
     public void updatePayInfo(PayDto payDto) throws EntityNotFoundException {
 
         Pay pay = payRepository
-                .findById(payDto.getPay_id())
+                .findById(payDto.getPayId())
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "결제수단 정보가 없습니다."));
 
-        pay.setPayName(payDto.getPay_name());
-        pay.setPayType(payDto.getPay_type());
-        pay.setPayNumber(payDto.getPay_number());
+        pay.setPayName(payDto.getPayName());
+        pay.setPayType(payDto.getPayType());
+        pay.setPayNumber(payDto.getPayNumber());
 
         payRepository.save(pay);
     }
@@ -68,9 +68,9 @@ public class PayServiceImpl implements PayService {
     public void registerPayInfo(PayDto payDto, Long userId) throws EntityNotFoundException {
 
         Pay pay = Pay.builder()
-                .payName(payDto.getPay_name())
-                .payType(payDto.getPay_type())
-                .payNumber(payDto.getPay_number())
+                .payName(payDto.getPayName())
+                .payType(payDto.getPayType())
+                .payNumber(payDto.getPayNumber())
                 .build();
 
         User user = userRepository
