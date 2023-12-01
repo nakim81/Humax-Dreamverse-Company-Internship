@@ -58,6 +58,7 @@
 .parkingDetailBtns {
     display: flex;
     justify-content: flex-end;
+    height: 40px;
 }
 
 .modeEditIcon {
@@ -66,7 +67,7 @@
     align-items: center;
     background: none;
     border: none;
-    padding: 5px;
+    margin-right: 5px;
     cursor: pointer;
     &:hover {
         color: #FFA07A;
@@ -79,7 +80,6 @@
     align-items: center;
     background: none;
     border: none;
-    padding: 5px;
     cursor: pointer;
     &:hover {
         color: #FFA07A;

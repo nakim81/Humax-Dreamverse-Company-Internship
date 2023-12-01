@@ -20,9 +20,8 @@ public class CarController {
         this.carService = carService;
     }
 
-    // 조회
     @GetMapping
-    public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable String userId) {
 
         List<CarInfoDto> carInfoDtos = carService.getCarsByUserId(userId);
         return ResponseEntity.ok(carInfoDtos);
@@ -30,7 +29,7 @@ public class CarController {
 
     // 등록
     @PostMapping
-    public ResponseEntity<CarDto> addCarToUser(@PathVariable Long userId, @RequestBody CarDto carDto) {
+    public ResponseEntity<CarDto> addCarToUser(@PathVariable String userId, @RequestBody CarDto carDto) {
         CarDto savedCarDto = carService.addCarToUser(userId, carDto);
         return ResponseEntity.ok(savedCarDto);
     }
@@ -44,7 +43,7 @@ public class CarController {
 
     // 삭제
     @DeleteMapping("/{carId}")
-    public ResponseEntity<String> deleteCar(@PathVariable Long userId, @PathVariable Long carId) {
+    public ResponseEntity<String> deleteCar(@PathVariable String userId, @PathVariable Long carId) {
         carService.deleteCar(userId, carId);
 
         return ResponseEntity.ok("차량이 삭제되었습니다.");

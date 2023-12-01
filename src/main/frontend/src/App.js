@@ -22,7 +22,7 @@ function App() {
             <Route element={<Home />} path="/"/>
             <Route element={<MyPage />} path="/user/:userId/mypage"/>
             <Route element={<BookPage />} path="/user/:userId/book"/>
-            <Route element={<CarPage />} path="/user/:userId/car"/>
+            <Route element={<CarPage />} path="/user/car"/>
             <Route element={<PayPage />} path="/user/:userId/pay"/>
             <Route element={<ParkinglotPage />} path="/user/parkinglot"/>
             <Route element={<AdminPage />} path="/admin" />
