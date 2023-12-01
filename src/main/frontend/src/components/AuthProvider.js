@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthContext from "../hooks/AuthContext";
 
 const AuthProvider = ({ children }) => {
@@ -6,6 +6,13 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [admin, setAdmin] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const login = (newToken, userId, admin) => {
     setIsLoggedIn(true);
@@ -31,7 +38,16 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, token, userId, admin, login, logout }}
+      value={{
+        isLoggedIn,
+        token,
+        userId,
+        admin,
+        login,
+        logout,
+        setToken,
+        setIsLoggedIn,
+      }}
     >
       {children}
     </AuthContext.Provider>

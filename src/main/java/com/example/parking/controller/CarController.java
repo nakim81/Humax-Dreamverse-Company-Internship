@@ -20,7 +20,6 @@ public class CarController {
         this.carService = carService;
     }
 
-    // 조회
     @GetMapping
     public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Long userId) {
 

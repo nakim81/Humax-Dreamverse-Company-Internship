@@ -14,3 +14,9 @@
     font-weight: bold;
     color: #CD853F;
 }
+
+.pagination-container li.previous a,
+.pagination-container li.next a{
+    color: black;
+    text-decoration: none;
+}
