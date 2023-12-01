@@ -11,8 +11,6 @@ import {
   Box,
   Tabs,
   Tab,
-  AppBar,
-  Toolbar,
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -498,6 +496,12 @@ const ParkinglotPage = () => {
                     borderColor: "secondary.main",
                     borderWidth: 1,
                     borderStyle: "solid",
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.main,
+                      color: "#fff",
+                      transform: "translateY(-10px)",
+                    },
+                    transition: "all 0.3s ease",
                   }}
                   onClick={() => handleParkinglotClick(parkinglot)}
                 >
