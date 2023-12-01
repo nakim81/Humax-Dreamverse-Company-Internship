@@ -1,0 +1,89 @@
+.AdminParkingAddPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.APAHeader {
+    width: 90%;
+}
+
+
+.APABody {
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.parkingForm {
+    width: 90%;
+}
+
+.parkingFormInput {
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.parkingFromLabel {
+    margin-right: 5px;
+}
+
+.parkingFromControl {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
+}
+
+.parkingFormAddBtn {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: #CD853F;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        color: white;
+        background-color: #FFA07A;
+    }
+}
+
+.addressPostBtn {
+    margin-bottom: 3px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background: #CD853F;
+    cursor: pointer;
+    &:hover {
+        color: white;
+        background-color: #FFA07A;
+    }
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 5px;
+    width: 60%;
+    max-width: 600px;
+    background-color: white;
+}
