@@ -30,13 +30,18 @@ const BookListPage = () => {
         fetchBookData(page, jwtToken);
     }, [page, jwtToken]);
 
-    const cancelBookClick = async (bookId, jwtToken) => {
+    const cancelBookClick = async (index, bookId, jwtToken) => {
         try{
-            await axios.patch(`http://localhost:8080/user/book/cancel/${bookId}`, {
-                headers: {Authorization: `Bearer ${jwtToken}`}
+            await axios.patch(`http://localhost:8080/user/book/cancel/${bookId}`, {}, {
+                headers: {'Authorization': `Bearer ${jwtToken}`}
             })
             alert('예약이 취소되었습니다.')
-            fetchBookData()
+            setBookData((prevData) => {
+              // 새로운 배열을 생성하고 0번째 객체의 name을 3으로 변경
+              const newData = [...prevData];
+              newData[index] = { ...newData[index], 'state': '예약 취소' };
+              return newData;
+            });
         }catch (error){
             if(error.response && error.response.status === 400){
                 alert(error.response.data.result.resultDescription)
@@ -55,6 +60,7 @@ const BookListPage = () => {
 
     const handlePageChange = (event, value) => {
         setPage(value);
+        console.log(page);
         fetchBookData(page);
     };
 
@@ -62,7 +68,7 @@ const BookListPage = () => {
         <>
             <div>
                 <h1>이용 내역 조회</h1>
-                <div class = "gridContainer">
+                <div className = "gridContainer">
                     {bookData.map((book, index) => (
                         <div key={index} className="bookContainer">
                             <p><span className="bookState">{book.state}</span> {book.parkingLotName}</p>
@@ -70,13 +76,15 @@ const BookListPage = () => {
                             <p>티켓 종류: {book.ticket}</p>
                             <p>이용 시간: {book.startTime} ~ {book.endTime}</p>
                             <button
-                            onClick={() => handlePayClick(index)}
-                            className="button">
+                                onClick={() => handlePayClick(index)}
+                                className="buttons"
+                            >
                                 결제 상세
                             </button>
                             <button
-                            onClick={() => cancelBookClick(book.bookId, jwtToken)}
-                            className="button">
+                                onClick={() => cancelBookClick(index, book.bookId, jwtToken)}
+                                className="buttons"
+                            >
                                 예약 취소
                             </button>
                             {showPay[index] && (
@@ -89,7 +97,7 @@ const BookListPage = () => {
                     ))}
                 </div>
                 <Pagination
-                    onClick={()=>handlePageChange()}
+                    onChange={handlePageChange}
                     page={page}
                     count={totalPage}
                 />

@@ -46,11 +46,11 @@ function MyNavbar() {
                 주차장 조회
               </NavLink>
               <NavLink
-                to={`/user/${userId}/book`}
+                to={`/user/${userId}/booklist`}
                 className="nav-link text-white"
                 activeStyle={{ fontWeight: "bold" }}
               >
-                주차권 예약
+                이용 내역
               </NavLink>
               <NavLink
                 to={`/user/${userId}/mypage`}
