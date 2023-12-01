@@ -1,0 +1,98 @@
+.ParkingDetailPage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #CD853F;
+}
+
+.parkingDetailContainer {
+    margin-top: 20px;
+    width: 90%;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.parkingDetailHeader {
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.parkingDetailBody {
+    width: 95%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.parkingDetailName {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.parkingDetailAddress {
+    font-size: 20px;
+}
+
+.parkingDetailMap {
+    width: 45%;
+    height: 400px;
+}
+
+.parkingDetailInfos {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.parkingDetailBtns {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modeEditIcon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+        color: #FFA07A;
+    }
+}
+
+.deleteIcon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+        color: #FFA07A;
+    }
+}
+
+.parkingDetailIsActive {
+    margin-left: 10px;
+    color: blue;
+}
+
+
+.parkingDetailIsNotActive {
+    margin-left: 10px;
+    color: red;
+}

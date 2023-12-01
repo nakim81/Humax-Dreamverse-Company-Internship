@@ -12,13 +12,13 @@ import lombok.*;
 @ToString
 public class PayDto {
 
-    private Long pay_id;
+    private Long payId;
 
-    private String pay_name;
+    private String payName;
 
-    private String pay_type;
+    private String payType;
 
-    private Integer pay_number;
+    private Integer payNumber;
 
     public static PayDto of(Pay payEntity) {
 
