@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MapComponent from "../components/MapComponent";
+import FavoriteButton from "../components/FavoritesComponent";
+
 import {
   TextField,
   Button,
@@ -294,6 +296,7 @@ const ParkinglotPage = () => {
               >
                 예약하기
               </Button>
+              <FavoriteButton selectedParkinglot={selectedParkinglot} />
             </Card>
           )}
         </Box>
