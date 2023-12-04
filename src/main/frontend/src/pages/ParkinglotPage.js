@@ -209,7 +209,7 @@ const ParkinglotPage = () => {
   };
 
   const goToReservationPage = () => {
-    navigate(`/user/${userId}/book`, { state: { selectedParkinglot } });
+    navigate(`/user/book/${selectedParkinglot.parkingId}`, { state: { selectedParkinglot } });
   };
 
   const handleDismissClick = () => {

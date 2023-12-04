@@ -153,7 +153,7 @@ function MyNavbar() {
                 주차장 조회
               </NavLink>
               <NavLink
-                to={`/user/${userId}/book`}
+                to={`/user/booklist`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isBookHovered ? "large" : "medium",
@@ -165,7 +165,7 @@ function MyNavbar() {
                 onMouseLeave={() => setIsBookHovered(false)}
                 onClick={handleBookClick}
               >
-                주차권 예약
+                이용 내역
               </NavLink>
               <NavLink
                 to={`/user/${userId}/mypage`}
@@ -229,6 +229,23 @@ function MyNavbar() {
                   관리자 페이지
                 </NavLink>
               )}
+              {admin && (
+                  <NavLink
+                    to={"/admin/enter"}
+                    className="nav-link text-white"
+                    style={{
+                      fontSize: isAdminHovered ? "17px" : "16px",
+                      fontWeight: isAdminActive ? "800" : "400",
+                      transition: "all 0.3s ease",
+                    }}
+                    // 추가: 마우스 이벤트 핸들러
+                    onMouseEnter={() => setIsAdminHovered(true)}
+                    onMouseLeave={() => setIsAdminHovered(false)}
+                    onClick={handleAdminClick}
+                  >
+                    차량 입차
+                  </NavLink>
+            )}
             </>
           )}
         </Nav>

@@ -1,0 +1,32 @@
+.gridContainer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-column-gap: 50px;
+    place-items: center;
+    margin-left: 20%;
+    margin-right: 20%;
+ }
+
+.bookState{
+    color: white;
+    background-color: green;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 4px;
+    box-shadow: 1px 1px 1px 1px green;
+}
+
+.bookContainer{
+    border: 0.5px solid gray;
+    border-radius: 5px;
+    width: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.buttons{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    border: 0.5px solid gray;
+}
