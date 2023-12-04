@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie'
+import AuthContext from "../hooks/AuthContext";
 
-const token = "Bearer " + localStorage.getItem('token');
-const userId = localStorage.getItem('userId');
+/*const token = "Bearer " + localStorage.getItem('token');
+const userId = localStorage.getItem('userId');*/
 
 function PaymentList({ payments }) {
+  const { token, userId } = useContext(AuthContext);
 
   const [data, setData] = useState(payments);
   const [newPayment, setNewPayment] = useState({
@@ -35,7 +37,7 @@ function PaymentList({ payments }) {
 
     axios.delete(url, {
       headers: {
-        'Authorization': token
+        'Authorization': "Bearer " + token
       }
     })
         .then(response => {
@@ -56,7 +58,7 @@ function PaymentList({ payments }) {
 
     axios.post(url, newPayment, {
       headers: {
-        'Authorization': token
+        'Authorization': "Bearer " + token
       }
     })
         .then(response => {
@@ -111,7 +113,7 @@ function PaymentList({ payments }) {
 
     axios.patch(url, updatedItem, {
       headers: {
-        'Authorization': token
+        'Authorization': "Bearer " + token
       }
     })
         .then(response => {
@@ -221,15 +223,16 @@ function PaymentList({ payments }) {
 }
 
 function PayPage() {
-  const [responseData, setResponseData] = useState(null);
+  const { token, userId } = useContext(AuthContext);
 
+  const [responseData, setResponseData] = useState(null);
   const url = `http://localhost:8080/user/${userId}/pay`;
 
   useEffect(() => {
     // GET 요청 보내기
     axios.get(url, {
       headers: {
-        'Authorization': token
+        'Authorization': "Bearer " + token
       }
     })
         .then(response => {
