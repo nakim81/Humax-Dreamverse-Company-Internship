@@ -1,11 +1,9 @@
 import React, { useState, useContext } from "react";
 import AuthContext from "../hooks/AuthContext";
-import useAuth from "../useAuth";
 import "./AdminEnterPage.css";
 import axios from "axios";
 
 const AdminEnterPage = () => {
-    useAuth();
     const { token } = useContext(AuthContext);
     const [enterForm, setEnterForm] = useState({
             parkingLotName: '',

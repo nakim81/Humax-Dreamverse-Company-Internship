@@ -15,7 +15,6 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
-import useAuth from "../useAuth";
 import AuthContext from "../hooks/AuthContext";
 
 const ParkinglotPage = () => {

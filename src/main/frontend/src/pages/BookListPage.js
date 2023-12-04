@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
-import useAuth from "../useAuth";
 import AuthContext from "../hooks/AuthContext";
 import "./BookListPage.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 
 const BookListPage = () => {
-    useAuth();
     const { token } = useContext(AuthContext);
 
     const [page, setPage] = useState(1);

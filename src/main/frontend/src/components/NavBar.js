@@ -6,6 +6,7 @@ import axios from "axios";
 import "../styles/MyNavbar.css";
 import Logo from "../assets/turuparking-hiparking.svg";
 import AuthContext from "../hooks/AuthContext";
+import api from "../api/axiosConfig";
 
 function MyNavbar() {
   const { logout, isLoggedIn, admin, userId, token, setToken, setIsLoggedIn } =
@@ -34,25 +35,21 @@ function MyNavbar() {
 
   const handleLogout = async () => {
     try {
-      if (!token) {
-        console.error("Token not found in localStorage");
-        return;
-      }
+      // 로그아웃 API 호출
+      await api.post('/user/logout');
 
-      await axios.post("http://localhost:8080/user/logout", null, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      localStorage.removeItem("userId");
-      localStorage.removeItem("token");
-      localStorage.removeItem("admin");
+      // 로컬 스토리지에서 사용자 정보와 토큰 삭제
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+      localStorage.removeItem('admin');
+
+      // 로그아웃 상태 반영
       logout();
 
-      alert("로그아웃되었습니다.");
-      window.location.href = "/";
+      alert('로그아웃되었습니다.');
+      window.location.href = '/';
     } catch (error) {
-      console.error("Logout error", error);
+      console.error('Logout error', error);
     }
   };
 

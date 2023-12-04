@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./BookPage.css";
-import useAuth from "../useAuth";
 import AuthContext from "../hooks/AuthContext";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 const BookPage = () => {
-    useAuth();
     const { userId, token } = useContext(AuthContext);
     const {parkingId} = useParams();
 
