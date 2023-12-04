@@ -9,7 +9,6 @@ const MyPage = () => {
         try {
             const response = await api.get('/user/mypage');
 
-            // 응답을 알림창으로 출력합니다.
             const userInfo = response.data.body;
             alert(`
                 아이디: ${userInfo.id}
