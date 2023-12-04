@@ -17,7 +17,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(response => {
     return response;
 }, error => {
-    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 403) {
+    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 403 || error.response.status === 400) {
         alert('다시 로그인해주세요.');
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
