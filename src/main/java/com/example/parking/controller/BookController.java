@@ -4,7 +4,7 @@ import com.example.parking.common.api.Api;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.AddBookDTO;
-import com.example.parking.dto.EntranceDTO;
+import com.example.parking.dto.EnterDTO;
 import com.example.parking.security.JwtTokenProvider;
 import com.example.parking.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -63,11 +63,17 @@ public class BookController {
                 .body(Api.OK(null));
     }
 
-    @PatchMapping("/book/entrance")
-    public ResponseEntity<Api<Object>> entrance(
-            @RequestBody EntranceDTO entranceDTO
+    @PatchMapping("admin/book/enter")
+    public ResponseEntity<Api<Object>> enter(
+            @RequestBody EnterDTO enterDTO,
+            @RequestHeader("Authorization") String AccessToken
     ){
-        bookService.entrance(entranceDTO.getCarNumber(), entranceDTO.getParkingLotName());
+        String token = AccessToken.split(" ")[1];
+        if(token == null || !jwtTokenProvider.validateToken(token))
+            throw new ApiException(ErrorCode.BAD_REQUEST, "유효하지 않은 토큰입니다.");
+        String userId = jwtTokenProvider.getUsername(token);
+
+        bookService.enter(userId, enterDTO.getCarNumber(), enterDTO.getParkingLotName());
         return ResponseEntity
                 .status(200)
                 .body(Api.OK(null));

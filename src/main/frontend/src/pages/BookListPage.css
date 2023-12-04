@@ -19,7 +19,7 @@
 .bookContainer{
     border: 0.5px solid gray;
     border-radius: 5px;
-    width: 500px;
+    width: auto;
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 10px;

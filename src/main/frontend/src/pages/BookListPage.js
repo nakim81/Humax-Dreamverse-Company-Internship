@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import "./BookListPage.css";
-import Pagination from "@mui/material/Pagination";
+import React, { useEffect, useState, useContext } from "react";
 import useAuth from "../useAuth";
+import AuthContext from "../hooks/AuthContext";
+import "./BookListPage.css";
+import axios from "axios";
+import Pagination from "@mui/material/Pagination";
 
 const BookListPage = () => {
     useAuth();
-    const jwtToken = localStorage.getItem('token');
+    const { token } = useContext(AuthContext);
 
     const [page, setPage] = useState(1);
     const [bookData, setBookData] = useState([]);
     const [totalPage, setTotalPage]  = useState();
     const [showPay, setShowPay] = useState([]);
 
-    const fetchBookData = async (page, jwtToken) => {
+    const fetchBookData = async (page, token) => {
         try {
             const response = await axios.get(`http://localhost:8080/user/book?page=${page-1}`, {
-                headers: {Authorization: `Bearer ${jwtToken}`}
+                headers: {Authorization: `Bearer ${token}`}
             })
             setBookData(response.data.body.content)
             setShowPay(Array(response.data.body.content.length).fill(false))
@@ -27,13 +28,13 @@ const BookListPage = () => {
     }
 
     useEffect(() => {
-        fetchBookData(page, jwtToken);
-    }, [page, jwtToken]);
+        fetchBookData(page, token);
+    }, [page, token]);
 
-    const cancelBookClick = async (index, bookId, jwtToken) => {
+    const cancelBookClick = async (index, bookId, token) => {
         try{
             await axios.patch(`http://localhost:8080/user/book/cancel/${bookId}`, {}, {
-                headers: {'Authorization': `Bearer ${jwtToken}`}
+                headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 취소되었습니다.')
             setBookData((prevData) => {
@@ -85,7 +86,7 @@ const BookListPage = () => {
                                     결제 상세
                                 </button>
                                 <button
-                                    onClick={() => cancelBookClick(index, book.bookId, jwtToken)}
+                                    onClick={() => cancelBookClick(index, book.bookId, token)}
                                     className="buttons"
                                 >
                                     예약 취소

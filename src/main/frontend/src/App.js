@@ -10,6 +10,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminParkingDetailPage from "./pages/AdminParkingDetailPage";
 import AdminParkingAddPage from "./pages/AdminParkingAddPage";
 import AdminParkingUpdatePage from "./pages/AdminParkingUpdatePage";
+import AdminEnterPage from "./pages/AdminEnterPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/NavBar";
@@ -31,6 +32,7 @@ function App() {
             <Route element={<AdminParkingDetailPage />} path="/admin/parking/:parkingId" />
             <Route element={<AdminParkingAddPage />} path="/admin/parking/add" />
             <Route element={<AdminParkingUpdatePage />} path="/admin/parking/update/:parkingId" />
+            <Route element={<AdminEnterPage />} path="/admin/enter"/>
             <Route element={<SignUpPage />} path="/signup"/>
             <Route element={<LoginPage />} path="/login"/>
         </Routes>

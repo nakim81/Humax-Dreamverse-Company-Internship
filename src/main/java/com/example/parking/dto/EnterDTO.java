@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data @Getter @NoArgsConstructor
-public class EntranceDTO {
+public class EnterDTO {
     private String carNumber;
     private String parkingLotName;
 }
