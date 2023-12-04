@@ -195,7 +195,7 @@ function MyNavbar() {
                 차량 관리
               </NavLink>
               <NavLink
-                to={`/user/${userId}/pay`}
+                to={`/user/pay`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isPayHovered ? "large" : "medium",
