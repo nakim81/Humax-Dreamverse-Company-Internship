@@ -45,7 +45,7 @@ const BookPage = () => {
 
     const fetchPayData = async (userId, token) => {
         try{
-            const response = await axios.get(`http://localhost:8080/user/${userId}/pay`, {
+            const response = await axios.get(`http://localhost:8080/user/pay`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setPayData(response.data)
