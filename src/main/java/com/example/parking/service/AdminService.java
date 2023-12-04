@@ -2,13 +2,18 @@ package com.example.parking.service;
 
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
+import com.example.parking.converter.UserConverter;
 import com.example.parking.dto.ParkinglotDto;
+import com.example.parking.dto.UserDto;
 import com.example.parking.entity.Parkinglot;
+import com.example.parking.entity.User;
 import com.example.parking.repository.AdminRepository;
+import com.example.parking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Service;
 import com.example.parking.converter.ParkinglotConverter;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,11 +21,15 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final AdminRepository adminRepository;
     private final ParkinglotConverter parkinglotConverter;
+    private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, ParkinglotConverter parkinglotConverter) {
+    public AdminService(AdminRepository adminRepository, ParkinglotConverter parkinglotConverter, UserRepository userRepository, UserConverter userConverter) {
         this.adminRepository = adminRepository;
         this.parkinglotConverter = parkinglotConverter;
+        this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
     // 조회
@@ -42,6 +51,7 @@ public class AdminService {
     //생성
     public ParkinglotDto createParkingLot(ParkinglotDto parkingLotDto) {
         Parkinglot parkingLot = parkinglotConverter.toEntity(parkingLotDto);
+        parkingLot.setCreatedAt(String.valueOf(LocalDateTime.now()));
         Parkinglot savedParkingLot = adminRepository.save(parkingLot);
         return parkinglotConverter.toDto(savedParkingLot);
     }
@@ -52,6 +62,7 @@ public class AdminService {
         if (existingParkingLotOptional.isPresent()) {
             Parkinglot existingParkinglot = existingParkingLotOptional.get();
             parkinglotConverter.updateEntity(existingParkinglot, parkinglotDto);
+            existingParkinglot.setUpdatedAt(String.valueOf(LocalDateTime.now()));
             Parkinglot updateParkingLot = adminRepository.save(existingParkinglot);
 
             return parkinglotConverter.toDto(updateParkingLot);
@@ -64,9 +75,10 @@ public class AdminService {
     public void deleteParkingLot(Long parkingId) {
         Optional<Parkinglot> existingParkingLotOptional = adminRepository.findById(parkingId);
         if (existingParkingLotOptional.isPresent()) {
-            Parkinglot existingParkingLot = existingParkingLotOptional.get();
-            existingParkingLot.setDeleteFlag(true);
-            adminRepository.save(existingParkingLot);
+            Parkinglot existingParkinglot = existingParkingLotOptional.get();
+            existingParkinglot.setDeleteFlag(true);
+            existingParkinglot.setDeletedAt(String.valueOf(LocalDateTime.now()));
+            adminRepository.save(existingParkinglot);
         } else {
             throw new ApiException(ErrorCode.NULL_POINT, "주차장이 존재하지 않습니다.");
         }
