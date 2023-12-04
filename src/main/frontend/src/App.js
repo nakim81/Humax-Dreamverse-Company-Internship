@@ -15,6 +15,7 @@ import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import AdminUserPage from "./pages/AdminUserPage";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route element={<AdminEnterPage />} path="/admin/enter"/>
             <Route element={<SignUpPage />} path="/signup"/>
             <Route element={<LoginPage />} path="/login"/>
+            <Route element={<AdminUserPage />} path="/admin/user" />
         </Routes>
       </>
   );

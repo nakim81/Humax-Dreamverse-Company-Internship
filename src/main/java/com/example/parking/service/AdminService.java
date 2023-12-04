@@ -96,4 +96,12 @@ public class AdminService {
                 .map(parkinglotConverter::toDto)
                 .collect(Collectors.toList());
     }
+
+    //사용자 조회
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userConverter::convertToDto)
+                .collect(Collectors.toList());
+    }
 }
