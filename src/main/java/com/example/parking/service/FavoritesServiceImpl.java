@@ -57,9 +57,6 @@ public class FavoritesServiceImpl implements FavoritesService{
                 results.add(FavoritesDto.of(favorites));
             }
         }
-        else {
-            throw new ApiException(ErrorCode.NULL_POINT, "등록된 즐겨찾기가 없습니다.");
-        }
 
         return results;
     }
@@ -75,7 +72,7 @@ public class FavoritesServiceImpl implements FavoritesService{
         Favorites favorites = new Favorites();
 
         Parkinglot parkinglot = parkingLotRepository
-                .findByName(favoritesDto.getFavorites_name())
+                .findById(favoritesDto.getParking_id())
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 주차장 정보입니다."));
 
 
@@ -83,18 +80,12 @@ public class FavoritesServiceImpl implements FavoritesService{
                 .findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
 
-
+        favorites.setLikeId(null);
         favorites.setParkinglot(parkinglot);
         favorites.setUser(user);
 
-        try {
-            favoritesRepository.save(favorites);
-        }
-        catch (Exception e) {
-            throw new RuntimeException();
-        }
 
-
+        favoritesRepository.save(favorites);
     }
 
 
