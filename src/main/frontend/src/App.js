@@ -27,7 +27,7 @@ function App() {
             <Route element={<BookPage />} path="/user/book/:parkingId"/>
             <Route element={<BookListPage />} path="/user/booklist"/>
             <Route element={<CarPage />} path="/user/car"/>
-            <Route element={<PayPage />} path="/user/:userId/pay"/>
+            <Route element={<PayPage />} path="/user/pay"/>
             <Route element={<ParkinglotPage />} path="/user/parkinglot"/>
             <Route element={<AdminPage />} path="/admin" />
             <Route element={<AdminParkingDetailPage />} path="/admin/parking/:parkingId" />
