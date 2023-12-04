@@ -3,8 +3,6 @@ import axios from 'axios';
 import Cookies from 'js-cookie'
 import AuthContext from "../hooks/AuthContext";
 
-/*const token = "Bearer " + localStorage.getItem('token');
-const userId = localStorage.getItem('userId');*/
 
 function PaymentList({ payments }) {
   const { token, userId } = useContext(AuthContext);
@@ -33,7 +31,7 @@ function PaymentList({ payments }) {
   // 결제 수단 삭제
   const handleDelete = (id) => {
     const updatedData = data.filter(item => item.payId !== id);
-    const url = `http://localhost:8080/user/${userId}/pay/${id}`;
+    const url = `http://localhost:8080/user/pay/${id}`;
 
     axios.delete(url, {
       headers: {
@@ -54,7 +52,7 @@ function PaymentList({ payments }) {
     const updatedData = [...data, newPayment];
     setData(updatedData);
 
-    const url = `http://localhost:8080/user/${userId}/pay`;
+    const url = `http://localhost:8080/user/pay`;
 
     axios.post(url, newPayment, {
       headers: {
@@ -87,7 +85,7 @@ function PaymentList({ payments }) {
   const handleInputChange = (e, field) => {
     let updatedValue = { ...editedData, [field]: e.target.value };
 
-    if (field === 'payType' && e.target.value === '현금') {
+    if (field == 'payType' && e.target.value == '현금') {
       updatedValue = { ...updatedValue, payName: '현금' };
       // 현금일 경우 payName을 '현금'으로 설정하고 payType을 '0'으로 설정합니다.
       updatedValue = { ...updatedValue, payNumber: '0' };
@@ -107,7 +105,7 @@ function PaymentList({ payments }) {
 
     setData(updatedData);
 
-    const url = `http://localhost:8080/user/${userId}/pay/${id}`;
+    const url = `http://localhost:8080/user/pay/${id}`;
 
     const updatedItem = editedData;
 
@@ -226,7 +224,7 @@ function PayPage() {
   const { token, userId } = useContext(AuthContext);
 
   const [responseData, setResponseData] = useState(null);
-  const url = `http://localhost:8080/user/${userId}/pay`;
+  const url = `http://localhost:8080/user/pay`;
 
   useEffect(() => {
     // GET 요청 보내기

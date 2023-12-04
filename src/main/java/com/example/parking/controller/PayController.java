@@ -19,7 +19,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/user/{userId}/pay")
+@RequestMapping("/user/pay")
 public class PayController {
     private final PayService payService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -39,8 +39,7 @@ public class PayController {
      * 결제 수단 확인
      */
     @GetMapping
-    public ResponseEntity<List<PayDto>> checkPaymentInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                         @PathVariable("userId") String userId) throws Exception {
+    public ResponseEntity<List<PayDto>> checkPaymentInfo(@RequestHeader("Authorization") String requestAccessToken) throws Exception {
 
         String userToken = null;
 
@@ -74,7 +73,6 @@ public class PayController {
      */
     @PostMapping
     public ResponseEntity<PayDto> registerPaymentInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                      @PathVariable("userId") Long userId,
                                                       @RequestBody PayDto payDto) throws Exception {
 
         String userToken = null;
@@ -109,7 +107,6 @@ public class PayController {
      */
     @PatchMapping("/{payId}")
     public ResponseEntity<PayDto> updatePaymentInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                    @PathVariable("userId") String userId,
                                                     @PathVariable("payId") String payId,
                                                     @RequestBody PayDto payDto) throws Exception {
 
@@ -144,7 +141,6 @@ public class PayController {
      */
     @DeleteMapping("/{payId}")
     public ResponseEntity<PayDto> deletePaymentInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                    @PathVariable("userId") String userId,
                                                     @PathVariable("payId") String payId) throws Exception {
 
         String userToken = null;
