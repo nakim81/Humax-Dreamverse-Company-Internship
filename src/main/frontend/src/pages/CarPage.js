@@ -6,11 +6,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import useAuth from "../useAuth";
 import AuthContext from "../hooks/AuthContext";
 
 const CarPage = () => {
-    useAuth();
     const { userId } = useContext(AuthContext);
     const [carData, setCarData] = useState([]);
     const [addCarName, setAddCarName] = useState(undefined);

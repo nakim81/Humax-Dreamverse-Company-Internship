@@ -1,25 +1,13 @@
 import React from "react";
-import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
-import useAuth from "../useAuth";
 import styles from "./MyPage.module.css";
+import api from '../api/axiosConfig';
 
 const MyPage = () => {
-    useAuth();
     const history = useNavigate();
     const handleViewInfo = async () => {
         try {
-            const token = localStorage.getItem('token'); // 로컬 스토리지에서 토큰을 가져옵니다.
-            if (!token) {
-                console.error('Token not found in localStorage');
-                return;
-            }
-
-            const response = await axios.get('http://localhost:8080/user/mypage', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const response = await api.get('/user/mypage');
 
             // 응답을 알림창으로 출력합니다.
             const userInfo = response.data.body;
@@ -35,22 +23,12 @@ const MyPage = () => {
 
     const handleUpdateInfo = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('Token not found in localStorage');
-                return;
-            }
-
             const phoneNum = prompt('새로운 전화번호를 입력하세요. (전화번호를 수정하지 않는다면 취소 클릭)');
             const email = prompt('새로운 이메일을 입력하세요. (이메일을 수정하지 않는다면 취소 클릭)');
 
-            const response = await axios.put('http://localhost:8080/user/mypage', {
+            await api.put('/user/mypage', {
                 phoneNum,
                 email
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
             });
 
             alert('정보가 성공적으로 수정되었습니다.');
@@ -66,20 +44,11 @@ const MyPage = () => {
         }
 
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('Token not found in localStorage');
-                return;
-            }
-
-            const response = await axios.delete('http://localhost:8080/user/withdraw', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await api.delete('/user/withdraw');
 
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
+            localStorage.removeItem('admin');
             alert('회원탈퇴가 성공적으로 처리되었습니다.');
             history('/');
         } catch (error) {

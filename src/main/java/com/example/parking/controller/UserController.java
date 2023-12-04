@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +41,33 @@ public class UserController {
     public Api<Object> signUp(@Validated @RequestBody UserDto userDto){
         userService.signUp(userDto);
         return Api.OK(null);
+    }
+
+    @PostMapping("/check-duplicate-id")
+    public ResponseEntity<?> checkDuplicateId(@RequestBody Map<String, String> request) {
+        String id = request.get("id");
+        if (userService.isDuplicateId(id)) {
+            return ResponseEntity.ok(Collections.singletonMap("duplicate", true));
+        }
+        return ResponseEntity.ok(Collections.singletonMap("duplicate", false));
+    }
+
+    @PostMapping("/check-duplicate-phoneNum")
+    public ResponseEntity<?> checkDuplicatePhoneNum(@RequestBody Map<String, String> request) {
+        String phoneNum = request.get("phoneNum");
+        if (userService.isDuplicatePhoneNum(phoneNum)) {
+            return ResponseEntity.ok(Collections.singletonMap("duplicate", true));
+        }
+        return ResponseEntity.ok(Collections.singletonMap("duplicate", false));
+    }
+
+    @PostMapping("/check-duplicate-email")
+    public ResponseEntity<?> checkDuplicateEmail(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        if (userService.isDuplicateEmail(email)) {
+            return ResponseEntity.ok(Collections.singletonMap("duplicate", true));
+        }
+        return ResponseEntity.ok(Collections.singletonMap("duplicate", false));
     }
 
     @PostMapping("/login")
