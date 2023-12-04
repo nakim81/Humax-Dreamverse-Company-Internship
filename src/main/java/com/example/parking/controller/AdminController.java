@@ -1,6 +1,7 @@
 package com.example.parking.controller;
 
 import com.example.parking.dto.ParkinglotDto;
+import com.example.parking.dto.UserDto;
 import com.example.parking.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,5 +53,11 @@ public class AdminController {
     public ResponseEntity<List<ParkinglotDto>> searchParkingByName(@RequestParam String name) {
         List<ParkinglotDto> result = adminService.searchParkingByName(name);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = adminService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }
