@@ -38,7 +38,7 @@ public class BookService {
     }
 
     public void addBook(String userId, AddBookDTO addBookDTO){
-        verifyDate(addBookDTO.getStartTime().toLocalDate(), addBookDTO.getEndTime().toLocalDate());
+        verifyDate(addBookDTO.getStartTime(), addBookDTO.getEndTime());
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다."));
@@ -62,12 +62,15 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void verifyDate(LocalDate startDate, LocalDate endDate){
-        if(!startDate.equals(endDate))
+    public void verifyDate(LocalDateTime startDate, LocalDateTime endDate){
+        if(startDate.isAfter(endDate))
+            throw new ApiException(ErrorCode.BAD_REQUEST, "시작 시간은 끝 시간보다 빨라야합니다.");
+
+        if(!startDate.toLocalDate().equals(endDate.toLocalDate()))
             throw new ApiException(ErrorCode.BAD_REQUEST, "시작 시간과 끝 시간의 날짜가 같아야합니다.");
 
         LocalDate cur_date = LocalDate.now();
-        if(startDate.isBefore(cur_date) || Period.between(cur_date, startDate).getDays() >= 7)
+        if(startDate.toLocalDate().isBefore(cur_date) || Period.between(cur_date, startDate.toLocalDate()).getDays() >= 7)
             throw new ApiException(ErrorCode.BAD_REQUEST, "예약 기간이 아닙니다.");
     }
 
@@ -102,12 +105,15 @@ public class BookService {
         }
     }
 
-    public void entrance(String carNumber, String parkingLotName){
+    public void enter(String userId, String carNumber, String parkingLotName){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다."));
+        if(!user.isAdmin())
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "admin 사용자가 아닙니다.");
+
         LocalDateTime currentTime = LocalDateTime.now();
 
-        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndTime(
-                carNumber, parkingLotName, currentTime
-        );
+        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndTime(carNumber, parkingLotName, currentTime);
         if(optionalBook.isEmpty())
             throw new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다.");
 
