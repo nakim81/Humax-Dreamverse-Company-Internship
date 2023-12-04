@@ -43,6 +43,11 @@ const AdminParkingDetailPage = () => {
         "가격": parkingData.price,
     };
 
+    const createdAtObject = new Date(parkingData.createdAt);
+    const updatedAtObject = new Date(parkingData.updatedAt);
+    const fotmattedCreatedDate = createdAtObject.toLocaleString();
+    const fotmattedUpdatedDate = updatedAtObject.toLocaleString();
+
     useEffect(() => {
         const initMap = () => {
             const container = document.getElementById('map');
@@ -105,9 +110,11 @@ const AdminParkingDetailPage = () => {
                                 <div className="parkingDetailText">
                                     {Object.entries(translatedData).map(([key, value]) => (
                                         <div key={key}>
-                                            {key}: {value !== null && value !== 'NULL' && value !== '' ? value : '[입력 바람]'}
+                                            {key} : {value !== null && value !== 'NULL' && value !== '' ? value : '[입력 바람]'}
                                         </div>
                                     ))}
+                                    <div>등록 일자 : { fotmattedCreatedDate }</div>
+                                    <div>수정 일자 : { fotmattedUpdatedDate }</div>
                                 </div>
                             </div>
                             <div className="parkingDetailBtns">
