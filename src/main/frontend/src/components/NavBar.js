@@ -41,8 +41,6 @@ function MyNavbar() {
     const storedId = localStorage.getItem("userId");
     const storedAdmin = localStorage.getItem("admin");
 
-    console.log(storedAdmin);
-
     if (storedToken) {
       setIsLoggedIn(true);
       setToken(storedToken); // token 상태 업데이트
