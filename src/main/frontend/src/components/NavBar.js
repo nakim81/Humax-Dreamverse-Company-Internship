@@ -9,8 +9,17 @@ import AuthContext from "../hooks/AuthContext";
 import api from "../api/axiosConfig";
 
 function MyNavbar() {
-  const { logout, isLoggedIn, admin, userId, token, setToken, setIsLoggedIn } =
-    useContext(AuthContext);
+  const {
+    logout,
+    isLoggedIn,
+    admin,
+    userId,
+    token,
+    setToken,
+    setIsLoggedIn,
+    setUserId,
+    setAdmin,
+  } = useContext(AuthContext);
 
   const [isParkinglotHovered, setIsParkinglotHovered] = useState(false);
   const [isParkinglotActive, setIsParkinglotActive] = useState(false);
@@ -24,32 +33,47 @@ function MyNavbar() {
   const [isPayActive, setIsPayActive] = useState(false);
   const [isAdminHovered, setIsAdminHovered] = useState(false);
   const [isAdminActive, setIsAdminActive] = useState(false);
+  const [isAdminCarHovered, setIsAdminCarHovered] = useState(false);
+  const [isAdminCarActive, setIsAdminCarActive] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
+    const storedId = localStorage.getItem("userId");
+    const storedAdmin = localStorage.getItem("admin");
+
+    console.log(storedAdmin);
+
     if (storedToken) {
       setIsLoggedIn(true);
       setToken(storedToken); // token 상태 업데이트
+    }
+
+    if (storedId) {
+      setUserId(storedId);
+    }
+
+    if (storedAdmin) {
+      setAdmin(storedAdmin === "true"); // 문자열 'true'를 부울 true로 변환, 그 외의 경우는 false로 변환
     }
   }, []);
 
   const handleLogout = async () => {
     try {
       // 로그아웃 API 호출
-      await api.post('/user/logout');
+      await api.post("/user/logout");
 
       // 로컬 스토리지에서 사용자 정보와 토큰 삭제
-      localStorage.removeItem('userId');
-      localStorage.removeItem('token');
-      localStorage.removeItem('admin');
+      localStorage.removeItem("userId");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin");
 
       // 로그아웃 상태 반영
       logout();
 
-      alert('로그아웃되었습니다.');
-      window.location.href = '/';
+      alert("로그아웃되었습니다.");
+      window.location.href = "/";
     } catch (error) {
-      console.error('Logout error', error);
+      console.error("Logout error", error);
     }
   };
 
@@ -60,6 +84,7 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(false);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handleParkinglotClick = () => {
@@ -69,6 +94,7 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(false);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handleBookClick = () => {
@@ -78,6 +104,7 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(false);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handleMyPageClick = () => {
@@ -87,6 +114,7 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(false);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handleCarClick = () => {
@@ -96,6 +124,7 @@ function MyNavbar() {
     setIsCarActive(true);
     setIsPayActive(false);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handlePayClick = () => {
@@ -105,6 +134,7 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(true);
     setIsAdminActive(false);
+    setIsAdminCarActive(false);
   };
 
   const handleAdminClick = () => {
@@ -114,6 +144,16 @@ function MyNavbar() {
     setIsCarActive(false);
     setIsPayActive(false);
     setIsAdminActive(true);
+    setIsAdminCarActive(false);
+  };
+  const handleAdminCarClick = () => {
+    setIsParkinglotActive(false);
+    setIsBookActive(false);
+    setIsMyPageActive(false);
+    setIsCarActive(false);
+    setIsPayActive(false);
+    setIsAdminActive(false);
+    setIsAdminCarActive(true);
   };
 
   return (
@@ -214,7 +254,7 @@ function MyNavbar() {
                   to={"/admin"}
                   className="nav-link text-white"
                   style={{
-                    fontSize: isAdminHovered ? "17px" : "16px",
+                    fontSize: isAdminHovered ? "17px" : "15px",
                     fontWeight: isAdminActive ? "800" : "400",
                     transition: "all 0.3s ease",
                   }}
@@ -227,22 +267,22 @@ function MyNavbar() {
                 </NavLink>
               )}
               {admin && (
-                  <NavLink
-                    to={"/admin/enter"}
-                    className="nav-link text-white"
-                    style={{
-                      fontSize: isAdminHovered ? "17px" : "16px",
-                      fontWeight: isAdminActive ? "800" : "400",
-                      transition: "all 0.3s ease",
-                    }}
-                    // 추가: 마우스 이벤트 핸들러
-                    onMouseEnter={() => setIsAdminHovered(true)}
-                    onMouseLeave={() => setIsAdminHovered(false)}
-                    onClick={handleAdminClick}
-                  >
-                    차량 입차
-                  </NavLink>
-            )}
+                <NavLink
+                  to={"/admin/enter"}
+                  className="nav-link text-white"
+                  style={{
+                    fontSize: isAdminCarHovered ? "17px" : "15px",
+                    fontWeight: isAdminCarActive ? "800" : "400",
+                    transition: "all 0.3s ease",
+                  }}
+                  // 추가: 마우스 이벤트 핸들러
+                  onMouseEnter={() => setIsAdminCarHovered(true)}
+                  onMouseLeave={() => setIsAdminCarHovered(false)}
+                  onClick={handleAdminCarClick}
+                >
+                  차량 입차
+                </NavLink>
+              )}
             </>
           )}
         </Nav>
