@@ -94,7 +94,7 @@ public class BookService {
                 throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
             else if(book.getState()==BookState.CANCELED)
                 throw new ApiException(ErrorCode.BAD_REQUEST, "이미 취소된 내역입니다.");
-            else if(LocalDateTime.now().isAfter(book.getStartTime()))
+            else if(LocalDateTime.now().isAfter(book.getEndTime()))
                 throw new ApiException(ErrorCode.BAD_REQUEST, "예약 취소 기간이 아닙니다.");
             else{
                 book.setState(BookState.CANCELED);

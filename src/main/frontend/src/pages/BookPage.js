@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./BookPage.css";
 import AuthContext from "../hooks/AuthContext";
@@ -10,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 const BookPage = () => {
     const { userId, token } = useContext(AuthContext);
     const {parkingId} = useParams();
+    const navigate = useNavigate();
 
     const [carData, setCarData] = useState([]);
     const [payData, setPayData] = useState([]);
@@ -34,7 +36,7 @@ const BookPage = () => {
 
     const fetchCarData = async (userId, token) => {
         try{
-            const response = await axios.get(`http://localhost:8080/user/${userId}/car`, {
+            const response = await axios.get(`http://3.38.97.205:3000/user/${userId}/car`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setCarData(response.data)
@@ -45,7 +47,7 @@ const BookPage = () => {
 
     const fetchPayData = async (userId, token) => {
         try{
-            const response = await axios.get(`http://localhost:8080/user/pay`, {
+            const response = await axios.get(`http://3.38.97.205:3000/user/pay`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setPayData(response.data)
@@ -61,10 +63,11 @@ const BookPage = () => {
 
     const handleSubmitClick = async () => {
         try{
-            await axios.post(`http://localhost:8080/user/book`, reserveForm, {
+            await axios.post(`http://3.38.97.205:3000/user/book`, reserveForm, {
                  headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 완료되었습니다.')
+            navigate(`/user/parkinglot`);
         }catch (error){
             if(error.response && error.response.status === 400){
                             alert(error.response.data.result.resultDescription)
@@ -152,7 +155,7 @@ const BookPage = () => {
                             <hr/>
                             <button
                                 className="linkButton"
-                                onClick={() => (document.location.href = `/user/${userId}/car`)}
+                                onClick={() => (document.location.href = `/user/car`)}
                             >
                                 자동차를 등록해주세요.
                             </button>
@@ -178,7 +181,7 @@ const BookPage = () => {
                             <hr/>
                             <button
                                 className="linkButton"
-                                onClick={() => (document.location.href = `/user/${userId}/pay`)}
+                                onClick={() => (document.location.href = `/user/pay`)}
                             >
                                 결제 수단을 등록해주세요.
                             </button>

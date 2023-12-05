@@ -12,7 +12,7 @@ const AdminEnterPage = () => {
 
     const handleEnterClick = async (parkingLotName, carNumber, jwtToken) => {
         try{
-            const response = await axios.patch(`http://localhost:8080/admin/book/enter`, enterForm, {
+            const response = await axios.patch(`http://3.38.97.205:3000/admin/book/enter`, enterForm, {
                 headers: {'Authorization': `Bearer ${token}`}
             })
             alert('입차되었습니다.')
