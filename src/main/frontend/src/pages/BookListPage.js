@@ -14,7 +14,7 @@ const BookListPage = () => {
 
     const fetchBookData = async (page, token) => {
         try {
-            const response = await axios.get(`http://localhost:8080/user/book?page=${page-1}`, {
+            const response = await axios.get(`http://3.38.97.205:3000/user/book?page=${page-1}`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setBookData(response.data.body.content)
@@ -31,7 +31,7 @@ const BookListPage = () => {
 
     const cancelBookClick = async (index, bookId, token) => {
         try{
-            await axios.patch(`http://localhost:8080/user/book/cancel/${bookId}`, {}, {
+            await axios.patch(`http://3.38.97.205:3000/user/book/cancel/${bookId}`, {}, {
                 headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 취소되었습니다.')
