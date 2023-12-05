@@ -15,6 +15,7 @@ const PayPage = () => {
       payType: "",
       payNumber: "",
     });
+
     const toggleAddPayment = () => {
       setShowAddPayment((prevState) => !prevState); // 현재 상태의 반대로 변경하여 토글합니다.
     };
@@ -72,10 +73,10 @@ const PayPage = () => {
       });
 
       setShowAddPayment(false); // 추가 창을 닫습니다.
-      /*
+
       // eslint-disable-next-line no-restricted-globals
       location.reload();
-      */
+
     };
 
     const handleEdit = (id, payment) => {
