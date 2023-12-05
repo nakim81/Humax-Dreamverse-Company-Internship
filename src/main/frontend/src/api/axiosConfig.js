@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080'
+    baseURL: 'http://3.38.97.205:3000'
 });
 
 api.interceptors.request.use(config => {
@@ -17,7 +17,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(response => {
     return response;
 }, error => {
-    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 403) {
+    if (error.response.status === 401 || error.response.status === 500 || error.response.status === 403 || error.response.status === 400) {
         alert('다시 로그인해주세요.');
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
