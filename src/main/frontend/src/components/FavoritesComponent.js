@@ -13,7 +13,7 @@ const FavoriteButton = ({ selectedParkinglot }) => {
 
     setIsFavorite(false);
     // user Id에 해당하는 즐겨찾기 목록 조회
-    const url = `http://localhost:8080/user/${userId}/favorites`;
+    const url = `http://3.38.97.205:3000/user/${userId}/favorites`;
     axios.get(url, {
       headers: {
         'Authorization': token
@@ -49,7 +49,7 @@ const FavoriteButton = ({ selectedParkinglot }) => {
 
     // 현재 즐겨 찾기 상태가 false 일때 추가, true 일때 제거
     if(isFavorite == false) {
-      const url = `http://localhost:8080/user/${userId}/favorites`;
+      const url = `http://3.38.97.205:3000/user/${userId}/favorites`;
       axios.post(url, parkingLotDto, {
         headers: {
           'Authorization': token
@@ -65,7 +65,7 @@ const FavoriteButton = ({ selectedParkinglot }) => {
     }
     else {
       console.log("현재 favorites Id: " + favoritesId);
-      const url = `http://localhost:8080/user/${userId}/favorites/${favoritesId}`;
+      const url = `http://3.38.97.205:3000/user/${userId}/favorites/${favoritesId}`;
       axios.delete(url, {
         headers: {
           'Authorization': token

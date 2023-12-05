@@ -5,7 +5,7 @@ import axios from "axios";
 const PayPage = () => {
   const { token } = useContext(AuthContext);
   const [responseData, setResponseData] = useState(null);
-  const url = `http://localhost:8080/user/pay`;
+  const url = `http://3.38.97.205:3000/user/pay`;
 
   function PaymentList({ payments }) {
     const [data, setData] = useState(payments);
@@ -32,7 +32,7 @@ const PayPage = () => {
     // 결제 수단 삭제
     const handleDelete = (id) => {
       const updatedData = data.filter((item) => item.payId !== id);
-      const url = `http://localhost:8080/user/pay/${id}`;
+      const url = `http://3.38.97.205:3000/user/pay/${id}`;
 
       axios
         .delete(url, {
@@ -51,7 +51,7 @@ const PayPage = () => {
       const updatedData = [...data, newPayment];
       setData(updatedData);
 
-      const url = `http://localhost:8080/user/pay`;
+      const url = `http://3.38.97.205:3000/user/pay`;
       console.log(token);
       axios
         .post(url, newPayment, {
@@ -101,7 +101,7 @@ const PayPage = () => {
 
       setData(updatedData);
 
-      const url = `http://localhost:8080/user/pay/${id}`;
+      const url = `http://3.38.97.205:3000/user/pay/${id}`;
 
       const updatedItem = editedData;
 
