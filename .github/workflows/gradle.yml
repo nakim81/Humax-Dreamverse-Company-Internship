@@ -51,7 +51,3 @@ jobs:
 
     - name: Push the Docker image
       run: docker push ${{ env.DOCKER_IMAGE_NAME }}:latest
-  
-  deploy:
-    needs: build-and-push-docker
-    runs-on: ubuntu-latest
