@@ -67,7 +67,7 @@ const AdminParkingAddPage = () => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
-        )}&key=AIzaSyDGesdIMmYT3gPJsNOhTM76b0Qk4WN7N-E`
+        )}&key=${ process.env.REACT_APP_GOOGLE_APP_KEY }`
       );
 
       const { results } = response.data;
