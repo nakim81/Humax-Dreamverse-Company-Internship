@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MapComponent from "../components/MapComponent";
 import FavoriteButton from "../components/FavoritesComponent";
-
+import { API_BASE_URL } from "../constants";
 import {
   TextField,
   Button,
@@ -66,16 +66,13 @@ const ParkinglotPage = () => {
   const handleFetchParkinglotsButtonClick = async () => {
     setAllParkinglots([]);
     try {
-      const response = await axios.get(
-        "http://http://3.38.97.205:3000/parkinglot/nearby",
-        {
-          params: {
-            latitude: latitude,
-            longitude: longitude,
-            radius: radius,
-          },
-        }
-      );
+      const response = await axios.get(API_BASE_URL + "/parkinglot/nearby", {
+        params: {
+          latitude: latitude,
+          longitude: longitude,
+          radius: radius,
+        },
+      });
       if (response.data.body && Array.isArray(response.data.body)) {
         setParkinglotData(response.data.body);
       } else {
@@ -93,7 +90,7 @@ const ParkinglotPage = () => {
     setAllParkinglots([]);
     try {
       const response = await axios.get(
-        `http://http://3.38.97.205:3000/parkinglot/parkingId/${parkingId}`
+        API_BASE_URL + `/parkinglot/parkingId/${parkingId}`
       );
       setParkinglotData([response.data.body]);
     } catch (error) {
@@ -105,9 +102,7 @@ const ParkinglotPage = () => {
   const handleFetchAllParkinglotsButtonClick = async () => {
     setParkinglotData([]);
     try {
-      const response = await axios.get(
-        "http://http://3.38.97.205:3000/parkinglot/all"
-      );
+      const response = await axios.get(API_BASE_URL + "/parkinglot/all");
       if (response.data.body && Array.isArray(response.data.body)) {
         setAllParkinglots(response.data.body);
       } else {
@@ -124,16 +119,13 @@ const ParkinglotPage = () => {
   const fetchParkinglotsByKeyword = async () => {
     setAllParkinglots([]);
     try {
-      const response = await axios.get(
-        "http://http://3.38.97.205:3000/parkinglot/search",
-        {
-          params: {
-            keyword: keyword,
-            page: keywordPage,
-            size: size,
-          },
-        }
-      );
+      const response = await axios.get(API_BASE_URL + "/parkinglot/search", {
+        params: {
+          keyword: keyword,
+          page: keywordPage,
+          size: size,
+        },
+      });
       setParkinglotData(response.data.body.content);
       setKeywordTotalPages(response.data.body.totalPages);
     } catch (error) {
@@ -143,14 +135,11 @@ const ParkinglotPage = () => {
 
   const fetchSearchHistory = async () => {
     try {
-      const response = await axios.get(
-        "http://http://3.38.97.205:3000/user/searchHistory",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(API_BASE_URL + "/user/searchHistory", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setSearchHistory(response.data.body);
     } catch (error) {
       console.error("검색 내역을 가져오는 중 오류가 발생했습니다.", error);
@@ -159,14 +148,11 @@ const ParkinglotPage = () => {
 
   const deleteSearchHistoryItem = async (id) => {
     try {
-      await axios.delete(
-        `http://http://3.38.97.205:3000/user/searchHistory/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(API_BASE_URL + `/user/searchHistory/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       fetchSearchHistory(); // 삭제 후 검색 내역을 다시 불러옵니다.
     } catch (error) {
       console.error("검색 내역을 삭제하는 중 오류가 발생했습니다.", error);
@@ -198,7 +184,7 @@ const ParkinglotPage = () => {
     try {
       // 주차장 클릭 시 해당 주차장의 id를 서버에 POST 요청으로 보냅니다.
       await axios.post(
-        `http://http://3.38.97.205:3000/user/searchHistory/${parkinglot.parkingId}`,
+        API_BASE_URL + `/user/searchHistory/${parkinglot.parkingId}`,
         {},
         {
           headers: {
