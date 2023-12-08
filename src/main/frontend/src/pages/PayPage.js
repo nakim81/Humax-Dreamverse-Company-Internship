@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../hooks/AuthContext";
 import axios from "axios";
+import {API_BASE_URL} from "../constants";
 
 const PayPage = () => {
   const { token } = useContext(AuthContext);
   const [responseData, setResponseData] = useState(null);
-  const url = `http://3.38.97.205:3000/user/pay`;
+  const url = API_BASE_URL + `/user/pay`;
 
   function PaymentList({ payments }) {
     const [data, setData] = useState(payments);
@@ -32,7 +33,7 @@ const PayPage = () => {
     // 결제 수단 삭제
     const handleDelete = (id) => {
       const updatedData = data.filter((item) => item.payId !== id);
-      const url = `http://3.38.97.205:3000/user/pay/${id}`;
+      const url = API_BASE_URL + `/user/pay/${id}`;
 
       axios
         .delete(url, {
@@ -51,7 +52,7 @@ const PayPage = () => {
       const updatedData = [...data, newPayment];
       setData(updatedData);
 
-      const url = `http://3.38.97.205:3000/user/pay`;
+      const url = API_BASE_URL + `/user/pay`;
       console.log(token);
       axios
         .post(url, newPayment, {
@@ -101,7 +102,7 @@ const PayPage = () => {
 
       setData(updatedData);
 
-      const url = `http://3.38.97.205:3000/user/pay/${id}`;
+      const url = API_BASE_URL + `/user/pay/${id}`;
 
       const updatedItem = editedData;
 

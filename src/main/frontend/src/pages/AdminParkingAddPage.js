@@ -5,6 +5,7 @@ import axios from "axios";
 import AddressPost from "../components/AddressPost";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {API_BASE_URL} from "../constants";
 
 const AdminParkingAddPage = () => {
   const navigate = useNavigate();
@@ -115,7 +116,7 @@ const AdminParkingAddPage = () => {
 
     try {
       await axios.post(
-        "http://3.38.97.205:3000/admin/parkinglots",
+          API_BASE_URL + "/admin/parkinglots",
         parkingInfo
       );
 

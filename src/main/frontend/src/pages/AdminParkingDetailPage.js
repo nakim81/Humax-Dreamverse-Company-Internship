@@ -4,6 +4,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./AdminParkingDetailPage.css";
+import {API_BASE_URL} from "../constants";
 
 const AdminParkingDetailPage = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const AdminParkingDetailPage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`
+            API_BASE_URL + `/admin/parkinglots/${parkingId}`
         );
         setParkingData(res.data);
       } catch (err) {
@@ -76,7 +77,7 @@ const AdminParkingDetailPage = () => {
   const handleDeleteClick = async () => {
     try {
       await axios.delete(
-        `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`
+          API_BASE_URL + `/admin/parkinglots/${parkingId}`
       );
       navigate("/admin");
     } catch (error) {

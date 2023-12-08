@@ -6,6 +6,7 @@ import "./BookPage.css";
 import AuthContext from "../hooks/AuthContext";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {API_BASE_URL} from "../constants";
 
 
 const BookPage = () => {
@@ -36,7 +37,7 @@ const BookPage = () => {
 
     const fetchCarData = async (userId, token) => {
         try{
-            const response = await axios.get(`http://3.38.97.205:3000/user/${userId}/car`, {
+            const response = await axios.get(API_BASE_URL + `/user/${userId}/car`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setCarData(response.data)
@@ -47,7 +48,7 @@ const BookPage = () => {
 
     const fetchPayData = async (userId, token) => {
         try{
-            const response = await axios.get(`http://3.38.97.205:3000/user/pay`, {
+            const response = await axios.get(API_BASE_URL + `/user/pay`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setPayData(response.data)
@@ -63,7 +64,7 @@ const BookPage = () => {
 
     const handleSubmitClick = async () => {
         try{
-            await axios.post(`http://3.38.97.205:3000/user/book`, reserveForm, {
+            await axios.post(API_BASE_URL + `/user/book`, reserveForm, {
                  headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 완료되었습니다.')

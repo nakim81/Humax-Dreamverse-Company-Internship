@@ -3,6 +3,7 @@ import AuthContext from "../hooks/AuthContext";
 import "./BookListPage.css";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
+import {API_BASE_URL} from "../constants";
 
 const BookListPage = () => {
     const { token } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const BookListPage = () => {
 
     const fetchBookData = async (page, token) => {
         try {
-            const response = await axios.get(`http://3.38.97.205:3000/user/book?page=${page-1}`, {
+            const response = await axios.get(API_BASE_URL + `/user/book?page=${page-1}`, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setBookData(response.data.body.content)
@@ -31,7 +32,7 @@ const BookListPage = () => {
 
     const cancelBookClick = async (index, bookId, token) => {
         try{
-            await axios.patch(`http://3.38.97.205:3000/user/book/cancel/${bookId}`, {}, {
+            await axios.patch(API_BASE_URL + `/user/book/cancel/${bookId}`, {}, {
                 headers: {'Authorization': `Bearer ${token}`}
             })
             alert('예약이 취소되었습니다.')

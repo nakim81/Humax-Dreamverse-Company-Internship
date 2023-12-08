@@ -4,6 +4,7 @@ import "./Adminpage.css";
 import axios from "axios";
 import ParkingList from "../components/ParkingList";
 import AuthContext from "../hooks/AuthContext";
+import {API_BASE_URL} from "../constants";
 
 const AdminPage = () => {
   const { admin } = useContext(AuthContext);
@@ -35,7 +36,7 @@ const AdminPage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://3.38.97.205:3000/admin/parkinglots`
+            API_BASE_URL + `/admin/parkinglots`
         );
         setParkingData(res.data);
       } catch (err) {

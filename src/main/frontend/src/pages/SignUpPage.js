@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
 import styles from "./SignUpPage.module.css";
+import {API_BASE_URL} from "../constants";
 
 const SignUpPage = () => {
     const [id, setId] = useState(null);
@@ -13,7 +14,7 @@ const SignUpPage = () => {
 
     const checkDuplicateId = async () => {
         try {
-            const res = await axios.post('http://3.38.97.205:3000/user/check-duplicate-id', { id });
+            const res = await axios.post(API_BASE_URL + '/user/check-duplicate-id', { id });
             if (res.data.duplicate) {
                 alert('이미 사용 중인 아이디입니다.');
             }
@@ -24,7 +25,7 @@ const SignUpPage = () => {
 
     const checkDuplicatePhoneNum = async () => {
         try {
-            const res = await axios.post('http://3.38.97.205:3000/user/check-duplicate-phoneNum', { phoneNum });
+            const res = await axios.post(API_BASE_URL + '/user/check-duplicate-phoneNum', { phoneNum });
             if (res.data.duplicate) {
                 alert('이미 사용 중인 전화번호입니다.');
             }
@@ -35,7 +36,7 @@ const SignUpPage = () => {
 
     const checkDuplicateEmail = async () => {
         try {
-            const res = await axios.post('http://3.38.97.205:3000/user/check-duplicate-email', { email });
+            const res = await axios.post(API_BASE_URL + '/user/check-duplicate-email', { email });
             if (res.data.duplicate) {
                 alert('이미 사용 중인 이메일입니다.');
             }
@@ -65,7 +66,7 @@ const SignUpPage = () => {
             return;
         }
         try {
-            await axios.post('http://3.38.97.205:3000/user/sign-up', { id, password, phoneNum, email });
+            await axios.post(API_BASE_URL + '/user/sign-up', { id, password, phoneNum, email });
             alert('회원가입되었습니다.');
             history('/');
         } catch (error) {

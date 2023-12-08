@@ -5,6 +5,7 @@ import axios from "axios";
 import AddressPost from "../components/AddressPost";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {API_BASE_URL} from "../constants";
 
 const AdminParkingUpdatePage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const AdminParkingUpdatePage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`
+            API_BASE_URL + `/admin/parkinglots/${parkingId}`
         );
         setParkingInfo(res.data);
       } catch (err) {
@@ -105,7 +106,7 @@ const AdminParkingUpdatePage = () => {
 
     try {
       await axios.patch(
-        `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`,
+          API_BASE_URL + `/admin/parkinglots/${parkingId}`,
         parkingInfo
       );
 
