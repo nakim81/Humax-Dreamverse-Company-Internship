@@ -67,7 +67,7 @@ const ParkinglotPage = () => {
     setAllParkinglots([]);
     try {
       const response = await axios.get(
-        "http://localhost:8080/parkinglot/nearby",
+        "http://http://3.38.97.205:3000/parkinglot/nearby",
         {
           params: {
             latitude: latitude,
@@ -93,7 +93,7 @@ const ParkinglotPage = () => {
     setAllParkinglots([]);
     try {
       const response = await axios.get(
-        `http://localhost:8080/parkinglot/parkingId/${parkingId}`
+        `http://http://3.38.97.205:3000/parkinglot/parkingId/${parkingId}`
       );
       setParkinglotData([response.data.body]);
     } catch (error) {
@@ -105,7 +105,9 @@ const ParkinglotPage = () => {
   const handleFetchAllParkinglotsButtonClick = async () => {
     setParkinglotData([]);
     try {
-      const response = await axios.get("http://localhost:8080/parkinglot/all");
+      const response = await axios.get(
+        "http://http://3.38.97.205:3000/parkinglot/all"
+      );
       if (response.data.body && Array.isArray(response.data.body)) {
         setAllParkinglots(response.data.body);
       } else {
@@ -123,7 +125,7 @@ const ParkinglotPage = () => {
     setAllParkinglots([]);
     try {
       const response = await axios.get(
-        "http://localhost:8080/parkinglot/search",
+        "http://http://3.38.97.205:3000/parkinglot/search",
         {
           params: {
             keyword: keyword,
@@ -142,7 +144,7 @@ const ParkinglotPage = () => {
   const fetchSearchHistory = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8080/user/searchHistory",
+        "http://http://3.38.97.205:3000/user/searchHistory",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -157,11 +159,14 @@ const ParkinglotPage = () => {
 
   const deleteSearchHistoryItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/user/searchHistory/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `http://http://3.38.97.205:3000/user/searchHistory/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       fetchSearchHistory(); // 삭제 후 검색 내역을 다시 불러옵니다.
     } catch (error) {
       console.error("검색 내역을 삭제하는 중 오류가 발생했습니다.", error);
@@ -193,7 +198,7 @@ const ParkinglotPage = () => {
     try {
       // 주차장 클릭 시 해당 주차장의 id를 서버에 POST 요청으로 보냅니다.
       await axios.post(
-        `http://localhost:8080/user/searchHistory/${parkinglot.parkingId}`,
+        `http://http://3.38.97.205:3000/user/searchHistory/${parkinglot.parkingId}`,
         {},
         {
           headers: {
@@ -210,7 +215,9 @@ const ParkinglotPage = () => {
   };
 
   const goToReservationPage = () => {
-    navigate(`/user/book/${selectedParkinglot.parkingId}`, { state: { selectedParkinglot } });
+    navigate(`/user/book/${selectedParkinglot.parkingId}`, {
+      state: { selectedParkinglot },
+    });
   };
 
   const handleDismissClick = () => {
