@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AuthContext from "../hooks/AuthContext";
+import {API_BASE_URL} from "../constants";
 
 const CarPage = () => {
   const { userId } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const CarPage = () => {
       const fetchData = async () => {
         try {
           const res = await axios.get(
-            `http://3.38.97.205:3000/user/${userId}/car`
+              API_BASE_URL + `/user/${userId}/car`
           );
           setCarData(res.data);
         } catch (err) {
@@ -41,7 +42,7 @@ const CarPage = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://3.38.97.205:3000/user/${userId}/car`);
+      const res = await axios.get(API_BASE_URL + `/user/${userId}/car`);
       setCarData(res.data);
     } catch (error) {
       console.error("Error fetching car data", error);
@@ -103,7 +104,7 @@ const CarPage = () => {
     } else {
       try {
         await axios.post(
-          `http://3.38.97.205:3000/user/${userId}/car`,
+            API_BASE_URL + `/user/${userId}/car`,
           addCarData
         );
         setIsAddOpen((isAddOpen) => !isAddOpen);
@@ -128,7 +129,7 @@ const CarPage = () => {
     if (isValid) {
       try {
         await axios.patch(
-          `http://3.38.97.205:3000/user/${userId}/car/${updateCarId}`,
+            API_BASE_URL + `/user/${userId}/car/${updateCarId}`,
           updateCarData
         );
         setIsUpdateOpen((isUpdateOpen) => !isUpdateOpen);
@@ -147,7 +148,7 @@ const CarPage = () => {
 
     try {
       await axios.delete(
-        `http://3.38.97.205:3000/user/${userId}/car/${updateCarId}`
+          API_BASE_URL + `/user/${userId}/car/${updateCarId}`
       );
       setIsDeleteOpen((isDeleteOpen) => !isDeleteOpen);
       await fetchData();

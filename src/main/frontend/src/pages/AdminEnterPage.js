@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import AuthContext from "../hooks/AuthContext";
 import "./AdminEnterPage.css";
 import axios from "axios";
+import {API_BASE_URL} from "../constants";
 
 const AdminEnterPage = () => {
     const { token } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const AdminEnterPage = () => {
 
     const handleEnterClick = async (parkingLotName, carNumber, jwtToken) => {
         try{
-            const response = await axios.patch(`http://3.38.97.205:3000/admin/book/enter`, enterForm, {
+            const response = await axios.patch(API_BASE_URL + `/admin/book/enter`, enterForm, {
                 headers: {'Authorization': `Bearer ${token}`}
             })
             alert('입차되었습니다.')

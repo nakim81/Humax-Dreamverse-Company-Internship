@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AdminUserPage.css";
 import axios from "axios";
+import {API_BASE_URL} from "../constants";
 
 const AdminUserPage = () => {
   const [users, setUsers] = useState([]);
@@ -8,7 +9,7 @@ const AdminUserPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://3.38.97.205:3000/admin/users`);
+        const res = await axios.get(API_BASE_URL + `/admin/users`);
         setUsers(res.data);
       } catch (err) {
         console.error("admin user data error", err);

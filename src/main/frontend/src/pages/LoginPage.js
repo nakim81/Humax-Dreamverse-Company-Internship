@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 import AuthContext from "../hooks/AuthContext";
+import {API_BASE_URL} from "../constants";
 
 const LoginPage = () => {
   const [userId, setUserId] = useState(null);
@@ -13,7 +14,7 @@ const LoginPage = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://3.38.97.205:3000/user/login", {
+      const res = await axios.post(API_BASE_URL + "/user/login", {
         id: userId,
         password,
       });

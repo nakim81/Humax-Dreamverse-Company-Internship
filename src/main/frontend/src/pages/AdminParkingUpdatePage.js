@@ -5,6 +5,7 @@ import axios from "axios";
 import AddressPost from "../components/AddressPost";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {API_BASE_URL} from "../constants";
 
 const AdminParkingUpdatePage = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const AdminParkingUpdatePage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`
+            API_BASE_URL + `/admin/parkinglots/${parkingId}`
         );
         setParkingInfo(res.data);
       } catch (err) {
@@ -57,7 +58,7 @@ const AdminParkingUpdatePage = () => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
-        )}&key=AIzaSyDGesdIMmYT3gPJsNOhTM76b0Qk4WN7N-E`
+        )}&key=${ process.env.REACT_APP_GOOGLE_APP_KEY }`
       );
 
       const { results } = response.data;
@@ -105,7 +106,7 @@ const AdminParkingUpdatePage = () => {
 
     try {
       await axios.patch(
-        `http://3.38.97.205:3000/admin/parkinglots/${parkingId}`,
+          API_BASE_URL + `/admin/parkinglots/${parkingId}`,
         parkingInfo
       );
 
