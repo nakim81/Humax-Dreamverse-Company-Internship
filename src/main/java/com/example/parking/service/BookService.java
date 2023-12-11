@@ -29,17 +29,12 @@ public class BookService {
     private final PayRepository payRepository;
 
     public Page<BookDTO> getBookList(String userId, Integer page){
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isEmpty())
-            throw new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다.");
-
         Page<Book> bookList = bookRepository.findByUserId(userId, PageRequest.of(page, 4));
         return bookList.map(BookDTO::new);
     }
 
     public void addBook(String userId, AddBookDTO addBookDTO){
         verifyDate(addBookDTO.getStartTime(), addBookDTO.getEndTime());
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다."));
         Parkinglot parkingLot = parkingLotRepository.findById(addBookDTO.getParkingLotId())
@@ -48,7 +43,6 @@ public class BookService {
                 .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "차 정보가 존재하지 않습니다."));
         Pay pay = payRepository.findById(addBookDTO.getPayId())
                 .orElseThrow(()->  new ApiException(ErrorCode.NULL_POINT, "결제 정보가 존재하지 않습니다."));
-
         verifyBook(car.getCarNumber(), parkingLot.getName(), addBookDTO.getStartTime());
 
         Book book = new Book(
@@ -57,7 +51,10 @@ public class BookService {
                 addBookDTO.getEndTime(),
                 addBookDTO.getPrice(),
                 addBookDTO.getTicket(),
-                user, parkingLot, car, pay
+                car.getCarNumber(),
+                pay.getPayType()+" "+pay.getPayName()+" "+pay.getPayNumber(),
+                parkingLot.getName(),
+                user, parkingLot
         );
         bookRepository.save(book);
     }

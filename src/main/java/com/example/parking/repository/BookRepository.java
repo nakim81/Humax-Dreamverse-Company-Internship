@@ -20,16 +20,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     public Optional<Book> findByIDWithUser(@Param("bookId") Long bookId);
 
     @Query(value = "select b from Book b " +
-            "join fetch b.pay " +
-            "join fetch b.car " +
-            "join fetch b.parkinglot " +
+            "left join fetch b.parkinglot " +
             "where b.user.id=:id " +
             "order by b.endTime desc")
     public Page<Book> findByUserId(@Param("id") String id, Pageable pageable);
 
     @Query(value = "select b from Book b " +
-            "where b.car.carNumber=:carNumber " +
-            "and b.parkinglot.name=:parkingLotName " +
+            "where b.carNumber=:carNumber " +
+            "and b.parkingLotName=:parkingLotName " +
             "and date_format(b.startTime, '%Y-%m-%d')=:currentDate " +
             "and b.state='1'")
     public Optional<Book> findBookByCarAndParkingLotAndDate(
@@ -39,8 +37,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     );
 
     @Query(value = "select b from Book b " +
-            "where b.car.carNumber=:carNumber " +
-            "and b.parkinglot.name=:parkingLotName " +
+            "where b.carNumber=:carNumber " +
+            "and b.parkingLotName=:parkingLotName " +
             "and :currentTime between b.startTime and b.endTime " +
             "and b.state='1'")
     public Optional<Book> findBookByCarAndParkingLotAndTime(
