@@ -23,7 +23,7 @@ public class BookController {
     ){
         String token = AccessToken.split(" ")[1];
         if(token == null || !jwtTokenProvider.validateToken(token))
-            throw new ApiException(ErrorCode.BAD_REQUEST, "유효하지 않은 토큰입니다.");
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다.");
         String userId = jwtTokenProvider.getUsername(token);
 
         return ResponseEntity
@@ -38,7 +38,7 @@ public class BookController {
     ){
         String token = AccessToken.split(" ")[1];
         if(token == null || !jwtTokenProvider.validateToken(token))
-            throw new ApiException(ErrorCode.BAD_REQUEST, "유효하지 않은 토큰입니다.");
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다.");
         String userId = jwtTokenProvider.getUsername(token);
 
         bookService.addBook(userId, addBookDTO);
@@ -54,7 +54,7 @@ public class BookController {
     ){
         String token = AccessToken.split(" ")[1];
         if(token == null || !jwtTokenProvider.validateToken(token))
-            throw new ApiException(ErrorCode.BAD_REQUEST, "유효하지 않은 토큰입니다.");
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다.");
         String userId = jwtTokenProvider.getUsername(token);
 
         bookService.cancelBook(userId, bookId);
@@ -70,7 +70,7 @@ public class BookController {
     ){
         String token = AccessToken.split(" ")[1];
         if(token == null || !jwtTokenProvider.validateToken(token))
-            throw new ApiException(ErrorCode.BAD_REQUEST, "유효하지 않은 토큰입니다.");
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다.");
         String userId = jwtTokenProvider.getUsername(token);
 
         bookService.enter(userId, enterDTO.getCarNumber(), enterDTO.getParkingLotName());

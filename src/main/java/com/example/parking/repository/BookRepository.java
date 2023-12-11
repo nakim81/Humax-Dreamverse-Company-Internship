@@ -30,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "and b.parkingLotName=:parkingLotName " +
             "and date_format(b.startTime, '%Y-%m-%d')=:currentDate " +
             "and b.state='1'")
-    public Optional<Book> findBookByCarAndParkingLotAndDate(
+    public Optional<Book> findSameBook(
             @Param("carNumber")String carNumber,
             @Param("parkingLotName")String parkingLotName,
             @Param("currentDate") LocalDate currentDate
@@ -41,7 +41,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             "and b.parkingLotName=:parkingLotName " +
             "and :currentTime between b.startTime and b.endTime " +
             "and b.state='1'")
-    public Optional<Book> findBookByCarAndParkingLotAndTime(
+    public Optional<Book> findBookToUse(
             @Param("carNumber")String carNumber,
             @Param("parkingLotName")String parkingLotName,
             @Param("currentTime")LocalDateTime currentTime

@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -72,35 +70,26 @@ public class BookService {
     }
 
     public void verifyBook(String carNumber, String parkingLotName, LocalDateTime startTime){
-        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndDate(
-                carNumber,
-                parkingLotName,
-                startTime.toLocalDate()
-        );
+        Optional<Book> optionalBook = bookRepository.findSameBook(carNumber, parkingLotName, startTime.toLocalDate());
         if(optionalBook.isPresent())
             throw new ApiException(ErrorCode.BAD_REQUEST, "이미 예약이 존재합니다.");
     }
 
     public void cancelBook(String userId, Long bookId){
+        Book book = bookRepository.findByIDWithUser(bookId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다."));
 
-        Optional<Book> optionalBook = bookRepository.findByIDWithUser(bookId);
-
-        if(optionalBook.isPresent()) {
-            Book book = optionalBook.get();
-            if(!Objects.equals(book.getUser().getId(), userId))
-                throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
-            else if(book.getState()==BookState.CANCELED)
-                throw new ApiException(ErrorCode.BAD_REQUEST, "이미 취소된 내역입니다.");
-            else if(book.getState()==BookState.USED)
-                throw  new ApiException(ErrorCode.BAD_REQUEST, "이미 사용된 내역입니다.");
-            else if(LocalDateTime.now().isAfter(book.getEndTime()))
-                throw new ApiException(ErrorCode.BAD_REQUEST, "예약 취소 기간이 아닙니다.");
-            else{
-                book.setState(BookState.CANCELED);
-                bookRepository.save(book);
-            }
-        }else {
-            throw new ApiException(ErrorCode.NULL_POINT, "예약 정보가 존재하지 않습니다.");
+        if(!Objects.equals(book.getUser().getId(), userId))
+            throw new ApiException(ErrorCode.BAD_REQUEST, "해당 사용자의 예약 내역이 아닙니다.");
+        else if(book.getState()==BookState.CANCELED)
+            throw new ApiException(ErrorCode.BAD_REQUEST, "이미 취소된 내역입니다.");
+        else if(book.getState()==BookState.USED)
+            throw  new ApiException(ErrorCode.BAD_REQUEST, "이미 사용된 내역입니다.");
+        else if(LocalDateTime.now().isAfter(book.getEndTime()))
+            throw new ApiException(ErrorCode.BAD_REQUEST, "사용 기간을 초과하였습니다.");
+        else{
+            book.setState(BookState.CANCELED);
+            bookRepository.save(book);
         }
     }
 
@@ -111,12 +100,8 @@ public class BookService {
             throw new ApiException(ErrorCode.INVALID_TOKEN, "admin 사용자가 아닙니다.");
 
         LocalDateTime currentTime = LocalDateTime.now();
-
-        Optional<Book> optionalBook = bookRepository.findBookByCarAndParkingLotAndTime(carNumber, parkingLotName, currentTime);
-        if(optionalBook.isEmpty())
-            throw new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다.");
-
-        Book book = optionalBook.get();
+        Book book = bookRepository.findBookToUse(carNumber, parkingLotName, currentTime)
+                .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
         book.setState(BookState.USED);
         bookRepository.save(book);
     }
