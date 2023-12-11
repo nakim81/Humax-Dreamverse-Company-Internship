@@ -35,11 +35,13 @@ function MyNavbar() {
   const [isAdminActive, setIsAdminActive] = useState(false);
   const [isAdminCarHovered, setIsAdminCarHovered] = useState(false);
   const [isAdminCarActive, setIsAdminCarActive] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     const storedId = localStorage.getItem("userId");
     const storedAdmin = localStorage.getItem("admin");
+    const activeMenu = localStorage.getItem("activeMenu");
 
     if (storedToken) {
       setIsLoggedIn(true);
@@ -52,6 +54,41 @@ function MyNavbar() {
 
     if (storedAdmin) {
       setAdmin(storedAdmin === "true"); // 문자열 'true'를 부울 true로 변환, 그 외의 경우는 false로 변환
+    }
+
+    if (activeMenu) {
+      switch (activeMenu) {
+        case "parkinglot":
+          setIsParkinglotActive(true);
+          break;
+        case "book":
+          setIsBookActive(true);
+          break;
+        case "myPage":
+          setIsMyPageActive(true);
+          break;
+        case "car":
+          setIsCarActive(true);
+          break;
+        case "pay":
+          setIsPayActive(true);
+          break;
+        case "admin":
+          setIsAdminActive(true);
+          break;
+        case "adminCar":
+          setIsAdminCarActive(true);
+          break;
+        default:
+          setIsParkinglotActive(false);
+          setIsBookActive(false);
+          setIsMyPageActive(false);
+          setIsCarActive(false);
+          setIsPayActive(false);
+          setIsAdminActive(false);
+          setIsAdminCarActive(false);
+          break;
+      }
     }
   }, []);
 
@@ -83,6 +120,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.removeItem("activeMenu");
   };
 
   const handleParkinglotClick = () => {
@@ -93,6 +131,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "parkinglot");
   };
 
   const handleBookClick = () => {
@@ -103,6 +142,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "parkinglot");
   };
 
   const handleMyPageClick = () => {
@@ -113,6 +153,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "myPage");
   };
 
   const handleCarClick = () => {
@@ -123,6 +164,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "car");
   };
 
   const handlePayClick = () => {
@@ -133,6 +175,7 @@ function MyNavbar() {
     setIsPayActive(true);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "pay");
   };
 
   const handleAdminClick = () => {
@@ -143,6 +186,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(true);
     setIsAdminCarActive(false);
+    localStorage.setItem("activeMenu", "admin");
   };
   const handleAdminCarClick = () => {
     setIsParkinglotActive(false);
@@ -152,6 +196,7 @@ function MyNavbar() {
     setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(true);
+    localStorage.setItem("activeMenu", "adminCar");
   };
 
   return (
