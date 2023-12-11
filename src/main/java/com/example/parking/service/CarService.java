@@ -11,7 +11,7 @@ import com.example.parking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,23 +26,29 @@ public class CarService {
         this.userRepository = userRepository;
     }
 
+    // 예외처리
+    private User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
+    }
+
+    private Car getCarById(Long carId) {
+        return carRepository.findById(carId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "해당 차량이 존재하지 않습니다."));
+    }
+
     // 조회
     public List<CarInfoDto> getCarsByUserId(Long userId) {
         List<Car> cars = carRepository.findByUserUserId(userId);
 
-        if (!cars.isEmpty()) {
-            return cars.stream()
-                    .map(car -> new CarInfoDto(car.getCarId(), car.getCarName(), car.getCarNumber()))
-                    .collect(Collectors.toList());
-        } else {
-            throw new ApiException(ErrorCode.NULL_POINT, "차량을 등록해주세요.");
-        }
+        return cars.stream()
+                .map(car -> new CarInfoDto(car.getCarId(), car.getCarName(), car.getCarNumber()))
+                .collect(Collectors.toList());
     }
 
     // 등록
     public CarDto addCarToUser(Long userId, CarDto carDto) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
+        User user = getUserById(userId);
 
         Car newCar = new Car();
         newCar.setCarName(carDto.getCarName());
@@ -56,16 +62,10 @@ public class CarService {
 
     // 수정
     public CarDto updateCar(Long carId, CarDto carDto) {
-        Car existingCar = carRepository.findById(carId)
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "해당 차량이 존재하지 않습니다."));
+        Car existingCar = getCarById(carId);
 
-        if (carDto.getCarName() != null) {
-            existingCar.setCarName(carDto.getCarName());
-        }
-
-        if (carDto.getCarNumber() != null) {
-            existingCar.setCarNumber(carDto.getCarNumber());
-        }
+        Optional.ofNullable(carDto.getCarName()).ifPresent(existingCar::setCarName);
+        Optional.ofNullable(carDto.getCarNumber()).ifPresent(existingCar::setCarNumber);
 
         Car updatedCar = carRepository.save(existingCar);
 
@@ -74,11 +74,8 @@ public class CarService {
 
     // 삭제
     public void deleteCar(Long userId, Long carId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "존재하지 않는 사용자입니다."));
-
-        Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "해당 차량이 존재하지 않습니다."));
+        User user = getUserById(userId);
+        Car car = getCarById(carId);
 
         if (!car.getUser().equals(user)) {
             throw new ApiException(ErrorCode.NULL_POINT, "유저와 차 정보가 일치하지 않습니다.");

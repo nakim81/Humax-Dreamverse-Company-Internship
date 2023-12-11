@@ -24,7 +24,7 @@ public class CarController {
     public ResponseEntity<List<CarInfoDto>> getCarsByUserId(@PathVariable Long userId) {
 
         List<CarInfoDto> carInfoDtos = carService.getCarsByUserId(userId);
-        return ResponseEntity.ok(carInfoDtos);
+            return ResponseEntity.ok(carInfoDtos);
     }
 
     // 등록
