@@ -12,8 +12,8 @@ import {API_BASE_URL} from "../constants";
 const CarPage = () => {
   const { userId } = useContext(AuthContext);
   const [carData, setCarData] = useState([]);
-  const [addCarName, setAddCarName] = useState(undefined);
-  const [addCarNumber, setAddCarNumber] = useState(undefined);
+  const [addCarName, setAddCarName] = useState("");
+  const [addCarNumber, setAddCarNumber] = useState("");
   const [updateCarId, setUpdateCarId] = useState();
   const [updateCarName, setUpdateCarName] = useState("");
   const [updateCarNumber, setUpdateCarNumber] = useState("");

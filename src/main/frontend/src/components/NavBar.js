@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import "../styles/MyNavbar.css";
 import Logo from "../assets/turuparking-hiparking.svg";
 import AuthContext from "../hooks/AuthContext";
@@ -14,7 +13,6 @@ function MyNavbar() {
     isLoggedIn,
     admin,
     userId,
-    token,
     setToken,
     setIsLoggedIn,
     setUserId,
@@ -167,7 +165,7 @@ function MyNavbar() {
           style={{ height: "40px", marginLeft: "20px" }}
         />
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle aria-controls="basic-navbar-nav" style={{marginRight: "5px"}}/>
       <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
         <Nav className="justify-content-center">
           {isLoggedIn && (
@@ -179,6 +177,10 @@ function MyNavbar() {
                   fontSize: isParkinglotHovered ? "large" : "medium",
                   fontWeight: isParkinglotActive ? "800" : "400",
                   transition: "all 0.3s ease",
+                  display: "flex",
+                  whiteSpace: "nowrap",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
                 // 추가: 마우스 이벤트 핸들러
                 onMouseEnter={() => setIsParkinglotHovered(true)}
@@ -252,9 +254,13 @@ function MyNavbar() {
                   to={"/admin"}
                   className="nav-link text-white"
                   style={{
-                    fontSize: isAdminHovered ? "17px" : "15px",
+                    fontSize: isAdminHovered ? "large" : "medium",
                     fontWeight: isAdminActive ? "800" : "400",
                     transition: "all 0.3s ease",
+                    display: "flex",
+                    whiteSpace: "nowrap",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   // 추가: 마우스 이벤트 핸들러
                   onMouseEnter={() => setIsAdminHovered(true)}
@@ -269,7 +275,7 @@ function MyNavbar() {
                   to={"/admin/enter"}
                   className="nav-link text-white"
                   style={{
-                    fontSize: isAdminCarHovered ? "17px" : "15px",
+                    fontSize: isAdminCarHovered ? "large" : "medium",
                     fontWeight: isAdminCarActive ? "800" : "400",
                     transition: "all 0.3s ease",
                   }}
@@ -283,24 +289,22 @@ function MyNavbar() {
               )}
             </>
           )}
+          {isLoggedIn ? (
+              <Button variant="outline-light" onClick={handleLogout} style={{whiteSpace: "nowrap",}}>
+                로그아웃
+              </Button>
+          ) : (
+              <>
+                <NavLink to="/login" className="nav-link text-white">
+                  로그인
+                </NavLink>
+                <NavLink to="/signup" className="nav-link text-white">
+                  회원가입
+                </NavLink>
+              </>
+          )}
         </Nav>
       </Navbar.Collapse>
-      <Nav>
-        {isLoggedIn ? (
-          <Button variant="outline-light" onClick={handleLogout}>
-            로그아웃
-          </Button>
-        ) : (
-          <>
-            <NavLink to="/login" className="nav-link text-white">
-              로그인
-            </NavLink>
-            <NavLink to="/signup" className="nav-link text-white">
-              회원가입
-            </NavLink>
-          </>
-        )}
-      </Nav>
     </Navbar>
   );
 }

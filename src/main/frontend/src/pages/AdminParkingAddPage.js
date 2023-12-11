@@ -124,6 +124,8 @@ const AdminParkingAddPage = () => {
     } catch (error) {
       console.error("Error posting data to API:", error);
     }
+
+    navigate(-1);
   };
 
   return (
