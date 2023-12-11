@@ -17,25 +17,22 @@ public class BookDTO {
     private LocalDateTime startTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
-    private Long carId;
     private String carNumber;
-    private Integer price;
     private String ticket;
-    private Long payId;
     private String payName;
+    private Integer price;
 
     public BookDTO(Book book){
         this.bookId = book.getBookId();
-        this.parkingLotId = book.getParkinglot().getParkingId();
-        this.parkingLotName = book.getParkinglot().getName();
+        if(book.getParkinglot() != null)
+            this.parkingLotId = book.getParkinglot().getParkingId();
+        this.parkingLotName = book.getParkingLotName();
         this.state = book.getState().getNameValue();
         this.startTime = book.getStartTime();
         this.endTime = book.getEndTime();
-        this.carId = book.getCar().getCarId();
-        this.carNumber = book.getCar().getCarNumber();
-        this.price = book.getPrice();
+        this.carNumber = book.getCarNumber();
         this.ticket = book.getTicket().getNameValue();
-        this.payId = book.getPay().getPayId();
-        this.payName = book.getPay().getPayName();
+        this.payName = book.getPayName();
+        this.price = book.getPrice();
     }
 }

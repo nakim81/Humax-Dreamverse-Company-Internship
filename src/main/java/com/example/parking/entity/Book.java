@@ -25,6 +25,9 @@ public class Book {
     private Integer price;
     @Convert(converter = TicketTypeConverter.class)
     private TicketType ticket;
+    private String payName;
+    private String carNumber;
+    private String parkingLotName;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="user_id")
     private User user;
@@ -32,23 +35,18 @@ public class Book {
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="parking_id")
     private Parkinglot parkinglot;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="car_id")
-    private Car car;
-
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="pay_id")
-    private Pay pay;
-
     @Builder
     public Book(BookState state, LocalDateTime startTime, LocalDateTime endTime, Integer price, TicketType ticket,
-                User user, Parkinglot parkinglot, Car car, Pay pay){
+                String carNumber, String payName, String parkingLotName, User user, Parkinglot parkinglot){
         this.state = state;
         this.startTime = startTime;
         this.endTime = endTime;
         this.price = price;
         this.ticket = ticket;
+        this.carNumber = carNumber;
+        this.payName = payName;
+        this.parkingLotName = parkingLotName;
         this.user = user;
         this.parkinglot = parkinglot;
-        this.car = car;
-        this.pay = pay;
     }
 }
