@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <>
-      <img src={HeroImage} alt="first page" />
+      <img src={HeroImage} alt="first page" style={{width: "100%"}}/>
     </>
   );
 };
