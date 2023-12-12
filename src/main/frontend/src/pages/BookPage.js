@@ -151,7 +151,7 @@ const BookPage = () => {
                         </div>
                     </div>
 
-                    {carData == '' ? (
+                    {carData.length === 0 ? (
                         <div>
                             <hr/>
                             <button
@@ -177,7 +177,7 @@ const BookPage = () => {
                         </div>
                     )}
 
-                    {payData == '' ? (
+                    {payData.length === 0 ? (
                         <div>
                             <hr/>
                             <button

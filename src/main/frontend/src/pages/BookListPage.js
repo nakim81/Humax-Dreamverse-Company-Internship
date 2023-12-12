@@ -7,7 +7,6 @@ import {API_BASE_URL} from "../constants";
 
 const BookListPage = () => {
     const { token } = useContext(AuthContext);
-
     const [page, setPage] = useState(1);
     const [bookData, setBookData] = useState([]);
     const [totalPage, setTotalPage]  = useState();
@@ -37,7 +36,6 @@ const BookListPage = () => {
             })
             alert('예약이 취소되었습니다.')
             setBookData((prevData) => {
-              // 새로운 배열을 생성하고 0번째 객체의 name을 3으로 변경
               const newData = [...prevData];
               newData[index] = { ...newData[index], 'state': '예약 취소' };
               return newData;
@@ -66,7 +64,7 @@ const BookListPage = () => {
 
     return (
         <>
-            {bookData == '' ? (
+            {bookData.length === 0 ? (
                 <h3 style={{textAlign: 'center', marginTop: '20%'}}> 이용 내역이 없습니다. </h3>
             ):(
                 <div>
