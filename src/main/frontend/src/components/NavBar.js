@@ -211,7 +211,7 @@ function MyNavbar() {
         />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" style={{marginRight: "5px"}}/>
-      <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
+      <Navbar.Collapse id="basic-navbar-nav" style={{justifyContent: "flex-end"}}>
         <Nav className="justify-content-center">
           {isLoggedIn && (
             <>
@@ -340,10 +340,10 @@ function MyNavbar() {
               </Button>
           ) : (
               <>
-                <NavLink to="/login" className="nav-link text-white">
+                <NavLink to="/login" className="nav-link text-white" style={{whiteSpace: "nowrap",}}>
                   로그인
                 </NavLink>
-                <NavLink to="/signup" className="nav-link text-white">
+                <NavLink to="/signup" className="nav-link text-white" style={{whiteSpace: "nowrap",}}>
                   회원가입
                 </NavLink>
               </>

@@ -58,17 +58,14 @@ public class AdminService {
 
     //수정
     public ParkinglotDto updateParkingLot(Long parkingId, ParkinglotDto parkinglotDto) {
-        Optional<Parkinglot> existingParkingLotOptional = adminRepository.findById(parkingId);
-        if (existingParkingLotOptional.isPresent()) {
-            Parkinglot existingParkinglot = existingParkingLotOptional.get();
-            parkinglotConverter.updateEntity(existingParkinglot, parkinglotDto);
-            existingParkinglot.setUpdatedAt(String.valueOf(LocalDateTime.now()));
-            Parkinglot updateParkingLot = adminRepository.save(existingParkinglot);
-
-            return parkinglotConverter.toDto(updateParkingLot);
-        } else {
-            throw new ApiException(ErrorCode.NULL_POINT, "주차장이 존재하지 않습니다.");
-        }
+        return adminRepository.findById(parkingId)
+                .map(existingParkinglot -> {
+                    parkinglotConverter.updateEntity(existingParkinglot, parkinglotDto);
+                    existingParkinglot.setUpdatedAt(String.valueOf(LocalDateTime.now()));
+                    Parkinglot updateParkingLot = adminRepository.save(existingParkinglot);
+                    return parkinglotConverter.toDto(updateParkingLot);
+                })
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "주차장이 존재하지 않습니다."));
     }
 
     //삭제
