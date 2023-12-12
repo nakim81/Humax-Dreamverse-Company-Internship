@@ -96,7 +96,7 @@ const AdminParkingDetailPage = () => {
           <div className="parkingDetailHeader">
             <div className="parkingDetailName">{parkingData.name}</div>
             <div className="parkingDetailAddress">{parkingData.address}</div>
-            {parkingData.is_active === 1 ? (
+            {parkingData.is_active === "1" ? (
               <div className="parkingDetailIsActive">운영중</div>
             ) : (
               <div className="parkingDetailIsNotActive">운영 예정</div>
