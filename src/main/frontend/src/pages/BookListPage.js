@@ -11,10 +11,13 @@ const BookListPage = () => {
     const [bookData, setBookData] = useState([]);
     const [totalPage, setTotalPage]  = useState();
     const [showPay, setShowPay] = useState([]);
+    const [state, setState] = useState(false);
 
-    const fetchBookData = async (page, token) => {
+    const fetchBookData = async (page, state, token) => {
         try {
-            const response = await axios.get(API_BASE_URL + `/user/book?page=${page-1}`, {
+            console.log(state)
+            const url = API_BASE_URL + `/user/book?page=${page-1}` + (state ? `&state=READY_TO_USE` : ``)
+            const response = await axios.get(url, {
                 headers: {Authorization: `Bearer ${token}`}
             })
             setBookData(response.data.body.content)
@@ -26,8 +29,8 @@ const BookListPage = () => {
     }
 
     useEffect(() => {
-        fetchBookData(page, token);
-    }, [page, token]);
+        fetchBookData(page, state, token);
+    }, [page, state, token]);
 
     const cancelBookClick = async (index, bookId, token) => {
         try{
@@ -59,8 +62,14 @@ const BookListPage = () => {
     const handlePageChange = (event, value) => {
         setPage(value);
         console.log(page);
-        fetchBookData(page);
+        fetchBookData(page, state, token);
     };
+
+    const handleFilter = () => {
+        setState(!state);
+        setPage(1);
+        fetchBookData(page, state, token);
+    }
 
     return (
         <>
@@ -69,6 +78,14 @@ const BookListPage = () => {
             ):(
                 <div>
                     <h1 style={{textAlign: 'center', marginTop: '20px'}}>이용 내역 조회</h1>
+
+                    <div style={{textAlign: 'center'}}>
+                        <label>
+                            <input type="checkbox" onChange={handleFilter}/>
+                               이용 대기만
+                        </label>
+                    </div>
+
                     <div className = "gridContainer">
                         {bookData.map((book, index) => (
                             <div key={index} className="bookContainer">
