@@ -1,6 +1,7 @@
 package com.example.parking.controller;
 
 import com.example.parking.common.api.Api;
+import com.example.parking.common.enums.BookState;
 import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.AddBookDTO;
@@ -19,6 +20,7 @@ public class BookController {
     @GetMapping("/user/book")
     public ResponseEntity<Api<Object>> getBookList(
             @RequestParam(name="page") Integer page,
+            @RequestParam(name="state", required = false) BookState state,
             @RequestHeader("Authorization") String AccessToken
     ){
         String token = AccessToken.split(" ")[1];
@@ -28,7 +30,7 @@ public class BookController {
 
         return ResponseEntity
                 .status(200)
-                .body(Api.OK(bookService.getBookList(userId, page)));
+                .body(Api.OK(bookService.getBookList(userId, state, page)));
     }
 
     @PostMapping("/user/book")

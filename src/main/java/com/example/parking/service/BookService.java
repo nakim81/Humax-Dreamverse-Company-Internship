@@ -26,9 +26,11 @@ public class BookService {
     private final CarRepository carRepository;
     private final PayRepository payRepository;
 
-    public Page<BookDTO> getBookList(String userId, Integer page){
-        Page<Book> bookList = bookRepository.findByUserId(userId, PageRequest.of(page, 4));
-        return bookList.map(BookDTO::new);
+    // 나중에 필터 종류 늘어나면 jpql 이용한 동적 쿼리로 변경
+    public Page<BookDTO> getBookList(String userId, BookState state, Integer page){
+        if(state == null)
+            return bookRepository.findByUserId(userId, PageRequest.of(page, 4)).map(BookDTO::new);
+        return bookRepository.findByUserIdAndState(userId, state, PageRequest.of(page, 4)).map(BookDTO::new);
     }
 
     public void addBook(String userId, AddBookDTO addBookDTO){
@@ -87,10 +89,9 @@ public class BookService {
             throw  new ApiException(ErrorCode.BAD_REQUEST, "이미 사용된 내역입니다.");
         else if(LocalDateTime.now().isAfter(book.getEndTime()))
             throw new ApiException(ErrorCode.BAD_REQUEST, "사용 기간을 초과하였습니다.");
-        else{
-            book.setState(BookState.CANCELED);
-            bookRepository.save(book);
-        }
+
+        book.setState(BookState.CANCELED);
+        bookRepository.save(book);
     }
 
     public void enter(String userId, String carNumber, String parkingLotName){
@@ -99,9 +100,9 @@ public class BookService {
         if(!user.isAdmin())
             throw new ApiException(ErrorCode.INVALID_TOKEN, "admin 사용자가 아닙니다.");
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        Book book = bookRepository.findBookToUse(carNumber, parkingLotName, currentTime)
+        Book book = bookRepository.findBookToUse(carNumber, parkingLotName, LocalDateTime.now())
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
+
         book.setState(BookState.USED);
         bookRepository.save(book);
     }
