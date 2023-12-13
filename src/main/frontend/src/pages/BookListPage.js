@@ -61,14 +61,13 @@ const BookListPage = () => {
 
     const handlePageChange = (event, value) => {
         setPage(value);
-        console.log(page);
-        fetchBookData(page, state, token);
+        fetchBookData(value, state, token);
     };
 
     const handleFilter = () => {
+        fetchBookData(1, !state, token);
         setState(!state);
         setPage(1);
-        fetchBookData(page, state, token);
     }
 
     return (
