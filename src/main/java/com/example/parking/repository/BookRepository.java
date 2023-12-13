@@ -26,6 +26,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     public Page<Book> findByUserId(@Param("id") String id, Pageable pageable);
 
     @Query(value = "select b from Book b " +
+            "left join fetch b.parkinglot " +
+            "where b.user.id=:id " +
+            "and b.state=:state " +
+            "order by b.endTime desc")
+    public Page<Book> findByUserIdAndState(@Param("id") String id, @Param("state")BookState state, Pageable pageable);
+
+    @Query(value = "select b from Book b " +
             "where b.carNumber=:carNumber " +
             "and b.parkingLotName=:parkingLotName " +
             "and date_format(b.startTime, '%Y-%m-%d')=:currentDate " +
