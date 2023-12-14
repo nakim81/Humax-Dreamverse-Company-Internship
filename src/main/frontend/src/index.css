@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "WantedSansVariable";
+  src: url("../public/WantedSans-Regular.ttf") format("truetype");
+}
+
+body {
+  font-family: "WantedSansVariable", sans-serif !important;
+}

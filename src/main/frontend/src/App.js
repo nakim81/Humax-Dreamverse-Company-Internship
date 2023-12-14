@@ -21,24 +21,30 @@ function App() {
   return (
     <>
       <Navbar />
-        <Routes>
-            <Route element={<Home />} path="/"/>
-            <Route element={<MyPage />} path="/user/:userId/mypage"/>
-            <Route element={<BookPage />} path="/user/book/:parkingId"/>
-            <Route element={<BookListPage />} path="/user/booklist"/>
-            <Route element={<CarPage />} path="/user/car"/>
-            <Route element={<PayPage />} path="/user/pay"/>
-            <Route element={<ParkinglotPage />} path="/user/parkinglot"/>
-            <Route element={<AdminPage />} path="/admin" />
-            <Route element={<AdminParkingDetailPage />} path="/admin/parking/:parkingId" />
-            <Route element={<AdminParkingAddPage />} path="/admin/parking/add" />
-            <Route element={<AdminParkingUpdatePage />} path="/admin/parking/update/:parkingId" />
-            <Route element={<AdminEnterPage />} path="/admin/enter"/>
-            <Route element={<SignUpPage />} path="/signup"/>
-            <Route element={<LoginPage />} path="/login"/>
-            <Route element={<AdminUserPage />} path="/admin/user" />
-        </Routes>
-      </>
+      <Routes>
+        <Route element={<Home />} path="/" />
+        <Route element={<MyPage />} path="/user/mypage" />
+        <Route element={<BookPage />} path="/user/book/:parkingId" />
+        <Route element={<BookListPage />} path="/user/booklist" />
+        <Route element={<CarPage />} path="/user/car" />
+        <Route element={<PayPage />} path="/user/pay" />
+        <Route element={<ParkinglotPage />} path="/user/parkinglot" />
+        <Route element={<AdminPage />} path="/admin" />
+        <Route
+          element={<AdminParkingDetailPage />}
+          path="/admin/parking/:parkingId"
+        />
+        <Route element={<AdminParkingAddPage />} path="/admin/parking/add" />
+        <Route
+          element={<AdminParkingUpdatePage />}
+          path="/admin/parking/update/:parkingId"
+        />
+        <Route element={<AdminEnterPage />} path="/admin/enter" />
+        <Route element={<SignUpPage />} path="/signup" />
+        <Route element={<LoginPage />} path="/login" />
+        <Route element={<AdminUserPage />} path="/admin/user" />
+      </Routes>
+    </>
   );
 }
 

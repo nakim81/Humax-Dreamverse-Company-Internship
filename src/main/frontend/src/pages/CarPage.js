@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import "./CarPage.css";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CloseIcon from "@mui/icons-material/Close";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AuthContext from "../hooks/AuthContext";
-import {API_BASE_URL} from "../constants";
+import { API_BASE_URL } from "../constants";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const CarPage = () => {
+  const navigate = useNavigate();
   const { userId } = useContext(AuthContext);
   const [carData, setCarData] = useState([]);
   const [addCarName, setAddCarName] = useState("");
@@ -22,14 +24,21 @@ const CarPage = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isAddErrorOpen, setIsAddErrorOpen] = useState(false);
+  const [isDetailOpen, setIsDetailOpen] = useState([]);
+
+  const handleToggleDetail = (index) => {
+    setIsDetailOpen((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
 
   useEffect(() => {
     if (userId) {
       const fetchData = async () => {
         try {
-          const res = await axios.get(
-              API_BASE_URL + `/user/${userId}/car`
-          );
+          const res = await axios.get(API_BASE_URL + `/user/${userId}/car`);
           setCarData(res.data);
         } catch (err) {
           console.error("car data error", err);
@@ -103,10 +112,7 @@ const CarPage = () => {
       setIsAddErrorOpen((isAddErrorOpen) => !isAddErrorOpen);
     } else {
       try {
-        await axios.post(
-            API_BASE_URL + `/user/${userId}/car`,
-          addCarData
-        );
+        await axios.post(API_BASE_URL + `/user/${userId}/car`, addCarData);
         setIsAddOpen((isAddOpen) => !isAddOpen);
         setAddCarName("");
         setAddCarNumber("");
@@ -129,7 +135,7 @@ const CarPage = () => {
     if (isValid) {
       try {
         await axios.patch(
-            API_BASE_URL + `/user/${userId}/car/${updateCarId}`,
+          API_BASE_URL + `/user/${userId}/car/${updateCarId}`,
           updateCarData
         );
         setIsUpdateOpen((isUpdateOpen) => !isUpdateOpen);
@@ -147,9 +153,7 @@ const CarPage = () => {
     e.preventDefault();
 
     try {
-      await axios.delete(
-          API_BASE_URL + `/user/${userId}/car/${updateCarId}`
-      );
+      await axios.delete(API_BASE_URL + `/user/${userId}/car/${updateCarId}`);
       setIsDeleteOpen((isDeleteOpen) => !isDeleteOpen);
       await fetchData();
       // console.log(res.data)
@@ -162,18 +166,39 @@ const CarPage = () => {
     <>
       <div className="carAddContainer">
         <div className="carAddBtnContainer">
-          {isAddOpen ? (
-            <button onClick={handleOnAddClick} className="addBtn">
-              <RemoveIcon style={{ fontSize: 40 }} />
-            </button>
-          ) : (
-            <button onClick={handleOnAddClick} className="addBtn">
-              <AddIcon style={{ fontSize: 40 }} />
-            </button>
-          )}
+          <div className="carAddBackBtn">
+            <ArrowBackIcon
+              onClick={() => navigate("/user/mypage")}
+              className="carArrowBackIcon"
+            />
+            차량 정보 관리
+          </div>
+          <div>
+            {carData.length < 5 &&
+              (isAddOpen ? (
+                <button onClick={handleOnAddClick} className="addBtn">
+                  <RemoveIcon style={{ fontSize: 40 }} />
+                </button>
+              ) : (
+                <button onClick={handleOnAddClick} className="addBtn">
+                  <AddIcon style={{ fontSize: 40 }} />
+                </button>
+              ))}
+          </div>
         </div>
         <div className={`carAddInputContainer ${isAddOpen ? "" : "disable"}`}>
-          <div className="carAddHeader">차량 등록</div>
+          <div className="carAddHeader">
+            <h4>차량 정보를 입력해 주세요</h4>
+            <li>차량은 소유주 본인 차량만 등록할 수 있습니다.</li>
+            <li>
+              자동결제 등의 서비스 제공을 위하여 타인, 법인 등의 차량 정보
+              등록은 삼가해 주세요.
+            </li>
+            <li>
+              타인 차량 정보 등록으로 인해 발생하는 책임은 등록자 본인에게
+              있습니다.
+            </li>
+          </div>
           <div className="carAddContent">
             <input
               type="text"
@@ -213,29 +238,58 @@ const CarPage = () => {
       <div className="carsContainer">
         {carData.length === 0 ? <div>차량을 등록하세요.</div> : <div></div>}
         {carData.map((car, index) => (
-          <div key={index} className="carContainer">
-            <div className="carTextContainer">
-              <p className="carNameText">{car.carName}</p>
-              <p className="carNumberText">{car.carNumber}</p>
+          <>
+            <div key={car.carId} className="carContainer">
+              <div className="carTextContainer">
+                <p className="carText">
+                  {car.carName} | {car.carNumber}
+                </p>
+                <div className="carMoreVertIcon">
+                  <MoreVertIcon onClick={() => handleToggleDetail(index)} />
+                </div>
+              </div>
             </div>
-            <div className="carBtnContainer">
-              <button
-                onClick={() =>
-                  handleOnUpdateClick(car.carName, car.carNumber, car.carId)
-                }
-                className="updateBtn"
-              >
-                <ModeEditIcon style={{ fontSize: 40 }} />
-              </button>
-              <button
-                onClick={() => handleOnDeleteClick(car.carId)}
-                className="deleteBtn"
-              >
-                <DeleteIcon style={{ fontSize: 40 }} />
-              </button>
+            <div className="carDetailContainer">
+              {isDetailOpen[index] && (
+                <>
+                  <div className="carDetailTextContainer">
+                    <div className="carDetailText1">오토 패스 등록</div>
+                    <div className="carDetailText2">
+                      {car.carName} | {car.carNumber}
+                    </div>
+                  </div>
+                  <div className="carBtnContainer">
+                    <button
+                      onClick={() =>
+                        handleOnUpdateClick(
+                          car.carName,
+                          car.carNumber,
+                          car.carId
+                        )
+                      }
+                      className="updateBtn"
+                    >
+                      차량 정보 수정하기
+                    </button>
+                    <button
+                      onClick={() => handleOnDeleteClick(car.carId)}
+                      className="deleteBtn"
+                    >
+                      차량 정보 삭제하기
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
-          </div>
+          </>
         ))}
+      </div>
+
+      <div className="carsContainerFooter">
+        <div className="carFooterText">
+          <div>차량 정보 등록은 최대 5대까지 가능합니다.</div>
+          <div>{carData.length} / 5</div>
+        </div>
       </div>
 
       {isUpdateOpen && (
@@ -243,7 +297,7 @@ const CarPage = () => {
           <div className="modalOverlay" onClick={handleOnUpdateClick}>
             <div className="modalContent" onClick={(e) => e.stopPropagation()}>
               <div className="modalContentHeader">
-                <div className="modalContentHeaderText">내 차량 수정</div>
+                <div className="modalContentHeaderText">차량 정보 수정</div>
                 <button onClick={handleOnUpdateClick} className="closeBtn">
                   <CloseIcon style={{ fontSize: 30 }} />
                 </button>

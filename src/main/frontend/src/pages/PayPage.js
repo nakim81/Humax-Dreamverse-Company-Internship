@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../hooks/AuthContext";
 import axios from "axios";
-import {API_BASE_URL} from "../constants";
+import { API_BASE_URL } from "../constants";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
+import "./PayPage.css";
 
 const PayPage = () => {
   const { token } = useContext(AuthContext);
   const [responseData, setResponseData] = useState(null);
   const url = API_BASE_URL + `/user/pay`;
+  const navigate = useNavigate();
 
   function PaymentList({ payments }) {
     const [data, setData] = useState(payments);
@@ -77,7 +81,6 @@ const PayPage = () => {
 
       // eslint-disable-next-line no-restricted-globals
       location.reload();
-
     };
 
     const handleEdit = (id, payment) => {
@@ -124,177 +127,186 @@ const PayPage = () => {
     const typeOptions = ["카드", "현금", "기타"]; // 결제 방식
 
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
-        <div style={{ width: "60%", maxWidth: "600px" }}>
-          <h2 style={{ fontSize: "20px", margin: "10px 0" }}>
-            등록된 결제 수단
-          </h2>
-          <ul
-            style={{
-              padding: 0,
-              listStyle: "none",
-              color: "white",
-              fontSize: "15px",
-            }}
-          >
-            {data.map((payment) => (
-              <li
-                key={payment.payId}
-                style={{
-                  marginBottom: "10px",
-                  backgroundColor: "orange",
-                  padding: "10px",
-                  borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                {editItemId === payment.payId ? (
-                  <div style={{ padding: "5px", borderRadius: "5px" }}>
-                    <div>
-                      <label>ID:</label>
+      <>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            minHeight: "100vh",
+          }}
+        >
+          <div className="payHeader">
+            <div className="payAddBackBtn">
+              <ArrowBackIcon
+                onClick={() => navigate("/user/mypage")}
+                className="payArrowBackIcon"
+              />
+              결제 수단 관리
+            </div>
+          </div>
+          <div style={{ width: "60%", maxWidth: "600px" }}>
+            <p style={{ fontSize: "20px", margin: "10px 0" }}>
+              등록된 결제 수단
+            </p>
+            <div className="paylistsContainer">
+              {data.map((payment) => (
+                <div key={payment.payId} className="payListContainer">
+                  {editItemId === payment.payId ? (
+                    <div className="paylist">
+                      <div>
+                        <label>결제 방식</label>
+                        <select
+                          value={editedData.payType}
+                          onChange={(e) => handleInputChange(e, "payType")}
+                          className="paySelect"
+                        >
+                          <option value="카드">카드</option>
+                          <option value="현금">현금</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>결제 은행</label>
+                        <select
+                          value={editedData.payName}
+                          onChange={(e) => handleInputChange(e, "payName")}
+                          className="paySelect"
+                        >
+                          <option value="국민">국민</option>
+                          <option value="신한">신한</option>
+                          <option value="우리">우리</option>
+                          <option value="농협">농협</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label>카드 / 계좌 번호</label>
+                        <input
+                          type="text"
+                          value={editedData.payNumber}
+                          onChange={(e) => handleInputChange(e, "payNumber")}
+                          className="payInput"
+                        />
+                      </div>
+                      <div className="payAddBtnContainer">
+                        <button
+                          className="payAddBtn"
+                          onClick={() => handleSave(payment.payId)}
+                        >
+                          저장
+                        </button>
+                        <button
+                          className="payBtn"
+                          onClick={() => setEditItemId(null)}
+                        >
+                          취소
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <label>Type:</label>
-                      <select
-                        value={editedData.payType}
-                        onChange={(e) => handleInputChange(e, "payType")}
-                      >
-                        <option value="카드">카드</option>
-                        <option value="현금">현금</option>
-                      </select>
+                  ) : (
+                    <div style={{ padding: "5px", borderRadius: "5px" }}>
+                      <div style={{ fontSize: "25px", fontWeight: "bold" }}>
+                        {payment.payType}
+                      </div>
+                      <div style={{ fontSize: "20px" }}>
+                        {payment.payName} {payment.payNumber}
+                      </div>
                     </div>
-                    <div>
-                      <label>Name:</label>
-                      <select
-                        value={editedData.payName}
-                        onChange={(e) => handleInputChange(e, "payName")}
-                      >
-                        <option value="국민">국민</option>
-                        <option value="신한">신한</option>
-                        <option value="우리">우리</option>
-                        <option value="농협">농협</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label>Number:</label>
-                      <input
-                        type="text"
-                        value={editedData.payNumber}
-                        onChange={(e) => handleInputChange(e, "payNumber")}
-                      />
-                    </div>
-                    <button onClick={() => handleSave(payment.payId)}>
-                      저장
-                    </button>
-                  </div>
-                ) : (
-                  <div style={{ padding: "5px", borderRadius: "5px" }}>
-                    <p>Type: {payment.payType}</p>
-                    <p>Name: {payment.payName}</p>
-                    <p>Number: {payment.payNumber}</p>
-                  </div>
-                )}
-                <div>
-                  {editItemId !== payment.payId && (
-                    <button
-                      onClick={() => handleEdit(payment.payId, payment)}
-                      style={{
-                        border: "none",
-                        backgroundColor: "transparent",
-                        fontSize: "20px",
-                        color: "white",
-                      }}
-                    >
-                      Edit
-                    </button>
                   )}
-                  <button
-                    onClick={() => handleDelete(payment.payId)}
-                    style={{
-                      border: "none",
-                      marginLeft: "5px",
-                      backgroundColor: "transparent",
-                      fontSize: "15px",
-                      color: "white",
-                    }}
-                  >
-                    X
-                  </button>
+                  <div>
+                    {editItemId !== payment.payId && (
+                      <>
+                        <button
+                          onClick={() => handleEdit(payment.payId, payment)}
+                          className="payBtn"
+                        >
+                          수정
+                        </button>
+                        <button
+                          onClick={() => handleDelete(payment.payId)}
+                          className="payBtn"
+                        >
+                          삭제
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </li>
-            ))}
-          </ul>
-          <div style={{ fontSize: "15px", marginTop: "20px" }}>
-            <h3 style={{ cursor: "pointer" }} onClick={toggleAddPayment}>
-              {" "}
-              + 결제 수단 추가
-            </h3>
-            {showAddPayment && (
+              ))}
+            </div>
+            <div style={{ fontSize: "15px", marginTop: "20px" }}>
               <div
-                style={{
-                  padding: "20px",
-                  borderRadius: "10px",
-                  marginTop: "10px",
-                }}
+                style={{ cursor: "pointer", fontSize: "20px" }}
+                onClick={toggleAddPayment}
               >
-                <select
-                  value={newPayment.payType}
-                  onChange={(e) =>
-                    setNewPayment({ ...newPayment, payType: e.target.value })
-                  }
+                {" "}
+                + 결제 수단 추가
+              </div>
+              {showAddPayment && (
+                <div
+                  style={{
+                    padding: "20px",
+                    borderRadius: "10px",
+                    marginTop: "10px",
+                  }}
                 >
-                  <option value="">결제 방식</option>
-                  {typeOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                {/* payType이 카드인 경우에만 노출 */}
-                {newPayment.payType === "카드" && (
                   <select
-                    value={newPayment.payName}
+                    value={newPayment.payType}
+                    className="paySelect"
                     onChange={(e) =>
-                      setNewPayment({ ...newPayment, payName: e.target.value })
+                      setNewPayment({ ...newPayment, payType: e.target.value })
                     }
                   >
-                    <option value="">결제 은행</option>
-                    {nameOptions.map((option) => (
+                    <option value="">결제 방식</option>
+                    {typeOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
                       </option>
                     ))}
                   </select>
-                )}
-                {newPayment.payType === "카드" && (
-                  <input
-                    type="text"
-                    value={newPayment.payNumber}
-                    onChange={(e) =>
-                      setNewPayment({
-                        ...newPayment,
-                        payNumber: e.target.value,
-                      })
-                    }
-                    placeholder="Number"
-                  ></input>
-                )}
-                <button onClick={handleAddPayment}>추가하기</button>
-              </div>
-            )}
+                  {/* payType이 카드인 경우에만 노출 */}
+                  {newPayment.payType === "카드" && (
+                    <select
+                      value={newPayment.payName}
+                      className="paySelect"
+                      onChange={(e) =>
+                        setNewPayment({
+                          ...newPayment,
+                          payName: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">결제 은행</option>
+                      {nameOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {newPayment.payType === "카드" && (
+                    <input
+                      type="text"
+                      value={newPayment.payNumber}
+                      className="payInput"
+                      onChange={(e) =>
+                        setNewPayment({
+                          ...newPayment,
+                          payNumber: e.target.value,
+                        })
+                      }
+                      placeholder="카드 / 계좌 번호"
+                    ></input>
+                  )}
+                  <button className="payBtn" onClick={handleAddPayment}>
+                    추가하기
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -321,12 +333,9 @@ const PayPage = () => {
   }
 
   return (
-    <div className="App">
-      <h1>PayPage</h1>
+    <div>
       {responseData ? (
-        <pre>
-          <PaymentList payments={responseData} />
-        </pre>
+        <PaymentList payments={responseData} />
       ) : (
         <p>로딩 중...</p>
       )}
