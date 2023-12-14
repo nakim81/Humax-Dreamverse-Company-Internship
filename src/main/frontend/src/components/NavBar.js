@@ -70,8 +70,6 @@ function MyNavbar() {
           setIsParkinglotActive(false);
           setIsBookActive(false);
           setIsMyPageActive(false);
-          setIsCarActive(false);
-          setIsPayActive(false);
           setIsAdminActive(false);
           setIsAdminCarActive(false);
           break;
