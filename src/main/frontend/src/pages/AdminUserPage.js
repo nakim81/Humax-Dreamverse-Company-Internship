@@ -39,7 +39,7 @@ const AdminUserPage = () => {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.userId}>
+                  <tr key={user.userId} className="userTable_body_tr">
                     <td>{user.userId}</td>
                     <td>{user.id}</td>
                     <td>{user.phoneNum}</td>

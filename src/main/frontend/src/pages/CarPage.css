@@ -1,299 +1,372 @@
 .carAddContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .carAddBtnContainer {
-    width: 80%;
-    display: flex;
-    justify-content: flex-end;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carAddBackBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .addBtn {
-    background: none;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    &:hover {
-        color: #FFA07A;
-    }
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    color: #ffa07a;
+  }
 }
 
 .carAddInputContainer {
-    width: 80%;
-    display: flex;
-    flex-direction: column;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
 }
 
 .carAddInputContainer.disable {
-    display: none;
+  display: none;
 }
 
 .carAddHeader {
-    font-size: 30px;
-    margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 10px 20px;
+}
+
+.carAddHeader .li {
+  font-size: 15px;
 }
 
 .carAddContent {
-    width: 100%;
+  width: 100%;
+  margin-left: 10px;
 }
 
 .carAddFooter {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 .carsContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .carContainer {
-    display: flex;
-    justify-content: space-between;
-    background-color: #CD853F;
-    width: 80%;
-    color: white;
-    margin:10px;
-    border-radius: 10px;
-    padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  color: #212121;
+  padding: 10px 0;
+  border-bottom: 1px lightgray solid;
+}
+
+.carContainer:hover {
+  background-color: #f5f5f5;
 }
 
 .carTextContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 80%;
-    padding: 5px;
-    margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+  margin-left: 10px;
 }
 
-.carNameText {
-    font-size: 50px;
-    font-weight: bolder;
-    margin: 0;
+.carText {
+  font-size: 30px;
+  margin: 0;
+  font-weight: bold;
 }
 
-.carNumberText {
-    font-size: 30px;
-    margin: 0;
+.carMoreVertIcon {
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .carBtnContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 5px;
-    margin-right: 10px;
-    width: 20%;
-    align-items: flex-end;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .carUpdateContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin-left: 10px;
-    width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 10px;
+  width: 80%;
 }
 
 .carNameInput {
-    width: 50%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
+  width: 50%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 .updateCarNumberContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 .carNumberInput {
-    width: 50%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 .carNumberInput.invalid {
-    border-color: red;
+  border-color: red;
 }
 
 .isValidText {
-    color: red;
-    font-size: 15px;
-    margin-left: 10px;
+  color: red;
+  font-size: 15px;
+  margin-left: 10px;
 }
 
 .createBtn {
-    padding: 10px;
-    background-color: #FFA07A;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    font-size: 15px;
-    &:hover {
-        background-color: #CD853F;
-    }
+  background: #fc6c00;
+  color: white;
+  padding: 5px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .createBtn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .updateBtn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 5px;
-    color: white;
-    cursor: pointer;
-    &:hover {
-        color: #FFA07A;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: 1px #fc6c00 solid;
+  border-radius: 10px;
+  padding: 5px;
+  color: #fc6c00;
+  cursor: pointer;
+  margin-bottom: 10px;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .deleteBtn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 5px;
-    color: white;
-    cursor: pointer;
-    &:hover {
-        color: #FFA07A;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #fc6c00;
+  border: 1px #fc6c00 solid;
+  border-radius: 10px;
+  padding: 5px;
+  color: white;
+  cursor: pointer;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modalContent {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-    border-radius: 5px;
-    width: 60%;
-    max-width: 600px;
-    background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 5px;
+  width: 60%;
+  max-width: 600px;
+  background-color: white;
 }
 
 .closeBtn {
-    display: flex;
-    align-items: center;
-    border: none;
-    background: none;
-    color: #CD853F;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  color: #fc6c00;
+  cursor: pointer;
 }
 
 .modalContentHeader {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modalContentHeaderText {
-    font-size: 30px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .modalContentBody {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .modalContentFooter {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .submitBtn {
-    padding: 10px;
-    background-color: #FFA07A;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    font-size: 15px;
-    &:hover {
-        background-color: #CD853F;
-    }
+  padding: 5px 10px;
+  background: none;
+  color: #fc6c00;
+  border: #fc6c00 1px solid;
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  font-size: 18px;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .submitBtn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .modalCloseBtn {
-    padding: 10px;
-    margin-right: 10px;
-    background-color: #CD853F;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    font-size: 15px;
-    &:hover {
-        background-color: #FFA07A;
-    }
+  padding: 5px 10px;
+  margin-right: 10px;
+  background-color: #fc6c00;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .modalDeleteBtn {
-    padding: 10px;
-    background-color: #FFA07A;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    font-size: 15px;
-    &:hover {
-        background-color: #CD853F;
-    }
+  padding: 10px;
+  background: none;
+  color: #fc6c00;
+  border: #fc6c00 1px solid;
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .addErrorModalContentHeader {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .addErrorModalContentBody {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.carsContainerFooter {
+  display: flex;
+  justify-content: center;
+}
+
+.carFooterText {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
+  color: rgb(100, 96, 96);
+  margin-top: 15px;
+}
+
+.carArrowBackIcon {
+  width: 40px;
+  height: 40px;
+  padding-right: 7px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.carDetailContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+}
+
+.carDetailTextContainer {
+  background-color: rgb(235, 233, 233);
+  border-radius: 10px;
+  padding: 20px 15px;
+  margin: 10px 0;
+}
+
+.carDetailText1 {
+  color: #fc6c00;
+  font-weight: bold;
+}
+
+.carDetailText2 {
+  font-size: 20px;
+  font-weight: bold;
 }
