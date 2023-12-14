@@ -19,5 +19,9 @@
 }
 
 .userTable_tr {
-    border-width: 2px;
+    background-color: #FFA07A;
+}
+
+.userTable_body_tr {
+    border: 1px solid;
 }

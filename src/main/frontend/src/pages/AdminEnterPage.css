@@ -1,19 +1,27 @@
 .centered-container {
-    margin-top: 10%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+  margin-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .title {
-    margin: 30px;
+  margin: 30px;
 }
 
 .content {
-    margin-bottom: 15px;
-    width: 300px;
+  margin-bottom: 15px;
+  width: 300px;
 }
 
 .enterButton {
-    border: 0.5px solid gray;
+  border: 1px solid #fc6c00;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background: none;
+  color: #fc6c00;
+
+  &:hover {
+    font-weight: bold;
+  }
 }

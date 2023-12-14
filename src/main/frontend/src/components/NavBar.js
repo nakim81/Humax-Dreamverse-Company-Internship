@@ -25,15 +25,10 @@ function MyNavbar() {
   const [isPBookActive, setIsBookActive] = useState(false);
   const [isMyPageHovered, setIsMyPageHovered] = useState(false);
   const [isMyPageActive, setIsMyPageActive] = useState(false);
-  const [isCarHovered, setIsCarHovered] = useState(false);
-  const [isCarActive, setIsCarActive] = useState(false);
-  const [isPayHovered, setIsPayHovered] = useState(false);
-  const [isPayActive, setIsPayActive] = useState(false);
   const [isAdminHovered, setIsAdminHovered] = useState(false);
   const [isAdminActive, setIsAdminActive] = useState(false);
   const [isAdminCarHovered, setIsAdminCarHovered] = useState(false);
   const [isAdminCarActive, setIsAdminCarActive] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -65,12 +60,6 @@ function MyNavbar() {
         case "myPage":
           setIsMyPageActive(true);
           break;
-        case "car":
-          setIsCarActive(true);
-          break;
-        case "pay":
-          setIsPayActive(true);
-          break;
         case "admin":
           setIsAdminActive(true);
           break;
@@ -81,8 +70,6 @@ function MyNavbar() {
           setIsParkinglotActive(false);
           setIsBookActive(false);
           setIsMyPageActive(false);
-          setIsCarActive(false);
-          setIsPayActive(false);
           setIsAdminActive(false);
           setIsAdminCarActive(false);
           break;
@@ -114,8 +101,6 @@ function MyNavbar() {
     setIsParkinglotActive(false);
     setIsBookActive(false);
     setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
     localStorage.removeItem("activeMenu");
@@ -125,8 +110,6 @@ function MyNavbar() {
     setIsParkinglotActive(true);
     setIsBookActive(false);
     setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
     localStorage.setItem("activeMenu", "parkinglot");
@@ -136,8 +119,6 @@ function MyNavbar() {
     setIsParkinglotActive(false);
     setIsBookActive(true);
     setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
     localStorage.setItem("activeMenu", "parkinglot");
@@ -147,41 +128,15 @@ function MyNavbar() {
     setIsParkinglotActive(false);
     setIsBookActive(false);
     setIsMyPageActive(true);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(false);
     localStorage.setItem("activeMenu", "myPage");
-  };
-
-  const handleCarClick = () => {
-    setIsParkinglotActive(false);
-    setIsBookActive(false);
-    setIsMyPageActive(false);
-    setIsCarActive(true);
-    setIsPayActive(false);
-    setIsAdminActive(false);
-    setIsAdminCarActive(false);
-    localStorage.setItem("activeMenu", "car");
-  };
-
-  const handlePayClick = () => {
-    setIsParkinglotActive(false);
-    setIsBookActive(false);
-    setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(true);
-    setIsAdminActive(false);
-    setIsAdminCarActive(false);
-    localStorage.setItem("activeMenu", "pay");
   };
 
   const handleAdminClick = () => {
     setIsParkinglotActive(false);
     setIsBookActive(false);
     setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(true);
     setIsAdminCarActive(false);
     localStorage.setItem("activeMenu", "admin");
@@ -190,8 +145,6 @@ function MyNavbar() {
     setIsParkinglotActive(false);
     setIsBookActive(false);
     setIsMyPageActive(false);
-    setIsCarActive(false);
-    setIsPayActive(false);
     setIsAdminActive(false);
     setIsAdminCarActive(true);
     localStorage.setItem("activeMenu", "adminCar");
@@ -210,8 +163,14 @@ function MyNavbar() {
           style={{ height: "40px", marginLeft: "20px" }}
         />
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" style={{marginRight: "5px"}}/>
-      <Navbar.Collapse id="basic-navbar-nav" style={{justifyContent: "flex-end"}}>
+      <Navbar.Toggle
+        aria-controls="basic-navbar-nav"
+        style={{ marginRight: "5px" }}
+      />
+      <Navbar.Collapse
+        id="basic-navbar-nav"
+        style={{ justifyContent: "flex-end", overflow: "hidden" }}
+      >
         <Nav className="justify-content-center">
           {isLoggedIn && (
             <>
@@ -241,6 +200,10 @@ function MyNavbar() {
                   fontSize: isBookHovered ? "large" : "medium",
                   fontWeight: isPBookActive ? "800" : "400",
                   transition: "all 0.3s ease",
+                  display: "flex",
+                  whiteSpace: "nowrap",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
                 // 추가: 마우스 이벤트 핸들러
                 onMouseEnter={() => setIsBookHovered(true)}
@@ -250,12 +213,16 @@ function MyNavbar() {
                 이용 내역
               </NavLink>
               <NavLink
-                to={`/user/${userId}/mypage`}
+                to={`/user/mypage`}
                 className="nav-link text-white"
                 style={{
                   fontSize: isMyPageHovered ? "large" : "medium",
                   fontWeight: isMyPageActive ? "800" : "400",
                   transition: "all 0.3s ease",
+                  display: "flex",
+                  whiteSpace: "nowrap",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
                 // 추가: 마우스 이벤트 핸들러
                 onMouseEnter={() => setIsMyPageHovered(true)}
@@ -263,36 +230,6 @@ function MyNavbar() {
                 onClick={handleMyPageClick}
               >
                 마이페이지
-              </NavLink>
-              <NavLink
-                to={`/user/car`}
-                className="nav-link text-white"
-                style={{
-                  fontSize: isCarHovered ? "large" : "medium",
-                  fontWeight: isCarActive ? "800" : "400",
-                  transition: "all 0.3s ease",
-                }}
-                // 추가: 마우스 이벤트 핸들러
-                onMouseEnter={() => setIsCarHovered(true)}
-                onMouseLeave={() => setIsCarHovered(false)}
-                onClick={handleCarClick}
-              >
-                차량 관리
-              </NavLink>
-              <NavLink
-                to={`/user/pay`}
-                className="nav-link text-white"
-                style={{
-                  fontSize: isPayHovered ? "large" : "medium",
-                  fontWeight: isPayActive ? "800" : "400",
-                  transition: "all 0.3s ease",
-                }}
-                // 추가: 마우스 이벤트 핸들러
-                onMouseEnter={() => setIsPayHovered(true)}
-                onMouseLeave={() => setIsPayHovered(false)}
-                onClick={handlePayClick}
-              >
-                결제수단
               </NavLink>
               {admin && (
                 <NavLink
@@ -323,6 +260,10 @@ function MyNavbar() {
                     fontSize: isAdminCarHovered ? "large" : "medium",
                     fontWeight: isAdminCarActive ? "800" : "400",
                     transition: "all 0.3s ease",
+                    display: "flex",
+                    whiteSpace: "nowrap",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   // 추가: 마우스 이벤트 핸들러
                   onMouseEnter={() => setIsAdminCarHovered(true)}
@@ -335,18 +276,30 @@ function MyNavbar() {
             </>
           )}
           {isLoggedIn ? (
-              <Button variant="outline-light" onClick={handleLogout} style={{whiteSpace: "nowrap",}}>
-                로그아웃
-              </Button>
+            <Button
+              variant="outline-light"
+              onClick={handleLogout}
+              style={{ whiteSpace: "nowrap" }}
+            >
+              로그아웃
+            </Button>
           ) : (
-              <>
-                <NavLink to="/login" className="nav-link text-white" style={{whiteSpace: "nowrap",}}>
-                  로그인
-                </NavLink>
-                <NavLink to="/signup" className="nav-link text-white" style={{whiteSpace: "nowrap",}}>
-                  회원가입
-                </NavLink>
-              </>
+            <>
+              <NavLink
+                to="/login"
+                className="nav-link text-white"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                로그인
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className="nav-link text-white"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                회원가입
+              </NavLink>
+            </>
           )}
         </Nav>
       </Navbar.Collapse>
