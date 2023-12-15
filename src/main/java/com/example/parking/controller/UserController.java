@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,26 +73,34 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@Valid @RequestBody UserDto userDto) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        userDto.getId(),
-                        userDto.getPassword()
-                )
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            userDto.getId(),
+                            userDto.getPassword()
+                    )
+            );
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtTokenProvider.createToken(userDto.getId());
+            String jwt = jwtTokenProvider.createToken(userDto.getId());
 
-        // UserDto 찾기
-        UserDto loggedInUser = userService.findByUserId(userDto.getId());
+            // UserDto 찾기
+            UserDto loggedInUser = userService.findByUserId(userDto.getId());
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("token", jwt);
-        response.put("userId", loggedInUser.getUserId());
-        response.put("admin", loggedInUser.isAdmin());
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", jwt);
+            response.put("userId", loggedInUser.getUserId());
+            response.put("admin", loggedInUser.isAdmin());
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (BadCredentialsException e) {
+            // 로그인 실패 시 예외 처리
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Login failed");
+        }
     }
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
