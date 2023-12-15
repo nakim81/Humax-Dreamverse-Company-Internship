@@ -81,7 +81,7 @@ public class PayServiceImpl implements PayService {
 
         if(pay.getPayType().equals("현금") || pay.getPayType().equals("기타")) {
             pay.setPayName(" ");
-            pay.setPayNumber(0);
+            pay.setPayNumber(" ");
         }
 
         payRepository.save(pay);

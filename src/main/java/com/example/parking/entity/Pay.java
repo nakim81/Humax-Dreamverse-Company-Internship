@@ -14,13 +14,13 @@ public class Pay {
     private Long payId;
     private String payName;
     private String payType;
-    private Integer payNumber;
+    private String payNumber;
 
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name="user_id")
     private User user;
 
     @Builder
-    public Pay(String payName, String payType, Integer payNumber){
+    public Pay(String payName, String payType, String payNumber){
         this.payName = payName;
         this.payType = payType;
         this.payNumber = payNumber;
