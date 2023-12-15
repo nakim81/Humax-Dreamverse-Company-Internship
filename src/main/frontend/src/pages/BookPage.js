@@ -49,9 +49,9 @@ const BookPage = () => {
   const nextWeek = new Date(today);
   nextWeek.setDate(today.getDate() + 6);
 
-  const fetchCarData = async (userId, token) => {
+  const fetchCarData = async (token) => {
     try {
-      const response = await axios.get(API_BASE_URL + `/user/${userId}/car`, {
+      const response = await axios.get(API_BASE_URL + `/user/car`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCarData(response.data);
@@ -72,7 +72,7 @@ const BookPage = () => {
   };
 
   useEffect(() => {
-    fetchCarData(userId, token);
+    fetchCarData(token);
     fetchPayData(userId, token);
   }, [userId, token]);
 
