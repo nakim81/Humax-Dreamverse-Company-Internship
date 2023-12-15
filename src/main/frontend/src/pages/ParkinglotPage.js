@@ -179,8 +179,8 @@ const ParkinglotPage = () => {
   };
 
   const handleParkinglotClick = async (parkinglot) => {
-    console.log(token);
-    console.log(`sending request with parking ID : ${parkinglot.parkingId}`);
+    // console.log(token);
+    // console.log(`sending request with parking ID : ${parkinglot.parkingId}`);
     try {
       // 주차장 클릭 시 해당 주차장의 id를 서버에 POST 요청으로 보냅니다.
       await axios.post(
@@ -198,6 +198,11 @@ const ParkinglotPage = () => {
 
     setSelectedParkinglot(parkinglot);
     setIsParkinglotSelected(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const goToReservationPage = () => {
