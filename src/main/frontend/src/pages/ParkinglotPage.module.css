@@ -1,0 +1,56 @@
+.getParkingBtn {
+  background: #fc6c00;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 5px 10px;
+}
+
+.getBookParkingBtn {
+  background: #fc6c00;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  margin: 5px 0;
+  padding: 0 10px;
+}
+
+.parkingName {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0 5px;
+}
+
+.parkingDetailHeader {
+  display: flex;
+  align-items: end;
+  padding-bottom: 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+.parkingID {
+  font-size: 20px;
+  color: #fc6c00;
+  font-weight: bold;
+}
+
+.parkingMiddleText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.parkingTextContainer {
+  margin: 5px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid lightgray;
+}
+
+.parkingBoldText {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.parkingDetailFooter {
+  display: flex;
+  justify-content: space-between;
+}

@@ -5,7 +5,8 @@ import axios from "axios";
 import AddressPost from "../components/AddressPost";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {API_BASE_URL} from "../constants";
+import { API_BASE_URL } from "../constants";
+import AdminSideBar from "../components/AdminSideBar";
 
 const initialParkingInfo = {
   codeNumber: "",
@@ -69,7 +70,7 @@ const AdminParkingAddPage = () => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
-        )}&key=${ process.env.REACT_APP_GOOGLE_APP_KEY }`
+        )}&key=${process.env.REACT_APP_GOOGLE_APP_KEY}`
       );
 
       const { results } = response.data;
@@ -107,20 +108,24 @@ const AdminParkingAddPage = () => {
     e.preventDefault();
 
     try {
-      await axios.post(
-          API_BASE_URL + "/admin/parkinglots",
-        parkingInfo
-      );
+      await axios.post(API_BASE_URL + "/admin/parkinglots", parkingInfo);
 
       setAddModalOpen((isAddModalOpen) => !isAddModalOpen);
     } catch (error) {
       console.error("Error posting data to API:", error);
     }
 
-    navigate("/admin")
+    navigate("/admin");
   };
 
-  const renderFormGroup = (label, name, type, required, disabled, placeholder = "") => {
+  const renderFormGroup = (
+    label,
+    name,
+    type,
+    required,
+    disabled,
+    placeholder = ""
+  ) => {
     const inputProps = {
       type: type,
       placeholder: placeholder || `${label}을/를 입력하세요.`,
@@ -133,30 +138,35 @@ const AdminParkingAddPage = () => {
     };
 
     return (
-        <Form.Group className="parkingFormInput" controlId={`form${name}`} key={name}>
-          <Form.Label className="parkingFromLabel">{label}</Form.Label>
-          {type === "checkbox" ? (
-              <Form.Check
-                  type={type}
-                  label={label}
-                  name={name}
-                  checked={parkingInfo[name] === 1}
-                  onChange={handleChange}
-              />
-          ) : (
-              <Form.Control {...inputProps} />
-          )}
-        </Form.Group>
+      <Form.Group
+        className="parkingFormInput"
+        controlId={`form${name}`}
+        key={name}
+      >
+        <Form.Label className="parkingFromLabel">{label}</Form.Label>
+        {type === "checkbox" ? (
+          <Form.Check
+            type={type}
+            label={label}
+            name={name}
+            checked={parkingInfo[name] === 1}
+            onChange={handleChange}
+          />
+        ) : (
+          <Form.Control {...inputProps} />
+        )}
+      </Form.Group>
     );
   };
 
   return (
     <>
+      <AdminSideBar />
       <div className="AdminParkingAddPage">
         <div className="APAHeader">
           <ArrowBackIcon
             onClick={() => navigate(-1)}
-            className="arrowBackIcon"
+            className="parkingArrowBackIcon"
           />
         </div>
         <div className="APABody">

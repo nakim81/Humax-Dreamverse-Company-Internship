@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import "./AdminParkingDetailPage.css";
-import {API_BASE_URL} from "../constants";
+import styles from "./AdminParkingDetailPage.module.css";
+import { API_BASE_URL } from "../constants";
+import AdminSideBar from "../components/AdminSideBar";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const AdminParkingDetailPage = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const AdminParkingDetailPage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-            API_BASE_URL + `/admin/parkinglots/${parkingId}`
+          API_BASE_URL + `/admin/parkinglots/${parkingId}`
         );
         setParkingData(res.data);
       } catch (err) {
@@ -41,9 +41,9 @@ const AdminParkingDetailPage = () => {
     "적용 시간": parkingData.applyHour,
     "적용 야간": parkingData.applyNight,
     "적용 주말": parkingData.applyWeekend,
-    "운영": parkingData.operation,
-    "시간": parkingData.time,
-    "가격": parkingData.price,
+    운영: parkingData.operation,
+    시간: parkingData.time,
+    가격: parkingData.price,
   };
 
   const createdAtObject = new Date(parkingData.createdAt);
@@ -76,9 +76,7 @@ const AdminParkingDetailPage = () => {
 
   const handleDeleteClick = async () => {
     try {
-      await axios.delete(
-          API_BASE_URL + `/admin/parkinglots/${parkingId}`
-      );
+      await axios.delete(API_BASE_URL + `/admin/parkinglots/${parkingId}`);
       navigate("/admin");
     } catch (error) {
       console.error("Error deleting item:", error);
@@ -91,22 +89,31 @@ const AdminParkingDetailPage = () => {
 
   return (
     <>
-      <div className="ParkingDetailPage">
-        <div className="parkingDetailContainer">
-          <div className="parkingDetailHeader">
-            <div className="parkingDetailName">{parkingData.name}</div>
-            <div className="parkingDetailAddress">{parkingData.address}</div>
+      <AdminSideBar />
+      <div className={styles.ParkingDetailPage}>
+        <div className="APAHeader">
+          <ArrowBackIcon
+            onClick={() => navigate(-1)}
+            className="parkingArrowBackIcon"
+          />
+        </div>
+        <div className={styles.parkingDetailContainer}>
+          <div className={styles.parkingDetailHeader}>
+            <div className={styles.parkingDetailName}>{parkingData.name}</div>
+            <div className={styles.parkingDetailAddress}>
+              {parkingData.address}
+            </div>
             {parkingData.is_active === "1" ? (
-              <div className="parkingDetailIsActive">운영중</div>
+              <div className={styles.parkingDetailIsActive}>운영중</div>
             ) : (
-              <div className="parkingDetailIsNotActive">운영 예정</div>
+              <div className={styles.parkingDetailIsNotActive}>운영 예정</div>
             )}
           </div>
-          <div className="parkingDetailBody">
-            <div id="map" className="parkingDetailMap"></div>
-            <div className="parkingDetailInfos">
-              <div className="parkingDetailInfo">
-                <div className="parkingDetailText">
+          <div className={styles.parkingDetailBody}>
+            <div id="map" className={styles.parkingDetailMap}></div>
+            <div className={styles.parkingDetailInfos}>
+              <div className={styles.parkingDetailInfo}>
+                <div className={styles.parkingDetailText}>
                   {Object.entries(translatedData).map(([key, value]) => (
                     <div key={key}>
                       {key} :{" "}
@@ -119,15 +126,19 @@ const AdminParkingDetailPage = () => {
                   <div>수정 일자 : {fotmattedUpdatedDate}</div>
                 </div>
               </div>
-              <div className="parkingDetailBtns">
-                <ModeEditIcon
-                  className="modeEditIcon"
+              <div className={styles.parkingDetailBtns}>
+                <button
+                  className={styles.modeEditBtn}
                   onClick={handleEditClick}
-                />
-                <DeleteIcon
-                  className="deleteIcon"
+                >
+                  수정하기
+                </button>
+                <button
+                  className={styles.deleteBtn}
                   onClick={handleDeleteClick}
-                />
+                >
+                  삭제하기
+                </button>
               </div>
             </div>
           </div>

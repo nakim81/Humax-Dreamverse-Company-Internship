@@ -12,7 +12,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const CarPage = () => {
   const navigate = useNavigate();
-  const { userId } = useContext(AuthContext);
+  const { userId, token } = useContext(AuthContext);
   const [carData, setCarData] = useState([]);
   const [addCarName, setAddCarName] = useState("");
   const [addCarNumber, setAddCarNumber] = useState("");
@@ -38,7 +38,9 @@ const CarPage = () => {
     if (userId) {
       const fetchData = async () => {
         try {
-          const res = await axios.get(API_BASE_URL + `/user/${userId}/car`);
+          const res = await axios.get(API_BASE_URL + `/user/car`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setCarData(res.data);
         } catch (err) {
           console.error("car data error", err);
@@ -47,11 +49,13 @@ const CarPage = () => {
 
       fetchData();
     }
-  }, [userId]);
+  }, [token]);
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(API_BASE_URL + `/user/${userId}/car`);
+      const res = await axios.get(API_BASE_URL + `/user/car`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setCarData(res.data);
     } catch (error) {
       console.error("Error fetching car data", error);
@@ -112,7 +116,9 @@ const CarPage = () => {
       setIsAddErrorOpen((isAddErrorOpen) => !isAddErrorOpen);
     } else {
       try {
-        await axios.post(API_BASE_URL + `/user/${userId}/car`, addCarData);
+        await axios.post(API_BASE_URL + `/user/car`, addCarData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setIsAddOpen((isAddOpen) => !isAddOpen);
         setAddCarName("");
         setAddCarNumber("");
@@ -135,8 +141,10 @@ const CarPage = () => {
     if (isValid) {
       try {
         await axios.patch(
-          API_BASE_URL + `/user/${userId}/car/${updateCarId}`,
-          updateCarData
+          API_BASE_URL + `/user/car/${updateCarId}`,
+          updateCarData,{
+              headers: { Authorization: `Bearer ${token}` },
+            }
         );
         setIsUpdateOpen((isUpdateOpen) => !isUpdateOpen);
         await fetchData();
@@ -153,7 +161,9 @@ const CarPage = () => {
     e.preventDefault();
 
     try {
-      await axios.delete(API_BASE_URL + `/user/${userId}/car/${updateCarId}`);
+      await axios.delete(API_BASE_URL + `/user/car/${updateCarId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setIsDeleteOpen((isDeleteOpen) => !isDeleteOpen);
       await fetchData();
       // console.log(res.data)
