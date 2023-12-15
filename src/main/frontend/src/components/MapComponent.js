@@ -70,7 +70,8 @@ export default function Map({
 
   useEffect(() => {
     if (selectedParkinglot && myMap) {
-      console.log(selectedParkinglot.id);
+      // console.log(selectedParkinglot.id);
+      myMap.setLevel(3);
       if (prevParkingLot) {
         let prevMarker = parkingLots[prevParkingLot.id];
         if (prevMarker && prevMarker.setMap) {

@@ -28,6 +28,7 @@ const BookListPage = () => {
       setBookData(response.data.body.content);
       setShowPay(Array(response.data.body.content.length).fill(false));
       setTotalPage(response.data.body.totalPages);
+      console.log(response.data.body.content);
     } catch (err) {
       console.error("book data error", err);
     }
@@ -105,10 +106,25 @@ const BookListPage = () => {
           ) : (
             bookData.map((book, index) => (
               <div key={index} className="bookContainer">
-                <p className="bookName">
-                  <span className="bookState">{book.state}</span>{" "}
+                <div className="bookName">
+                  {book.state === "예약 취소" ||
+                  book.state === "미사용 취소" ? (
+                    <div className="bookStateCancel">{book.state}</div>
+                  ) : (
+                    <></>
+                  )}
+                  {book.state === "이용 종료" ? (
+                    <div className="bookStateEnd">{book.state}</div>
+                  ) : (
+                    <></>
+                  )}
+                  {book.state === "이용 대기" ? (
+                    <div className="bookStateStart">{book.state}</div>
+                  ) : (
+                    <></>
+                  )}
                   {book.parkingLotName}
-                </p>
+                </div>
                 <p>차 번호: {book.carNumber}</p>
                 <p>티켓 종류: {book.ticket}</p>
                 <p>

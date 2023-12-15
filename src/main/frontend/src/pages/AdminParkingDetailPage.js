@@ -55,8 +55,8 @@ const AdminParkingDetailPage = () => {
     const initMap = () => {
       const container = document.getElementById("map");
       const options = {
-        center: new window.kakao.maps.LatLng(37.5665, 126.978),
-        level: 10,
+        center: new window.kakao.maps.LatLng(parkingData.lat, parkingData.lon),
+        level: 3,
       };
       const map = new window.kakao.maps.Map(container, options);
 

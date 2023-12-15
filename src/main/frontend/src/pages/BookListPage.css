@@ -12,8 +12,39 @@
   background-color: #fc6c00;
   font-weight: bold;
   border-radius: 10px;
-  padding: 4px;
-  box-shadow: 1px 1px 1px 1px #fc6c00;
+  padding: 2px 3px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateCancel {
+  color: #ff3233;
+  background-color: #ffe6e6;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateEnd {
+  color: #212121;
+  background-color: #e9e9e9;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateStart {
+  color: white;
+  background-color: #fc6c00;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
 }
 
 .bookContainer {
@@ -47,6 +78,9 @@
   margin: 10px 0 15px 0;
   font-size: 20px;
   font-weight: bold;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 .bookHeader {
