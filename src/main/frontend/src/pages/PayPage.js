@@ -45,6 +45,8 @@ const PayPage = () => {
         })
         .then((response) => {
           setData(updatedData);
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
         })
         .catch((error) => {
           console.log("데이터 삭제 실패");
@@ -64,6 +66,8 @@ const PayPage = () => {
         })
         .then((response) => {
           setData(updatedData);
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
         })
         .catch((error) => {
           console.log("데이터 추가 실패");
@@ -79,8 +83,7 @@ const PayPage = () => {
 
       setShowAddPayment(false); // 추가 창을 닫습니다.
 
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
+
     };
 
     const handleEdit = (id, payment) => {
@@ -115,6 +118,8 @@ const PayPage = () => {
         })
         .then((response) => {
           setData(updatedData);
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
         })
         .catch((error) => {
           console.log("데이터 수정 실패");
@@ -310,21 +315,26 @@ const PayPage = () => {
     );
   }
 
-  // 수정된 부분: 토큰이 있는지 먼저 체크하고, 있을 시에만 axios 요청. useEffect훅을 사용하여 새로 로딩될때마다 실행
   useEffect(() => {
+    // 토큰이 있을 때에만 전송
     if (token) {
-      // 토큰이 존재하는 경우에만 GET 요청을 수행
-      axios
-        .get(url, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setResponseData(response.data);
-        })
-        .catch((error) => {
-          console.error("오류 발생:", error);
-        });
+
+      const fetchData = async() => {
+        const url = API_BASE_URL + `/user/pay`;
+        try {
+          const res = await axios.get(url, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setResponseData(res.data);
+        } catch (err) {
+            console.error("결제수단 정보 갱신 실패");
+        }
+      };
+
+      fetchData();
     }
+
+
   }, [token]);
 
   // 토큰이 없는 경우 로딩 중을 표시
