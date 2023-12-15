@@ -5,7 +5,8 @@ import axios from "axios";
 import AddressPost from "../components/AddressPost";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {API_BASE_URL} from "../constants";
+import { API_BASE_URL } from "../constants";
+import AdminSideBar from "../components/AdminSideBar";
 
 const AdminParkingUpdatePage = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const AdminParkingUpdatePage = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-            API_BASE_URL + `/admin/parkinglots/${parkingId}`
+          API_BASE_URL + `/admin/parkinglots/${parkingId}`
         );
         setParkingInfo(res.data);
       } catch (err) {
@@ -58,7 +59,7 @@ const AdminParkingUpdatePage = () => {
       const response = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
-        )}&key=${ process.env.REACT_APP_GOOGLE_APP_KEY }`
+        )}&key=${process.env.REACT_APP_GOOGLE_APP_KEY}`
       );
 
       const { results } = response.data;
@@ -97,7 +98,7 @@ const AdminParkingUpdatePage = () => {
 
     try {
       await axios.patch(
-          API_BASE_URL + `/admin/parkinglots/${parkingId}`,
+        API_BASE_URL + `/admin/parkinglots/${parkingId}`,
         parkingInfo
       );
 
@@ -108,7 +109,14 @@ const AdminParkingUpdatePage = () => {
     }
   };
 
-  const renderFormGroup = (label, name, type, required, disabled, placeholder = "") => {
+  const renderFormGroup = (
+    label,
+    name,
+    type,
+    required,
+    disabled,
+    placeholder = ""
+  ) => {
     const inputProps = {
       type: type,
       placeholder: placeholder || `${label}을/를 입력하세요.`,
@@ -121,30 +129,35 @@ const AdminParkingUpdatePage = () => {
     };
 
     return (
-        <Form.Group className="parkingFormInput" controlId={`form${name}`} key={name}>
-          <Form.Label className="parkingFromLabel">{label}</Form.Label>
-          {type === "checkbox" ? (
-              <Form.Check
-                  type={type}
-                  label={label}
-                  name={name}
-                  checked={parkingInfo[name] === 1}
-                  onChange={handleChange}
-              />
-          ) : (
-              <Form.Control {...inputProps} />
-          )}
-        </Form.Group>
+      <Form.Group
+        className="parkingFormInput"
+        controlId={`form${name}`}
+        key={name}
+      >
+        <Form.Label className="parkingFromLabel">{label}</Form.Label>
+        {type === "checkbox" ? (
+          <Form.Check
+            type={type}
+            label={label}
+            name={name}
+            checked={parkingInfo[name] === 1}
+            onChange={handleChange}
+          />
+        ) : (
+          <Form.Control {...inputProps} />
+        )}
+      </Form.Group>
     );
   };
 
   return (
     <>
+      <AdminSideBar />
       <div className="AdminParkingAddPage">
         <div className="APAHeader">
           <ArrowBackIcon
             onClick={() => navigate(-1)}
-            className="arrowBackIcon"
+            className="parkingArrowBackIcon"
           />
         </div>
         <div className="APABody">
@@ -154,26 +167,26 @@ const AdminParkingUpdatePage = () => {
             <Form.Group className="parkingFormInput" controlId="formAddress">
               <Form.Label className="parkingFromLabel">주소 *</Form.Label>
               <button
-                  onClick={handleOpenAddressPost}
-                  className="addressPostBtn"
+                onClick={handleOpenAddressPost}
+                className="addressPostBtn"
               >
                 주소찾기
               </button>
               <Form.Control
-                  type="text"
-                  placeholder="주소를 입력하세요."
-                  name="address"
-                  value={parkingInfo.address}
-                  onChange={handleChange}
-                  required
-                  disabled
-                  className="parkingFromControl"
+                type="text"
+                placeholder="주소를 입력하세요."
+                name="address"
+                value={parkingInfo.address}
+                onChange={handleChange}
+                required
+                disabled
+                className="parkingFromControl"
               />
               <AddressPost
-                  key={searchKey}
-                  isOpen={isAddressPostOpen}
-                  onComplete={handleAddressComplete}
-                  onClose={handleOpenAddressPost}
+                key={searchKey}
+                isOpen={isAddressPostOpen}
+                onComplete={handleAddressComplete}
+                onClose={handleOpenAddressPost}
               />
             </Form.Group>
             {renderFormGroup("운영 시간 *", "operatingTime", "text", true)}

@@ -40,15 +40,15 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background: #cd853f;
+  background: #fc6c00;
   border: none;
   border-radius: 5px;
   padding: 5px;
+  font-size: 18px;
   color: white;
   cursor: pointer;
   &:hover {
-    color: white;
-    background-color: #ffa07a;
+    font-weight: bold;
   }
 }
 
@@ -57,11 +57,10 @@
   border: none;
   border-radius: 5px;
   color: white;
-  background: #cd853f;
+  background: #fc6c00;
   cursor: pointer;
   &:hover {
-    color: white;
-    background-color: #ffa07a;
+    font-weight: bold;
   }
 }
 
@@ -86,4 +85,10 @@
   width: 60%;
   max-width: 600px;
   background-color: white;
+}
+
+.parkingArrowBackIcon {
+  &:hover {
+    cursor: pointer;
+  }
 }

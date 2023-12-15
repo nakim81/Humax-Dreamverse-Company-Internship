@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./AdminUserPage.css";
 import axios from "axios";
-import {API_BASE_URL} from "../constants";
+import { API_BASE_URL } from "../constants";
+import AdminSideBar from "../components/AdminSideBar";
 
 const AdminUserPage = () => {
   const [users, setUsers] = useState([]);
@@ -21,6 +22,7 @@ const AdminUserPage = () => {
 
   return (
     <>
+      <AdminSideBar />
       <div className="adminUserPage">
         <div className="adminUserPageContainer">
           <div className="adminUserPageHeader">
