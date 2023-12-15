@@ -49,7 +49,7 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/parkinglots/parkingByName")
+    @GetMapping("/parkinglots/search")
     public ResponseEntity<List<ParkinglotDto>> searchParkingByName(@RequestParam String name) {
         List<ParkinglotDto> result = adminService.searchParkingByName(name);
         return ResponseEntity.ok(result);

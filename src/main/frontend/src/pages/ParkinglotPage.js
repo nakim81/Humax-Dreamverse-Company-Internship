@@ -8,7 +8,6 @@ import {
   TextField,
   Button,
   Card,
-  Typography,
   Box,
   Tabs,
   Tab,
@@ -18,6 +17,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
 import AuthContext from "../hooks/AuthContext";
+import styles from "./ParkinglotPage.module.css";
 
 const ParkinglotPage = () => {
   const [latitude, setLatitude] = useState("");
@@ -50,7 +50,7 @@ const ParkinglotPage = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: "#FFA07A", // 차분한 주황색으로 변경
+        main: "#FC6C00", // 차분한 주황색으로 변경
       },
       secondary: {
         main: "#CD853F",
@@ -250,46 +250,50 @@ const ParkinglotPage = () => {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography variant="h5">주차장 상세 정보</Typography>
+                <div className={styles["parkingMiddleText"]}>
+                  주차장 상세 정보
+                </div>
                 <IconButton onClick={handleDismissClick}>
                   <CloseIcon />
                 </IconButton>
               </Box>
-              <Typography variant="body2">
-                ID: {selectedParkinglot.parkingId}
-              </Typography>
-              <Typography variant="body2">
-                코드넘버: {selectedParkinglot.codeNumber}
-              </Typography>
-              <Typography variant="body2">
-                이름: {selectedParkinglot.name}
-              </Typography>
-              <Typography variant="body2">
-                주소: {selectedParkinglot.address}
-              </Typography>
-              <Typography variant="body2">
-                운영시간: {selectedParkinglot.operatingTime}
-              </Typography>
-              <Typography variant="body2">
-                시간 티켓: {selectedParkinglot.timeTicket}
-              </Typography>
-              <Typography variant="body2">
-                위도: {selectedParkinglot.lat}
-              </Typography>
-              <Typography variant="body2">
-                경도: {selectedParkinglot.lon}
-              </Typography>
-              <Typography variant="body2">
-                가격: {selectedParkinglot.price}
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={goToReservationPage}
-              >
-                예약하기
-              </Button>
-              <FavoriteButton selectedParkinglot={selectedParkinglot} />
+              <div className={styles["parkingDetailHeader"]}>
+                <div className={styles["parkingID"]}>
+                  {selectedParkinglot.parkingId}
+                </div>
+                <div className={styles["parkingName"]}>
+                  {selectedParkinglot.name}
+                </div>
+                <div variant="body2">{selectedParkinglot.codeNumber}</div>
+              </div>
+              <div className={styles["parkingTextContainer"]}>
+                <div className={styles["parkingMiddleText"]}>요금정보</div>
+                <div className={styles["parkingBoldText"]}>주차요금 정보</div>
+                <div variant="body2">
+                  기본요금: {selectedParkinglot.timeTicket}
+                </div>
+                {selectedParkinglot.pparkingMiddleTextrice != null && (
+                  <div variant="body2">
+                    참고사항: {selectedParkinglot.pparkingMiddleTextrice}
+                  </div>
+                )}
+              </div>
+              <div className={styles["parkingTextContainer"]}>
+                <div className={styles["parkingMiddleText"]}>시설정보</div>
+                <div className={styles["parkingBoldText"]}>기본정보</div>
+                <div variant="body2">{selectedParkinglot.address}</div>
+                <div className={styles["parkingBoldText"]}>운영시간</div>
+                <div variant="body2">{selectedParkinglot.operatingTime}</div>
+              </div>
+              <div className={styles["parkingDetailFooter"]}>
+                <button
+                  className={styles["getBookParkingBtn"]}
+                  onClick={goToReservationPage}
+                >
+                  예약하기
+                </button>
+                <FavoriteButton selectedParkinglot={selectedParkinglot} />
+              </div>
             </Card>
           )}
         </Box>
@@ -304,11 +308,14 @@ const ParkinglotPage = () => {
           }}
         >
           <Tabs value={tabValue} onChange={handleTabChange} variant="fullWidth">
-            <Tab label="위치 기반 검색" />
-            <Tab label="키워드 검색" />
-            <Tab label="주차장 번호 검색" />
-            <Tab label="전체 리스트 가져오기" />
-            <Tab label="검색 내역 확인" />
+            <Tab style={{ wordBreak: "keep-all" }} label="위치 기반 검색" />
+            <Tab style={{ wordBreak: "keep-all" }} label="키워드 검색" />
+            <Tab style={{ wordBreak: "keep-all" }} label="주차장 번호 검색" />
+            <Tab
+              style={{ wordBreak: "keep-all" }}
+              label="전체 리스트 가져오기"
+            />
+            <Tab style={{ wordBreak: "keep-all" }} label="검색 내역 확인" />
           </Tabs>
 
           {tabValue === 0 && (
@@ -339,13 +346,12 @@ const ParkinglotPage = () => {
                 value={radius}
                 onChange={(e) => setRadius(e.target.value)}
               />
-              <Button
-                variant="contained"
-                color="secondary"
+              <button
+                className={styles["getParkingBtn"]}
                 onClick={handleFetchParkinglotsButtonClick}
               >
                 주변 주차장 정보 가져오기
-              </Button>
+              </button>
             </Box>
           )}
 
@@ -365,13 +371,12 @@ const ParkinglotPage = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
               />
-              <Button
-                variant="contained"
-                color="secondary"
+              <button
+                className={styles["getParkingBtn"]}
                 onClick={handleFetchParkinglotsByKeywordButtonClick}
               >
                 키워드로 주차장 검색하기
-              </Button>
+              </button>
             </Box>
           )}
 
@@ -391,13 +396,12 @@ const ParkinglotPage = () => {
                 value={parkingId}
                 onChange={(e) => setParkingId(e.target.value)}
               />
-              <Button
-                variant="contained"
-                color="secondary"
+              <button
+                className={styles["getParkingBtn"]}
                 onClick={handleFetchParkinglotByParkingIdButtonClick}
               >
-                주차장 Id로 주차장 검색하기
-              </Button>
+                주차장 ID로 주차장 검색하기
+              </button>
             </Box>
           )}
 
@@ -409,13 +413,12 @@ const ParkinglotPage = () => {
                 mt: 4,
               }}
             >
-              <Button
-                variant="contained"
-                color="secondary"
+              <button
+                className={styles["getParkingBtn"]}
                 onClick={handleFetchAllParkinglotsButtonClick}
               >
                 전체 주차장 정보 가져오기
-              </Button>
+              </button>
             </Box>
           )}
 
@@ -429,13 +432,12 @@ const ParkinglotPage = () => {
                 mt: 4,
               }}
             >
-              <Button
-                variant="contained"
-                color="secondary"
+              <button
+                className={styles["getParkingBtn"]}
                 onClick={fetchSearchHistory}
               >
                 검색 내역 가져오기
-              </Button>
+              </button>
               {searchHistory.map((item, index) => (
                 <Box
                   key={index}
@@ -451,12 +453,8 @@ const ParkinglotPage = () => {
                     mt: 2,
                   }}
                 >
-                  <Typography variant="body1">
-                    {item.parkinglot.codeNumber}
-                  </Typography>
-                  <Typography variant="body1">
-                    {item.parkinglot.name}
-                  </Typography>
+                  <div variant="body1">{item.parkinglot.codeNumber}</div>
+                  <div variant="body1">{item.parkinglot.name}</div>
                   <Button
                     variant="contained"
                     color="error"
@@ -498,12 +496,10 @@ const ParkinglotPage = () => {
                   }}
                   onClick={() => handleParkinglotClick(parkinglot)}
                 >
-                  <Typography variant="h6">{parkinglot.parkingId}</Typography>
-                  <Typography variant="h6">{parkinglot.name}</Typography>
-                  <Typography variant="body1">{parkinglot.address}</Typography>
-                  <Typography variant="body1">
-                    {parkinglot.codeNumber}
-                  </Typography>
+                  <div variant="h6">{parkinglot.parkingId}</div>
+                  <div variant="h6">{parkinglot.name}</div>
+                  <div variant="body1">{parkinglot.address}</div>
+                  <div variant="body1">{parkinglot.codeNumber}</div>
                 </Card>
               )
             )}

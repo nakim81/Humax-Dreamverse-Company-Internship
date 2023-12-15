@@ -18,7 +18,7 @@ public class PayDto {
 
     private String payType;
 
-    private Integer payNumber;
+    private String payNumber;
 
     public static PayDto of(Pay payEntity) {
 
