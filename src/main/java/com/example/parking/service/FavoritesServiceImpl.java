@@ -67,7 +67,7 @@ public class FavoritesServiceImpl implements FavoritesService{
      * 즐겨찾기 정보 등록
      */
     @Override
-    public void registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception {
+    public FavoritesDto registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception {
 
         Favorites favorites = new Favorites();
 
@@ -85,7 +85,7 @@ public class FavoritesServiceImpl implements FavoritesService{
         favorites.setUser(user);
 
 
-        favoritesRepository.save(favorites);
+        return FavoritesDto.of(favoritesRepository.save(favorites));
     }
 
 

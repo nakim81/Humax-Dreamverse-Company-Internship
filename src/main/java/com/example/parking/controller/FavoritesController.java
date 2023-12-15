@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user/{userId}/favorites")
+@RequestMapping("/user/favorites")
 public class FavoritesController {
 
     private final FavoritesService favoritesService;
@@ -38,8 +38,7 @@ public class FavoritesController {
      * 즐겨찾기 목록 조회
      */
     @GetMapping
-    public ResponseEntity<List<FavoritesDto>> getFavoritesByUserId(@RequestHeader("Authorization") String requestAccessToken,
-                                                                   @PathVariable Long userId) throws Exception {
+    public ResponseEntity<List<FavoritesDto>> getFavoritesByUserId(@RequestHeader("Authorization") String requestAccessToken) throws Exception {
 
         String userToken = null;
 
@@ -71,7 +70,6 @@ public class FavoritesController {
      */
     @PostMapping
     public ResponseEntity<FavoritesDto> registerFavoritesInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                              @PathVariable Long userId,
                                                               @RequestBody FavoritesDto favoritesDto) throws Exception {
 
         String userToken = null;
@@ -91,16 +89,15 @@ public class FavoritesController {
             throw new ApiException(ErrorCode.NULL_POINT, "잘못된 유저 정보입니다.");
         }
 
-        favoritesService.registerFavoritesInfo(user.get().getUserId(), favoritesDto);
+        FavoritesDto registeredFavoritesDto = favoritesService.registerFavoritesInfo(user.get().getUserId(), favoritesDto);
 
-        return new ResponseEntity<FavoritesDto>(favoritesDto,
+        return new ResponseEntity<FavoritesDto>(registeredFavoritesDto,
                 HttpStatus.OK);
 
     }
 
     @DeleteMapping("/{favoritesId}")
     public ResponseEntity<FavoritesDto> deleteFavoritesInfo(@RequestHeader("Authorization") String requestAccessToken,
-                                                            @PathVariable Long userId,
                                                             @PathVariable String favoritesId) throws Exception {
 
         String userToken = null;

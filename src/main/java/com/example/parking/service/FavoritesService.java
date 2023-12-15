@@ -10,7 +10,7 @@ public interface FavoritesService {
 
     List<FavoritesDto> getFavoritesByUserId(Long userId) throws Exception;
 
-    void registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception;
+    FavoritesDto registerFavoritesInfo(Long userId, FavoritesDto favoritesDto) throws Exception;
 
     FavoritesDto deleteFavoritesInfo(Long favoritesId) throws Exception;
 
