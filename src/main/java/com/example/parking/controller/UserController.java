@@ -113,6 +113,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
+
     @GetMapping("/mypage")
     public Api<Object> getMyPage() {
         // 현재 사용자의 ID를 가져오기
@@ -124,6 +125,7 @@ public class UserController {
 
         return Api.OK(userDto);
     }
+
     @PutMapping("/mypage")
     public Api<Object> updateUserProfile(
             @RequestHeader(name = HttpHeaders.AUTHORIZATION) String authorizationHeader,
@@ -143,6 +145,7 @@ public class UserController {
             return Api.ERROR("유저 정보 수정 에러");
         }
     }
+
     @DeleteMapping("/withdraw")
     public Api<Object> withdrawUser(HttpServletRequest request) {
         try {
