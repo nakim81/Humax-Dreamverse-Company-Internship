@@ -91,11 +91,25 @@ const MyPage = () => {
           <button className={styles["home-button"]}> ← 홈으로</button>
         </Link>
         <div className={styles["user-container"]}>
-          <div className={styles["hi-text"]}>안녕하세요</div>
-          <div className={styles["user-img-container"]}>
-            <div className={styles["user-id-text"]}>{userInfos.id}님</div>
-            <button onClick={handleViewInfo}>내 정보 조회</button>
-          </div>
+          {userInfos.id ? (
+            <>
+              <div className={styles["hi-text"]}>안녕하세요</div>
+              <div className={styles["user-img-container"]}>
+                <div className={styles["user-id-text"]}>{userInfos.id}님</div>
+                <button onClick={handleViewInfo}>내 정보 조회</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles["hi-text"]}>안녕하세요</div>
+              <div className={styles["user-img-container"]}>
+                <div className={styles["user-id-text"]}>
+                  로그인이 필요합니다.
+                </div>
+                <button onClick={() => navigate("/login")}>로그인</button>
+              </div>
+            </>
+          )}
         </div>
         <div className={styles["list-container"]}>
           <div
