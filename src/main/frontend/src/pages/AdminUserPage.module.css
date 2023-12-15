@@ -1,0 +1,68 @@
+.adminUserPage {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.adminUserPageContainer {
+  width: 80%;
+  margin-top: 10px;
+}
+
+.headerText {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.userTable {
+  width: 100%;
+  text-align: center;
+  border: none;
+}
+
+.userTable_tr {
+  background-color: #ffa07a;
+  height: 30px;
+}
+
+.userTable_body_tr {
+  border-bottom: 1px solid lightgray;
+  font-size: 18px;
+  height: 40px;
+}
+
+.adminXBtn {
+  margin-left: 5px;
+  color: #ff3233;
+  background-color: #ffe6e6;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+}
+
+.adminOBtn {
+  margin-left: 5px;
+  color: #429cf5;
+  background-color: #edf6fe;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+}
+
+.footer {
+  margin: 10px 0;
+}
+
+.deleteBtn {
+  color: #212121;
+  background-color: #e9e9e9;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+}
+
+.loadText {
+  font-size: 20px;
+}

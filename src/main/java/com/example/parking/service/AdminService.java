@@ -101,4 +101,15 @@ public class AdminService {
                 .map(userConverter::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    //관리자 권한
+    public void addAdmin(String id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setAdmin(!user.isAdmin());
+            userRepository.save(user);
+        } else {
+            throw new ApiException(ErrorCode.NULL_POINT, "사용자가 존재하지 않습니다.");
+        }
+    }
 }

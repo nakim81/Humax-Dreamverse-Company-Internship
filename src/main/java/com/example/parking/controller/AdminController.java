@@ -1,8 +1,13 @@
 package com.example.parking.controller;
 
+import com.example.parking.common.api.Api;
 import com.example.parking.dto.ParkinglotDto;
 import com.example.parking.dto.UserDto;
 import com.example.parking.service.AdminService;
+import com.example.parking.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +18,12 @@ import java.util.*;
 @RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
+    private final UserService userService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, UserService userService) {
         this.adminService = adminService;
+        this.userService = userService;
     }
 
     @GetMapping("/parkinglots")
@@ -59,5 +66,22 @@ public class AdminController {
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = adminService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<Void> addAdmin(@PathVariable String id) {
+        adminService.addAdmin(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/withdraw/{id}")
+    public Api<Object> withdrawUser(@PathVariable String id) {
+        try {
+            userService.withdrawUser(id);
+            return Api.OK(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Api.ERROR("회원 탈퇴 에러");
+        }
     }
 }
