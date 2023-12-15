@@ -62,6 +62,12 @@ public class AdminController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/parkinglots/searchaddress")
+    public ResponseEntity<List<ParkinglotDto>> searchParkingByAddress(@RequestParam String address) {
+        List<ParkinglotDto> result = adminService.searchParkingByAddress(address);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = adminService.getAllUsers();
