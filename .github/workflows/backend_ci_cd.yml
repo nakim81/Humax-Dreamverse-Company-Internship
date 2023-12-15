@@ -36,14 +36,12 @@ jobs:
 
       - name: make resources directory
         run: mkdir ./src/main/resources
-      - name: make application.properties
-        run: touch ./src/main/resources/application.properties
-      - name: get application.properties values
-        run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
-      - name: make keystore.p12
-        run: touch ./src/main/resources/keystore.p12
-      - name: get keystore.p12 values
-        run: echo "${{ secrets.KEYSTORE }}" > ./src/main/resources/keystore.p12
+      - name: Retrieve secrets
+        env:
+          MY_SECRETS_ARCHIVE: ${{ secrets.MY_SECRETS_ARCHIVE }}
+        run: |
+          echo "$MY_SECRETS_ARCHIVE" | base64 --decode > secrets.tar.gz
+          tar xzvf secrets.tar.gz -C src/main/resources
 
       - name: Gradle Permission
         run: chmod +x ./gradlew
