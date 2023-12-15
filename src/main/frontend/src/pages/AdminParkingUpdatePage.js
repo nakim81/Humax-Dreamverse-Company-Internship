@@ -47,7 +47,7 @@ const AdminParkingUpdatePage = () => {
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
-    const newValue = type === "checkbox" ? (checked ? 1 : 0) : value;
+    const newValue = type === "checkbox" ? (checked ? "1" : "0") : value;
     setParkingInfo((prevInfo) => ({
       ...prevInfo,
       [name]: newValue,
@@ -140,7 +140,7 @@ const AdminParkingUpdatePage = () => {
             type={type}
             label={label}
             name={name}
-            checked={parkingInfo[name] === 1}
+            checked={parkingInfo[name] === "1"}
             onChange={handleChange}
           />
         ) : (
@@ -220,7 +220,7 @@ const AdminParkingUpdatePage = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="modalContentHeader"></div>
-                <div className="modalContentBody">등록하시겠습니까?</div>
+                <div className="modalContentBody">수정하시겠습니까?</div>
                 <div className="modalContentFooter">
                   <button
                     type="text"
@@ -234,7 +234,7 @@ const AdminParkingUpdatePage = () => {
                     className="modalDeleteBtn"
                     onClick={handleParkingSubmit}
                   >
-                    등록
+                    수정
                   </button>
                 </div>
               </div>

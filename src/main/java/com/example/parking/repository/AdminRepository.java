@@ -8,4 +8,5 @@ import java.util.*;
 public interface AdminRepository extends JpaRepository<Parkinglot, Long> {
     List<Parkinglot> findAll();
     List<Parkinglot> findByNameContainingIgnoreCase(String name);
+    List<Parkinglot> findByAddressContainingIgnoreCase(String address);
 }

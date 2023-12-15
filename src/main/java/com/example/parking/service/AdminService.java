@@ -81,17 +81,26 @@ public class AdminService {
         }
     }
 
-    //검색
+    //이름으로 검색
     public List<ParkinglotDto> searchParkingByName(String name) {
         List<Parkinglot> parkinglots = adminRepository.findByNameContainingIgnoreCase(name);
 
-        if (parkinglots.isEmpty()) {
-            throw new ApiException(ErrorCode.NULL_POINT, "일치하는 주차장이 없습니다.");
-        }
+        return Optional.ofNullable(parkinglots)
+            .map(list -> list.stream()
+                    .map(parkinglotConverter::toDto)
+                    .collect(Collectors.toList()))
+            .orElse(Collections.emptyList());
+    }
 
-        return parkinglots.stream()
-                .map(parkinglotConverter::toDto)
-                .collect(Collectors.toList());
+    //주소로 검색
+    public List<ParkinglotDto> searchParkingByAddress(String address) {
+        List<Parkinglot> parkinglots = adminRepository.findByAddressContainingIgnoreCase(address);
+
+        return Optional.ofNullable(parkinglots)
+            .map(list -> list.stream()
+                    .map(parkinglotConverter::toDto)
+                    .collect(Collectors.toList()))
+            .orElse(Collections.emptyList());
     }
 
     //사용자 조회

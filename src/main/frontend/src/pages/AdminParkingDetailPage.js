@@ -91,9 +91,9 @@ const AdminParkingDetailPage = () => {
     <>
       <AdminSideBar />
       <div className={styles.ParkingDetailPage}>
-        <div className="APAHeader">
+        <div className={styles.APAHeader}>
           <ArrowBackIcon
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/admin")}
             className="parkingArrowBackIcon"
           />
         </div>
