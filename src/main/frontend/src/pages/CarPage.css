@@ -27,9 +27,7 @@
   border: none;
   padding: 5px;
   cursor: pointer;
-  &:hover {
-    color: #ffa07a;
-  }
+  color: #fc6c00;
 }
 
 .carAddInputContainer {
