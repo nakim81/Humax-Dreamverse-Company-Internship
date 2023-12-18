@@ -78,6 +78,7 @@ const MyPage = () => {
       localStorage.removeItem("userId");
       localStorage.removeItem("admin");
       alert("회원탈퇴가 성공적으로 처리되었습니다.");
+      window.location.reload();
       navigate("/");
     } catch (error) {
       console.error("Error deleting user account", error);
