@@ -50,8 +50,8 @@ public class ParkinglotApiController {
     }
 
     @GetMapping("/parkinglot/all")
-    public Api<List<ParkinglotDto>> getAllParkinglot(){
-        List<ParkinglotDto> response = parkinglotService.getAllParkinglot();
+    public Api<Page<ParkinglotDto>> getAllParkinglot(@RequestParam int page, @RequestParam int size){
+        var response = parkinglotService.getAllParkinglot(page, size);
         return Api.OK(response);
     }
 }

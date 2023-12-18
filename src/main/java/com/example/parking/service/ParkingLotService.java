@@ -48,8 +48,9 @@ public class ParkingLotService {
         return filteredParkingLots.map(parkinglotConverter::toDto);
     }
 
-    public List<ParkinglotDto> getAllParkinglot() {
-        List<Parkinglot> allParkinglot = parkingLotRepository.findAll();
-        return allParkinglot.stream().map(parkinglotConverter::toDto).collect(Collectors.toList());
+    public Page<ParkinglotDto> getAllParkinglot(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        var allParkinglot = parkingLotRepository.findAll(pageable);
+        return allParkinglot.map(parkinglotConverter::toDto);
     }
 }

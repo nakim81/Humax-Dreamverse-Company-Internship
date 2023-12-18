@@ -13,8 +13,6 @@ import java.util.Optional;
 
 public interface ParkingLotRepository extends JpaRepository<Parkinglot, Long> {
 
-    Optional<Parkinglot> findByName(String name);
-
     @Query(value = "SELECT *, ST_Distance_Sphere(point(lon, lat), point(:longitude, :latitude)) as distance FROM parking_lot HAVING distance < :radius * 1000 ORDER BY distance LIMIT 15", nativeQuery = true)
     List<Parkinglot> findNearestParkingLots(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("radius") double radius);
 
