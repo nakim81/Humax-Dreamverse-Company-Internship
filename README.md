@@ -70,63 +70,63 @@ Swagger 파일: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https:/
 
 | 회원가입, 로그인, 회원탈퇴 |
 | :---: |
-| <image src = "images/login.gif" width="1000px" height="600px"> |
+| <image src = "images/login.gif" width="800px" height="500px"> |
 
 | 주차장 조회 |
 | :---: |
-| <image src = "images/search_parkinglot.gif" width="1000px" height="600px"> |
+| <image src = "images/search_parkinglot.gif" width="800px" height="500px"> |
 
 | 주차권 예약, 취소 |
 | :---: | 
-| <image src = "images/book.gif" width="1000px" height="600px"> |
+| <image src = "images/book.gif" width="800px" height="500px"> |
 
 | 마이페이지 - 내정보 조회, 수정|
 | :---: |
-| <image src = "images/mypage.gif" width="1000px" height="600px"> |
+| <image src = "images/mypage.gif" width="800px" height="500px"> |
 
 | 마이페이지 - 결제 수단 |
 | :---: |
-| <image src = "images/pay_page.gif" width="1000px" height="600px"> |
+| <image src = "images/pay_page.gif" width="800px" height="500px"> |
 
 | 마이페이지 - 차량 정보 |
 | :---: |
-| <image src = "images/car_page.gif" width="1000px" height="600px"> |
+| <image src = "images/car_page.gif" width="800px" height="500px"> |
 
 | 마이페이지 - 즐겨찾기 |
 | :---: |
-| <image src = "images/favorites_page.gif" width="1000px" height="600px">
+| <image src = "images/favorites_page.gif" width="800px" height="500px">
 
 | 관리자페이지 - 주차장 검색 |
 | :---: |
-| <image src = "images/admin_parkinglot.gif" width="1000px" height="600px"> |
+| <image src = "images/admin_parkinglot.gif" width="800px" height="500px"> |
 
 | 관리자페이지 - 주차장 관리 |
 | :---: |
-| <image src = "images/admin_parkinglot_edit.gif" width="1000px" height="600px"> |
+| <image src = "images/admin_parkinglot_edit.gif" width="800px" height="500px"> |
 
 | 관리자페이지 - 회원관리 |
 | :---: |
-| <image src = "images/admin_user.gif" width="1000px" height="600px"> |
+| <image src = "images/admin_user.gif" width="800px" height="500px"> |
 
 | 차량 입차 |
 | :---: |
-|<image src = "images/enter_car.gif" width="1000px" height="600px"> |
+|<image src = "images/enter_car.gif" width="800px" height="500px"> |
 
 ## 프로젝트 구성도
 
 | 아키텍처(Architecture) |
 | :---: |
-| <image src = "images/Architecture.PNG" width="1000px" height="600px"> |
+| <image src = "images/Architecture.png" width="800px" height="500px"> |
 
 | 개체-관계 모델(ERD) |
 | :---: |
-| <image src="images/ERD.PNG" width="1000px" height="600px"> |
+| <image src="images/ERD.png" width="800px" height="500px"> |
 
 ## 개발 팀 소개
 
 | <image src="https://avatars.githubusercontent.com/u/76806695?v=4" width="100px" height="100px"> | <image src="https://avatars.githubusercontent.com/u/101173292?v=4" width="100px" height="100px"> | <image src="https://avatars.githubusercontent.com/u/119571075?v=4" width="100px" height="100px"> | <image src="https://avatars.githubusercontent.com/u/50134759?s=48&v=4" width="100px" height="100px"> | <image src="https://avatars.githubusercontent.com/u/97590502?v=4" width="100px" height="100px"> |
 | :---: | :---: | :---: | :---: | :---: |
-| [권순욱](https://github.com/ks-wook) <br>(결제 수단, 즐겨찾기) | [김노아](https://github.com/nakim81) <br>(주차장 검색, 검색 기록) | [김동현](https://github.com/gitKDH) <br>(로그인, 회원정보 관리) | [김지희](https://github.com/mii2026) <br> (주차권 예약, 이용내역) | [진주현](https://github.com/bonfire8) <br>(내 차 정보, 관리자 페이지) |
+| [권순욱](https://github.com/ks-wook) <br>(결제 수단, <br>즐겨찾기) | [김노아](https://github.com/nakim81) <br>(주차장 검색, <br>검색 기록) | [김동현](https://github.com/gitKDH) <br>(로그인, <br>회원정보 관리) | [김지희](https://github.com/mii2026) <br> (주차권 예약, <br>이용내역) | [진주현](https://github.com/bonfire8) <br>(내 차 정보, <br>관리자 페이지) |
 
 ## 개발 기간
 
