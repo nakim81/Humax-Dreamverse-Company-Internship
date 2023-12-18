@@ -10,7 +10,7 @@
 }
 
 .APABody {
-  width: 90%;
+  width: 70%;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -23,42 +23,39 @@
 .parkingFormInput {
   margin-bottom: 8px;
   width: 100%;
+  display: flex;
 }
 
-.parkingFromLabel {
-  margin-right: 5px;
+.parkingFormLabel {
+  width: 30%;
 }
 
-.parkingFromControl {
+.parkingFormControl {
   border: 1px solid lightgrey;
   border-radius: 5px;
-  width: 100%;
+  width: 70% !important;
   height: 30px;
 }
 
 .parkingFormAddBtn {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
   background: #fc6c00;
   border: none;
   border-radius: 5px;
-  padding: 5px;
+  padding: 3px 5px;
   font-size: 18px;
   color: white;
-  cursor: pointer;
   &:hover {
     font-weight: bold;
   }
 }
 
 .addressPostBtn {
-  margin-bottom: 3px;
+  width: 100px;
   border: none;
   border-radius: 5px;
   color: white;
   background: #fc6c00;
-  cursor: pointer;
+  margin: 0 0 3px 8px;
   &:hover {
     font-weight: bold;
   }

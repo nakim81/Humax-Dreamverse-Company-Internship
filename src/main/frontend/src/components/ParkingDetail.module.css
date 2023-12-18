@@ -1,0 +1,71 @@
+.map {
+  width: 400px;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: flex-end;
+}
+
+.detailContent {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoContainer {
+  width: 50%;
+}
+
+.colorLargeBoldText {
+  color: #fc6c00;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.largeBoldText {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.middleBoldText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.chargeContainer {
+  border-bottom: 1px solid lightgray;
+  padding: 10px 0;
+}
+
+.parkingContainer {
+  border-bottom: 1px solid lightgray;
+  padding: 10px 0;
+}
+
+.labelContainer {
+  display: flex;
+}
+
+.label {
+  width: 20%;
+}
+
+.grayText {
+  color: #757575;
+}
+
+.blueText {
+  color: #429cf5;
+  margin-left: 5px;
+}
+
+.redText {
+  color: #ff3233;
+  margin-left: 5px;
+}

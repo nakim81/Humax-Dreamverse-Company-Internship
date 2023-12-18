@@ -142,9 +142,10 @@ const CarPage = () => {
       try {
         await axios.patch(
           API_BASE_URL + `/user/car/${updateCarId}`,
-          updateCarData,{
-              headers: { Authorization: `Bearer ${token}` },
-            }
+          updateCarData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         setIsUpdateOpen((isUpdateOpen) => !isUpdateOpen);
         await fetchData();
@@ -248,8 +249,8 @@ const CarPage = () => {
       <div className="carsContainer">
         {carData.length === 0 ? <div>차량을 등록하세요.</div> : <div></div>}
         {carData.map((car, index) => (
-          <>
-            <div key={car.carId} className="carContainer">
+          <div key={car.carId} className="carsContainer">
+            <div className="carContainer">
               <div className="carTextContainer">
                 <p className="carText">
                   {car.carName} | {car.carNumber}
@@ -291,7 +292,7 @@ const CarPage = () => {
                 </>
               )}
             </div>
-          </>
+          </div>
         ))}
       </div>
 

@@ -1,0 +1,198 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-column-gap: 50px;
+  place-items: center;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.bookState {
+  color: white;
+  background-color: #fc6c00;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 3px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateCancel {
+  color: #ff3233;
+  background-color: #ffe6e6;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateEnd {
+  color: #212121;
+  background-color: #e9e9e9;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookStateStart {
+  color: white;
+  background-color: #fc6c00;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
+.bookContainer {
+  border-bottom: 1px solid rgb(128, 128, 128);
+  width: 80%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.detailButtons {
+  font-size: 30px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.bookBtnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.bookName {
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-weight: bold;
+}
+
+.bookStateContainer {
+  display: flex;
+  font-size: 20px;
+  align-items: flex-end;
+}
+
+.parkingDetailBtn {
+  background: none;
+  border: none;
+  color: #fc6c00;
+  font-size: 16px;
+}
+
+.bookHeader {
+  margin: 20px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookBackBtn {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.bookArrowBackIcon {
+  margin-right: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.grayText {
+  color: #616161;
+}
+
+.timeContainer {
+  color: gray;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.endTime {
+  text-align: end;
+}
+
+.listFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priceText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.nullListText {
+  text-align: center;
+  margin-top: 20%;
+}
+
+.cancleBtn {
+  background-color: white;
+  color: #fc6c00;
+  border: #fc6c00 1px solid;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.largeBoldText {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.colorText {
+  color: #fc6c00;
+}
+
+.colorMediumText {
+  color: #fc6c00;
+  font-size: 18px;
+}
+
+.mediumText {
+  font-size: 18px;
+}
+
+.cancleTextContainer {
+  margin: 10px 5%;
+  padding: 15px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+}
+
+.listText {
+  border-top: lightgray 1px solid;
+  margin-top: 5px;
+  padding-top: 5px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.showPay {
+  margin: 0 5%;
+}
+
+.payDetailContainer {
+  margin: 0 3%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

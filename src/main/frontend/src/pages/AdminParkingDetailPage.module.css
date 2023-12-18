@@ -5,6 +5,17 @@
   justify-content: center;
 }
 
+.APAHeader {
+  margin-top: 30px;
+  width: 90%;
+}
+
+.parkingArrowBackIcon {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .parkingDetailContainer {
   margin-top: 15px;
   width: 90%;
@@ -15,48 +26,11 @@
   align-items: center;
 }
 
-.parkingDetailHeader {
-  width: 95%;
+.parkingDetail {
+  width: 100%;
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.parkingDetailBody {
-  width: 95%;
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-
-.parkingDetailName {
-  font-size: 28px;
-  margin-right: 10px;
-}
-
-.parkingDetailAddress {
-  font-size: 20px;
-}
-
-.parkingDetailMap {
-  width: 45%;
-  height: 400px;
-}
-
-.parkingDetailInfos {
-  width: 45%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-.parkingDetailBtns {
-  display: flex;
-  justify-content: flex-end;
-  height: 40px;
+  justify-content: center;
+  margin: 20px 0 10px 0;
 }
 
 .modeEditBtn {
@@ -90,23 +64,24 @@
   }
 }
 
-.parkingDetailIsActive {
-  margin-left: 10px;
-  color: #429cf5;
+.parkingDetailBtns {
+  display: flex;
+  height: 40px;
 }
 
-.parkingDetailIsNotActive {
-  margin-left: 10px;
-  color: #ff3233;
-}
-
-.arrowBackIcon {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.APAHeader {
-  margin-top: 30px;
+.parkingDetailFooter {
   width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.dateContainer {
+  display: flex;
+}
+
+.boldText {
+  font-weight: bold;
+  margin-right: 10px;
 }

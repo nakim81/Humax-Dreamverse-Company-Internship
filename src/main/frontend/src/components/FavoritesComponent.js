@@ -8,7 +8,6 @@ const FavoriteButton = ({ selectedParkinglot }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoritesId, setFavoriteId] = useState(0);
   const token = "Bearer " + localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
 
   // 현재 선택된 주차장의 favorites Id
 
@@ -36,11 +35,11 @@ const FavoriteButton = ({ selectedParkinglot }) => {
       .catch((error) => {
         console.error("Error checking favorite:", error);
       });
-  }, [selectedParkinglot]);
+  }, [selectedParkinglot.parkingId, token]);
 
   const handleClick = () => {
     // Favorites 테이블 아이템의 상태 변경
-    console.log(`선택된 주차장: ${selectedParkinglot.parkingId}`);
+    // console.log(`선택된 주차장: ${selectedParkinglot.parkingId}`);
     var parkingLotDto = {
       favorites_name: selectedParkinglot.name,
       parking_id: selectedParkinglot.parkingId,
@@ -57,7 +56,6 @@ const FavoriteButton = ({ selectedParkinglot }) => {
           },
         })
         .then((response) => {
-          console.log("즐겨찾기 추가 성공");
           setFavoriteId(response.data.favorites_id);
           setIsFavorite(true);
         })
@@ -73,11 +71,10 @@ const FavoriteButton = ({ selectedParkinglot }) => {
           },
         })
         .then((response) => {
-          console.log("즐겨찾기 제거 성공");
           setIsFavorite(false);
         })
         .catch((error) => {
-          console.log("즐겨찾기 제거 실패");
+          console.log("즐겨찾기 제거 실패", error);
         });
     }
   };
