@@ -167,6 +167,7 @@ const ParkingList = () => {
               <Link
                 key={index}
                 to={`/admin/parking/${item.parkingId}`}
+                exact
                 className={styles.parkingContainer}
               >
                 <div>

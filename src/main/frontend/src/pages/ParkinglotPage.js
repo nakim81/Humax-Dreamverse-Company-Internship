@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MapComponent from "../components/MapComponent";
@@ -41,7 +41,7 @@ const ParkinglotPage = () => {
 
   const [initialLoad, setInitialLoad] = useState(true);
 
-  const { token, userId } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -116,7 +116,7 @@ const ParkinglotPage = () => {
     }
   };
 
-  const fetchParkinglotsByKeyword = async () => {
+  const fetchParkinglotsByKeyword = useCallback(async () => {
     setAllParkinglots([]);
     try {
       const response = await axios.get(API_BASE_URL + "/parkinglot/search", {
@@ -131,7 +131,7 @@ const ParkinglotPage = () => {
     } catch (error) {
       console.error("키워드 기반 주차장 검색 중 오류가 발생했습니다.", error);
     }
-  };
+  }, [keyword, keywordPage]);
 
   const fetchSearchHistory = async () => {
     try {
@@ -171,7 +171,7 @@ const ParkinglotPage = () => {
     } else {
       setInitialLoad(false);
     }
-  }, [keywordPage, initialLoad]);
+  }, [keywordPage, initialLoad, fetchParkinglotsByKeyword]);
 
   // 키워드 기반 검색 결과의 페이지 이동 함수
   const handleKeywordPageChange = (event, value) => {
@@ -244,7 +244,7 @@ const ParkinglotPage = () => {
                 borderColor: "secondary",
                 borderWidth: 1,
                 borderStyle: "solid",
-                width: "20vw", // 카드 크기 고정
+                width: "25vw", // 카드 크기 고정
                 height: "56vh", // 카드 크기 고정
                 overflow: "auto", // 내용이 많아질 경우 스크롤 생김
               }}
@@ -253,6 +253,7 @@ const ParkinglotPage = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
                 <div className={styles["parkingMiddleText"]}>
@@ -274,12 +275,28 @@ const ParkinglotPage = () => {
               <div className={styles["parkingTextContainer"]}>
                 <div className={styles["parkingMiddleText"]}>요금정보</div>
                 <div className={styles["parkingBoldText"]}>주차요금 정보</div>
-                <div variant="body2">
-                  기본요금: {selectedParkinglot.timeTicket}
-                </div>
-                {selectedParkinglot.pparkingMiddleTextrice != null && (
-                  <div variant="body2">
-                    참고사항: {selectedParkinglot.pparkingMiddleTextrice}
+                {selectedParkinglot.normalSeason !== "NULL" && (
+                  <div className={styles.labelContainer}>
+                    <div className={styles.label}>성수기</div>
+                    <div className={styles.graytext}>
+                      {selectedParkinglot.normalSeason}
+                    </div>
+                  </div>
+                )}
+                {selectedParkinglot.tenantSeason !== "NULL" && (
+                  <div className={styles.labelContainer}>
+                    <div className={styles.label}>비수기</div>
+                    <div className={styles.graytext}>
+                      {selectedParkinglot.tenantSeason}
+                    </div>
+                  </div>
+                )}
+                {selectedParkinglot.timeTicket !== "NULL" && (
+                  <div className={styles.labelContainer}>
+                    <div className={styles.label}>기본요금</div>
+                    <div className={styles.graytext}>
+                      {selectedParkinglot.timeTicket}
+                    </div>
                   </div>
                 )}
               </div>
@@ -288,16 +305,32 @@ const ParkinglotPage = () => {
                 <div className={styles["parkingBoldText"]}>기본정보</div>
                 <div variant="body2">{selectedParkinglot.address}</div>
                 <div className={styles["parkingBoldText"]}>운영시간</div>
-                <div variant="body2">{selectedParkinglot.operatingTime}</div>
+                <div variant="body2">
+                  {selectedParkinglot.operatingTime
+                    .split(",")
+                    .map((time, index) => (
+                      <div key={index}>{time.trim()}</div>
+                    ))}
+                </div>
               </div>
               <div className={styles["parkingDetailFooter"]}>
                 <button
-                  className={styles["getBookParkingBtn"]}
-                  onClick={goToReservationPage}
+                  className={styles.detailBtn}
+                  onClick={() =>
+                    navigate(`/user/parkinglot/${selectedParkinglot.parkingId}`)
+                  }
                 >
-                  예약하기
+                  자세히 보기
                 </button>
-                <FavoriteButton selectedParkinglot={selectedParkinglot} />
+                <div className={styles.btnContainer}>
+                  <button
+                    className={styles["getBookParkingBtn"]}
+                    onClick={goToReservationPage}
+                  >
+                    예약하기
+                  </button>
+                  <FavoriteButton selectedParkinglot={selectedParkinglot} />
+                </div>
               </div>
             </Card>
           )}

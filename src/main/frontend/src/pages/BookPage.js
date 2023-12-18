@@ -254,7 +254,7 @@ const BookPage = () => {
                 <option value="">결제 수단을 선택하세요</option>
                 {payData.map((pay) => (
                   <option value={pay.payId}>
-                    {pay.payName} {pay.payNumber}
+                    {pay.payType} {pay.payName} {pay.payNumber}
                   </option>
                 ))}
               </select>

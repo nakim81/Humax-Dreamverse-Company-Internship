@@ -16,6 +16,8 @@ import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/NavBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AdminUserPage from "./pages/AdminUserPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import ParkingDetailPage from "./pages/ParkingDetailPage";
 
 function App() {
   return (
@@ -43,6 +45,11 @@ function App() {
         <Route element={<SignUpPage />} path="/signup" />
         <Route element={<LoginPage />} path="/login" />
         <Route element={<AdminUserPage />} path="/admin/user" />
+        <Route element={<FavoritesPage />} path="/user/favorites" />
+        <Route
+          element={<ParkingDetailPage />}
+          path="/user/parkinglot/:parkingId"
+        />
       </Routes>
     </>
   );

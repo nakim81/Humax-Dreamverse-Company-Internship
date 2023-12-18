@@ -127,7 +127,10 @@ const MyPage = () => {
             차량 정보 관리
             <ArrowForwardIosIcon />
           </div>
-          <div className={styles["list"]} onClick={() => navigate("/")}>
+          <div
+            className={styles["list"]}
+            onClick={() => navigate("/user/favorites")}
+          >
             즐겨찾기 목록 관리
             <ArrowForwardIosIcon />
           </div>

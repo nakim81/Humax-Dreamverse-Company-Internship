@@ -12,7 +12,6 @@ function MyNavbar() {
     logout,
     isLoggedIn,
     admin,
-    userId,
     setToken,
     setIsLoggedIn,
     setUserId,
@@ -75,7 +74,7 @@ function MyNavbar() {
           break;
       }
     }
-  }, []);
+  }, [setAdmin, setIsLoggedIn, setToken, setUserId]);
 
   const handleLogout = async () => {
     try {
@@ -279,7 +278,7 @@ function MyNavbar() {
             <Button
               variant="outline-light"
               onClick={handleLogout}
-              style={{ whiteSpace: "nowrap" }}
+              style={{ whiteSpace: "nowrap", marginLeft: "10px" }}
             >
               로그아웃
             </Button>
@@ -288,7 +287,7 @@ function MyNavbar() {
               <NavLink
                 to="/login"
                 className="nav-link text-white"
-                style={{ whiteSpace: "nowrap" }}
+                style={{ whiteSpace: "nowrap", marginLeft: "10px" }}
               >
                 로그인
               </NavLink>

@@ -119,13 +119,13 @@ const AdminParkingUpdatePage = () => {
   ) => {
     const inputProps = {
       type: type,
-      placeholder: placeholder || `${label}을/를 입력하세요.`,
+      placeholder: placeholder || `${label}(을/를) 입력하세요.`,
       name: name,
       value: parkingInfo[name],
       onChange: handleChange,
       required: required === true,
       disabled: disabled === true,
-      className: "parkingFromControl",
+      className: "parkingFormControl",
     };
 
     return (
@@ -134,7 +134,7 @@ const AdminParkingUpdatePage = () => {
         controlId={`form${name}`}
         key={name}
       >
-        <Form.Label className="parkingFromLabel">{label}</Form.Label>
+        <Form.Label className="parkingFormLabel">{label}</Form.Label>
         {type === "checkbox" ? (
           <Form.Check
             type={type}
@@ -165,22 +165,24 @@ const AdminParkingUpdatePage = () => {
             {renderFormGroup("코드 넘버 *", "codeNumber", "text", true)}
             {renderFormGroup("주차장 이름 *", "name", "text", true)}
             <Form.Group className="parkingFormInput" controlId="formAddress">
-              <Form.Label className="parkingFromLabel">주소 *</Form.Label>
-              <button
-                onClick={handleOpenAddressPost}
-                className="addressPostBtn"
-              >
-                주소찾기
-              </button>
+              <Form.Label className="parkingFormLabel">
+                주소 *{" "}
+                <button
+                  onClick={handleOpenAddressPost}
+                  className="addressPostBtn"
+                >
+                  주소찾기
+                </button>
+              </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="주소를 입력하세요."
+                placeholder="주소(을/를) 입력하세요."
                 name="address"
                 value={parkingInfo.address}
                 onChange={handleChange}
                 required
                 disabled
-                className="parkingFromControl"
+                className="parkingFormControl"
               />
               <AddressPost
                 key={searchKey}
@@ -190,20 +192,20 @@ const AdminParkingUpdatePage = () => {
               />
             </Form.Group>
             {renderFormGroup("운영 시간 *", "operatingTime", "text", true)}
-            {renderFormGroup("Normal Season 가격", "normalSeason", "text")}
-            {renderFormGroup("Tenant Season 가격", "tenantSeason", "text")}
-            {renderFormGroup("Time Ticket 가격", "timeTicket", "text")}
-            {renderFormGroup("Day Ticket 가격", "dayTicket", "text")}
-            {renderFormGroup("Special Day 가격", "specialDay", "text")}
-            {renderFormGroup("Special Hour 가격", "specialHour", "text")}
-            {renderFormGroup("Special Night 가격", "specialNight", "text")}
-            {renderFormGroup("Special Weekend 가격", "specialWeekend", "text")}
-            {renderFormGroup("Apply Day", "applyDay", "text")}
-            {renderFormGroup("Apply Hour", "applyHour", "text")}
-            {renderFormGroup("Apply Night", "applyNight", "text")}
-            {renderFormGroup("Apply Weekend", "applyWeekend", "text")}
+            {renderFormGroup("성수기 가격", "normalSeason", "text")}
+            {renderFormGroup("비수기 가격", "tenantSeason", "text")}
+            {renderFormGroup("시간권 가격", "timeTicket", "text")}
+            {renderFormGroup("일일권 가격", "dayTicket", "text")}
+            {renderFormGroup("휴일 일일권 가격", "specialDay", "text")}
+            {renderFormGroup("휴일 주간 가격", "specialHour", "text")}
+            {renderFormGroup("휴일 야간 가격", "specialNight", "text")}
+            {renderFormGroup("휴일 주말 가격", "specialWeekend", "text")}
+            {renderFormGroup("일일권 승인 날짜", "applyDay", "text")}
+            {renderFormGroup("시간권 승인 날짜", "applyHour", "text")}
+            {renderFormGroup("야간권 승인 날짜", "applyNight", "text")}
+            {renderFormGroup("주말권 승인 날짜", "applyWeekend", "text")}
             {renderFormGroup("현재 운영 중", "is_active", "checkbox")}
-            {renderFormGroup("Operation", "operation", "text")}
+            {renderFormGroup("참고 사항", "operation", "text")}
             {renderFormGroup("시간", "time", "text")}
             {renderFormGroup("가격", "price", "text")}
             <button type="submit" className="parkingFormAddBtn">

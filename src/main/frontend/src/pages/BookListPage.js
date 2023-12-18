@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../hooks/AuthContext";
-import "./BookListPage.css";
+import styles from "./BookListPage.module.css";
 import axios from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Pagination from "@mui/material/Pagination";
 import { API_BASE_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +30,7 @@ const BookListPage = () => {
       setBookData(response.data.body.content);
       setShowPay(Array(response.data.body.content.length).fill(false));
       setTotalPage(response.data.body.totalPages);
-      console.log(response.data.body.content);
+      // console.log(response.data.body.content);
     } catch (err) {
       console.error("book data error", err);
     }
@@ -80,15 +82,24 @@ const BookListPage = () => {
     setPage(1);
   };
 
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  };
+
   return (
     <>
       <div>
-        <div className="gridContainer">
-          <div className="bookHeader">
-            <div className="bookBackBtn">
+        <div className={styles.gridContainer}>
+          <div className={styles.bookHeader}>
+            <div className={styles.bookBackBtn}>
               <ArrowBackIcon
                 onClick={() => navigate("/user/mypage")}
-                className="bookArrowBackIcon"
+                className={styles.bookArrowBackIcon}
               />
               이용 내역 조회
             </div>
@@ -99,58 +110,118 @@ const BookListPage = () => {
             </div>
           </div>
           {bookData.length === 0 ? (
-            <h3 style={{ textAlign: "center", marginTop: "20%" }}>
-              {" "}
-              이용 내역이 없습니다.{" "}
-            </h3>
+            <div className={styles.nullListText}>이용 내역이 없습니다.</div>
           ) : (
             bookData.map((book, index) => (
-              <div key={index} className="bookContainer">
-                <div className="bookName">
-                  {book.state === "예약 취소" ||
-                  book.state === "미사용 취소" ? (
-                    <div className="bookStateCancel">{book.state}</div>
-                  ) : (
-                    <></>
-                  )}
-                  {book.state === "이용 종료" ? (
-                    <div className="bookStateEnd">{book.state}</div>
-                  ) : (
-                    <></>
-                  )}
-                  {book.state === "이용 대기" ? (
-                    <div className="bookStateStart">{book.state}</div>
-                  ) : (
-                    <></>
-                  )}
-                  {book.parkingLotName}
+              <div key={index} className={styles.bookContainer}>
+                <div className={styles.bookName}>
+                  <div className={styles.bookStateContainer}>
+                    {book.state === "예약 취소" ||
+                    book.state === "미사용 취소" ? (
+                      <div className={styles.bookStateCancel}>{book.state}</div>
+                    ) : (
+                      <></>
+                    )}
+                    {book.state === "이용 종료" ? (
+                      <div className={styles.bookStateEnd}>{book.state}</div>
+                    ) : (
+                      <></>
+                    )}
+                    {book.state === "이용 대기" ? (
+                      <div className={styles.bookStateStart}>{book.state}</div>
+                    ) : (
+                      <></>
+                    )}
+                    {book.parkingLotName}
+                  </div>
+                  <button
+                    className={styles.parkingDetailBtn}
+                    onClick={() =>
+                      navigate(`/user/parkinglot/${book.parkingLotId}`)
+                    }
+                  >
+                    주차장 상세 보기
+                  </button>
                 </div>
-                <p>차 번호: {book.carNumber}</p>
-                <p>티켓 종류: {book.ticket}</p>
-                <p>
-                  이용 시간: {new Date(book.startTime).toLocaleString()} ~{" "}
-                  {new Date(book.endTime).toLocaleString()}
-                </p>
+                <div className={styles.grayText}>주차권 / {book.ticket}</div>
+                <div className={styles.listFooter}>
+                  <div className={styles.timeContainer}>
+                    <div className={styles.startTime}>
+                      {new Intl.DateTimeFormat("ko-KR", options).format(
+                        new Date(book.startTime)
+                      )}
+                    </div>
+                    <div className={styles.endTime}>
+                      ~{" "}
+                      {new Intl.DateTimeFormat("ko-KR", options).format(
+                        new Date(book.endTime)
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.priceText}>{book.price} 원</div>
+                </div>
+
+                <div className={styles.bookBtnContainer}>
+                  {showPay[index] ? (
+                    <ExpandLessIcon
+                      onClick={() => handlePayClick(index)}
+                      className={styles.detailButtons}
+                    />
+                  ) : (
+                    <ExpandMoreIcon
+                      onClick={() => handlePayClick(index)}
+                      className={styles.detailButtons}
+                    />
+                  )}
+                </div>
                 {showPay[index] && (
-                  <div>
-                    <p>결제 수단: {book.payName}</p>
-                    <p>결제 금액: {book.price}</p>
+                  <div className={styles.showPay}>
+                    <div className={styles.largeBoldText}>예약 상세</div>
+                    <div className={styles.payDetailContainer}>
+                      <div>
+                        <div className={styles.colorMediumText}>이용 차량</div>
+                        <div className={styles.mediumText}>
+                          {book.carNumber}
+                        </div>
+                      </div>
+                      <div>
+                        <div className={styles.colorMediumText}>결제 수단</div>
+                        <div className={styles.mediumText}>{book.payName}</div>
+                      </div>
+                    </div>
+                    <div className={styles.cancleTextContainer}>
+                      <div className={styles.mediumText}>※ 취소/환불규정</div>
+                      <div className={styles.listText}>
+                        <li>
+                          예약 후 미사용한 주차권은 예약날짜 내 취소가
+                          가능합니다.
+                        </li>
+                        <li>
+                          취소 신청은 '마이페이지 - 이용내역'에서 가능합니다.
+                        </li>
+                        <li>
+                          주차권 예약 후 이용가능 시간에 입차했을 경우, 주차권은
+                          자동으로 사용되어 취소/환불이 불가능합니다.
+                        </li>
+                        <li>
+                          단, 사용한 주차장에서 서비스 제공에 문제가 생겼거나,
+                          그 제공수준이 현저히 낮을 경우에 한해 전액 환불 받을
+                          수 있습니다.
+                        </li>
+                      </div>
+                    </div>
+                    <div className={styles.btnContainer}>
+                      <button
+                        onClick={() =>
+                          cancelBookClick(index, book.bookId, token)
+                        }
+                        className={styles.cancleBtn}
+                      >
+                        예약 취소
+                      </button>
+                    </div>
                   </div>
                 )}
-                <div className="bookBtnContainer">
-                  <button
-                    onClick={() => handlePayClick(index)}
-                    className="detailButtons"
-                  >
-                    결제 상세
-                  </button>
-                  <button
-                    onClick={() => cancelBookClick(index, book.bookId, token)}
-                    className="detailButtons"
-                  >
-                    예약 취소
-                  </button>
-                </div>
               </div>
             ))
           )}
