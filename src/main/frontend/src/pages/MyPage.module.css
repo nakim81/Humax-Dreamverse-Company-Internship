@@ -38,7 +38,7 @@
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  margin: 30px 0 30px 0;
+  margin: 30px 0 20px 0;
 }
 
 .user-container .user-img-container {
@@ -88,4 +88,28 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+}
+
+.infosContainer {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 33%);
+  justify-content: center;
+}
+
+.label {
+  font-weight: bold;
+  color: #424242;
+  font-size: 17px;
+}
+
+.infoInput {
+  width: 90%;
+  border-radius: 7px;
+  border: 1px solid #757575;
+}
+
+.updateBtnContainer {
+  display: flex;
+  justify-content: flex-end;
 }

@@ -49,7 +49,7 @@ const CarPage = () => {
 
       fetchData();
     }
-  }, [token]);
+  }, [token, userId]);
 
   const fetchData = async () => {
     try {

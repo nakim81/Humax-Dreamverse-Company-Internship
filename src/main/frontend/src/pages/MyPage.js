@@ -11,6 +11,10 @@ const MyPage = () => {
     phoneNum: "",
     email: "",
   });
+  const [isOpenInfo, setIsOpenInfo] = useState(false);
+  const [isUpdateInfo, setIsUpdateInfo] = useState(false);
+  const [updatePhoneNum, setUpdatePhoneNum] = useState("");
+  const [updateEmail, setUpdateEmail] = useState("");
 
   const fetchData = async () => {
     try {
@@ -21,6 +25,8 @@ const MyPage = () => {
         phoneNum: userInfo.phoneNum,
         email: userInfo.email,
       });
+      setUpdatePhoneNum(userInfo.phoneNum);
+      setUpdateEmail(userInfo.email);
     } catch (error) {
       console.error("사용자 정보를 가져오는 중 오류 발생", error);
     }
@@ -31,37 +37,27 @@ const MyPage = () => {
   }, []);
 
   const handleViewInfo = async () => {
-    try {
-      const response = await api.get("/user/mypage");
+    setIsOpenInfo((isOpenInfo) => !isOpenInfo);
+  };
 
-      const userInfo = response.data.body;
-      alert(`
-                아이디: ${userInfo.id}
-                전화번호: ${userInfo.phoneNum}
-                이메일: ${userInfo.email}
-            `);
-    } catch (error) {
-      console.error("Error getting user info", error);
-    }
+  const handleUpdateOpen = () => {
+    setIsOpenInfo(true);
+    setIsUpdateInfo((isUpdateInfo) => !isUpdateInfo);
   };
 
   const handleUpdateInfo = async () => {
     try {
-      const phoneNum = prompt(
-        "새로운 전화번호를 입력하세요. (전화번호를 수정하지 않는다면 취소 클릭)"
-      );
-      const email = prompt(
-        "새로운 이메일을 입력하세요. (이메일을 수정하지 않는다면 취소 클릭)"
-      );
-
       await api.put("/user/mypage", {
-        phoneNum,
-        email,
+        phoneNum: updatePhoneNum,
+        email: updateEmail,
       });
 
       alert("정보가 성공적으로 수정되었습니다.");
+      fetchData();
     } catch (error) {
       console.error("Error updating user info", error);
+    } finally {
+      setIsUpdateInfo(false);
     }
   };
 
@@ -99,6 +95,54 @@ const MyPage = () => {
                 <div className={styles["user-id-text"]}>{userInfos.id}님</div>
                 <button onClick={handleViewInfo}>내 정보 조회</button>
               </div>
+              {isOpenInfo && (
+                <div>
+                  <div className={styles.infosContainer}>
+                    <div className={styles.infoContainer}>
+                      <div className={styles.label}>아이디</div>
+                      <div className={styles.infoText}>{userInfos.id}</div>
+                    </div>
+                    <div className={styles.infoContainer}>
+                      <div className={styles.label}>전화번호</div>
+                      {isUpdateInfo ? (
+                        <input
+                          type="text"
+                          placeholder="전화번호를 입력하세요."
+                          value={updatePhoneNum}
+                          className={styles.infoInput}
+                          onChange={(e) => setUpdatePhoneNum(e.target.value)}
+                        />
+                      ) : (
+                        <div className={styles.infoText}>
+                          {userInfos.phoneNum}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.infoContainer}>
+                      <div className={styles.label}>이메일</div>
+                      {isUpdateInfo ? (
+                        <input
+                          type="text"
+                          placeholder="이메일을 입력하세요."
+                          value={updateEmail}
+                          className={styles.infoInput}
+                          onChange={(e) => setUpdateEmail(e.target.value)}
+                        />
+                      ) : (
+                        <div className={styles.infoText}>{userInfos.email}</div>
+                      )}
+                    </div>
+                  </div>
+                  {isUpdateInfo && (
+                    <div className={styles.updateBtnContainer}>
+                      <button onClick={handleUpdateInfo}>수정완료</button>
+                      <button onClick={() => setIsUpdateInfo(false)}>
+                        취소
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -137,7 +181,7 @@ const MyPage = () => {
           </div>
         </div>
         <div className={styles["btn-container"]}>
-          <button onClick={handleUpdateInfo}>내 정보 수정</button>
+          <button onClick={handleUpdateOpen}>내 정보 수정</button>
           <button onClick={handleDeleteAccount}>회원탈퇴</button>
         </div>
       </div>
