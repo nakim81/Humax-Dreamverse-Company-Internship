@@ -227,7 +227,13 @@ const BookListPage = () => {
           )}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
           <Pagination
             onChange={handlePageChange}
             page={page}
