@@ -98,7 +98,7 @@ Swagger 파일: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https:/
 
 | 마이페이지 - 즐겨찾기 |
 | :---: |
-| <image src = "images/favorites_page.gif" width="800px" height="500px">
+| <image src = "images/favorites_page.gif" width="800px" height="500px"> |
 
 | 관리자페이지 - 주차장 검색 |
 | :---: |
@@ -112,7 +112,7 @@ Swagger 파일: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https:/
 | :---: |
 | <image src = "images/admin_user.gif" width="800px" height="500px"> |
 
-| 차량 입차 |
+| 차량 입출차 |
 | :---: |
 |<image src = "images/enter_car.gif" width="800px" height="500px"> |
 
