@@ -80,4 +80,17 @@ public class BookController {
                 .status(200)
                 .body(Api.OK(null));
     }
+    @PatchMapping("admin/book/out")
+    public ResponseEntity<Api<Object>> out(
+            @RequestBody EnterDTO enterDTO,
+            @RequestHeader("Authorization") String AccessToken
+    ){
+        String token = AccessToken.split(" ")[1];
+        if(token == null || !jwtTokenProvider.validateToken(token))
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "유효하지 않은 토큰입니다.");
+        String userId = jwtTokenProvider.getUsername(token);
+        return ResponseEntity
+                .status(200)
+                .body(Api.OK(bookService.out(userId, enterDTO.getCarNumber(), enterDTO.getParkingLotName())));
+    }
 }

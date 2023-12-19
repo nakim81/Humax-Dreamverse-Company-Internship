@@ -5,6 +5,7 @@ import com.example.parking.common.error.ErrorCode;
 import com.example.parking.common.exception.ApiException;
 import com.example.parking.dto.AddBookDTO;
 import com.example.parking.dto.BookDTO;
+import com.example.parking.dto.OutDTO;
 import com.example.parking.entity.*;
 import com.example.parking.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -104,6 +105,22 @@ public class BookService {
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
 
         book.setState(BookState.USED);
+        book.setEnterTime(LocalDateTime.now());
         bookRepository.save(book);
+    }
+
+    public OutDTO out(String userId, String carNumber, String parkingLotName){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(ErrorCode.NULL_POINT, "사용자 정보가 존재하지 않습니다."));
+        if(!user.isAdmin())
+            throw new ApiException(ErrorCode.INVALID_TOKEN, "admin 사용자가 아닙니다.");
+
+        Book book = bookRepository.findBookToOut(carNumber, parkingLotName)
+                .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
+
+        book.setOutTime(LocalDateTime.now());
+        bookRepository.save(book);
+
+        return new OutDTO(book.getEnterTime(), book.getPrice());
     }
 }

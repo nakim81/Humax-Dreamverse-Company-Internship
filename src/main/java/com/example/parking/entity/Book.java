@@ -22,6 +22,8 @@ public class Book {
     private BookState state;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private LocalDateTime enterTime;
+    private LocalDateTime outTime;
     private Integer price;
     @Convert(converter = TicketTypeConverter.class)
     private TicketType ticket;
