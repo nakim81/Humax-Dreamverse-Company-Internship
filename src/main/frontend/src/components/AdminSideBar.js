@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
 import styles from "./AdminSideBar.module.css";
-import { useNavigate, NavLink, Router } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const AdminSideBar = ({ width = 200 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [xPosition, setXPosition] = useState(width);
   const side = useRef();
-  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen((isOpen) => !isOpen);
