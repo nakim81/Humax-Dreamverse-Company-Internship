@@ -25,8 +25,12 @@ const ParkinglotPage = () => {
   const [radius, setRadius] = useState("");
 
   const [keyword, setKeyword] = useState("");
-  const [keywordPage, setKeywordPage] = useState(0);
+  const [keywordPage, setKeywordPage] = useState(1);
   const [keywordTotalPages, setKeywordTotalPages] = useState(0);
+  const [allPage, setAllPage] = useState(1);
+  const [allTotalPages, setAllTotalPages] = useState(0);
+  const [backendAllPage, setBackendAllPage] = useState(0);
+  const [backendKeywordPage, setBackendKeywordPage] = useState(0);
 
   const [allParkinglots, setAllParkinglots] = useState([]);
 
@@ -40,6 +44,7 @@ const ParkinglotPage = () => {
   const [tabValue, setTabValue] = useState(0);
 
   const [initialLoad, setInitialLoad] = useState(true);
+  const [initialLoad2, setInitialLoad2] = useState(true);
 
   const { token } = useContext(AuthContext);
 
@@ -99,22 +104,24 @@ const ParkinglotPage = () => {
   };
 
   // 전체 주차장 정보를 가져오는 함수
-  const handleFetchAllParkinglotsButtonClick = async () => {
+  const fetchAllParkinglots = useCallback(async () => {
     setParkinglotData([]);
     try {
-      const response = await axios.get(API_BASE_URL + "/parkinglot/all");
-      if (response.data.body && Array.isArray(response.data.body)) {
-        setAllParkinglots(response.data.body);
-      } else {
-        console.error("Unexpected response", response);
-      }
+      const response = await axios.get(API_BASE_URL + "/parkinglot/all", {
+        params: {
+          page: backendAllPage,
+          size: size,
+        },
+      });
+      setAllParkinglots(response.data.body.content);
+      setAllTotalPages(response.data.body.totalPages);
     } catch (error) {
       console.error(
         "전체 주차장 정보를 가져오는 중 오류가 발생했습니다.",
         error
       );
     }
-  };
+  }, [backendAllPage]);
 
   const fetchParkinglotsByKeyword = useCallback(async () => {
     setAllParkinglots([]);
@@ -122,7 +129,7 @@ const ParkinglotPage = () => {
       const response = await axios.get(API_BASE_URL + "/parkinglot/search", {
         params: {
           keyword: keyword,
-          page: keywordPage,
+          page: backendKeywordPage,
           size: size,
         },
       });
@@ -131,7 +138,7 @@ const ParkinglotPage = () => {
     } catch (error) {
       console.error("키워드 기반 주차장 검색 중 오류가 발생했습니다.", error);
     }
-  }, [keyword, keywordPage]);
+  }, [keyword, backendKeywordPage]);
 
   const fetchSearchHistory = async () => {
     try {
@@ -161,8 +168,13 @@ const ParkinglotPage = () => {
 
   // 검색 버튼 클릭 이벤트 핸들러
   const handleFetchParkinglotsByKeywordButtonClick = async () => {
-    setKeywordPage(0); // 검색 버튼을 누르면 페이지를 초기화
+    setKeywordPage(1); // 검색 버튼을 누르면 페이지를 초기화
     fetchParkinglotsByKeyword();
+  };
+
+  const handleFetchAllParkinglotsButtonClick = async () => {
+    setAllPage(1);
+    fetchAllParkinglots();
   };
 
   useEffect(() => {
@@ -173,9 +185,23 @@ const ParkinglotPage = () => {
     }
   }, [keywordPage, initialLoad, fetchParkinglotsByKeyword]);
 
+  useEffect(() => {
+    if (!initialLoad2) {
+      fetchAllParkinglots();
+    } else {
+      setInitialLoad2(false);
+    }
+  }, [allPage, initialLoad2, fetchAllParkinglots]);
+
   // 키워드 기반 검색 결과의 페이지 이동 함수
   const handleKeywordPageChange = (event, value) => {
-    setKeywordPage(value - 1); // 페이지 번호를 0부터 시작하도록 -1을 해줌
+    setKeywordPage(value);
+    setBackendKeywordPage(value - 1);
+  };
+
+  const handleAllPageChange = (event, value) => {
+    setAllPage(value);
+    setBackendAllPage(value - 1);
   };
 
   const handleParkinglotClick = async (parkinglot) => {
@@ -555,6 +581,22 @@ const ParkinglotPage = () => {
               count={keywordTotalPages}
               page={keywordPage}
               onChange={handleKeywordPageChange}
+              color="primary"
+            />
+          </Box>
+        )}
+        {tabValue === 3 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 4,
+            }}
+          >
+            <Pagination
+              count={allTotalPages}
+              page={allPage}
+              onChange={handleAllPageChange}
               color="primary"
             />
           </Box>
