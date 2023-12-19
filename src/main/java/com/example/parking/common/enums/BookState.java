@@ -8,8 +8,9 @@ import java.util.Arrays;
 public enum BookState {
     READY_TO_USE("1", "이용 대기"),
     CANCELED("2", "예약 취소"),
-    USED("3", "이용 종료"),
-    NO_USE("4", "미사용 취소");
+    USING("3", "이용중"),
+    USED("4", "이용 종료"),
+    NO_USE("5", "미사용 취소");
 
     private String codeValue;
     private String nameValue;
