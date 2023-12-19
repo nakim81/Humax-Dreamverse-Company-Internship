@@ -10,7 +10,7 @@ import { API_BASE_URL } from "../constants";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const BookPage = () => {
-  const { userId, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const { parkingId } = useParams();
   const navigate = useNavigate();
 
@@ -48,6 +48,7 @@ const BookPage = () => {
   const [selectedDate, setSelectedDate] = useState(today);
   const nextWeek = new Date(today);
   nextWeek.setDate(today.getDate() + 6);
+  const offset = new Date().getTimezoneOffset() * 60000;
 
   const fetchCarData = async (token) => {
     try {
@@ -60,7 +61,7 @@ const BookPage = () => {
     }
   };
 
-  const fetchPayData = async (userId, token) => {
+  const fetchPayData = async (token) => {
     try {
       const response = await axios.get(API_BASE_URL + `/user/pay`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -73,8 +74,8 @@ const BookPage = () => {
 
   useEffect(() => {
     fetchCarData(token);
-    fetchPayData(userId, token);
-  }, [userId, token]);
+    fetchPayData(token);
+  }, [token]);
 
   const handleSubmitClick = async () => {
     try {
@@ -98,13 +99,13 @@ const BookPage = () => {
     if (reserveForm.ticket !== "") {
       setReserveForm((prevData) => ({
         ...prevData,
-        startTime: `${date.toISOString().split("T")[0]} ${
+        startTime: `${new Date(date-offset).toISOString().split("T")[0]} ${
           reserveForm.startTime.split(" ")[1]
         }`,
       }));
       setReserveForm((prevData) => ({
         ...prevData,
-        endTime: `${date.toISOString().split("T")[0]} ${
+        endTime: `${new Date(date-offset).toISOString().split("T")[0]} ${
           reserveForm.endTime.split(" ")[1]
         }`,
       }));
@@ -131,7 +132,7 @@ const BookPage = () => {
       startTime:
         value === "-1"
           ? ""
-          : `${selectedDate.toISOString().split("T")[0]} ${
+          : `${new Date(selectedDate-offset).toISOString().split("T")[0]} ${
               tickets[value].startTime
             }`,
     }));
@@ -140,7 +141,7 @@ const BookPage = () => {
       endTime:
         value === "-1"
           ? ""
-          : `${selectedDate.toISOString().split("T")[0]} ${
+          : `${new Date(selectedDate-offset).toISOString().split("T")[0]} ${
               tickets[value].endTime
             }`,
     }));
@@ -263,7 +264,7 @@ const BookPage = () => {
           <hr />
           <div className={styles["bookChargeContainer"]}>
             <div className={styles["bookChargeText"]}>
-              <div>총 결제예정 요금</div>
+              <div>총 결제예정 요금 </div>
               <div>{reserveForm.price} 원</div>
             </div>
           </div>

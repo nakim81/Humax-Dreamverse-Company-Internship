@@ -21,6 +21,8 @@ public class BookDTO {
     private String ticket;
     private String payName;
     private Integer price;
+    private LocalDateTime enterTime;
+    private LocalDateTime outTime;
 
     public BookDTO(Book book){
         this.bookId = book.getBookId();
@@ -34,5 +36,7 @@ public class BookDTO {
         this.ticket = book.getTicket().getNameValue();
         this.payName = book.getPayName();
         this.price = book.getPrice();
+        this.enterTime = book.getEnterTime();
+        this.outTime = book.getOutTime();
     }
 }
