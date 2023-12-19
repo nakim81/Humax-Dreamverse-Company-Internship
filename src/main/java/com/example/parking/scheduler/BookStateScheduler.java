@@ -24,7 +24,7 @@ public class BookStateScheduler {
 
         LocalDateTime currentTime = LocalDateTime.now();
 
-        List<Book> toFinishList = bookRepository.findChangeToFinish(BookState.READY_TO_USE, currentTime);
+        List<Book> toFinishList = bookRepository.findChangeToFinish(currentTime);
         for(Book book: toFinishList)
             book.setState(BookState.NO_USE);
         bookRepository.saveAll(toFinishList);

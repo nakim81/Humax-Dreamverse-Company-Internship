@@ -104,7 +104,7 @@ public class BookService {
         Book book = bookRepository.findBookToUse(carNumber, parkingLotName, LocalDateTime.now())
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
 
-        book.setState(BookState.USED);
+        book.setState(BookState.USING);
         book.setEnterTime(LocalDateTime.now());
         bookRepository.save(book);
     }
@@ -118,6 +118,7 @@ public class BookService {
         Book book = bookRepository.findBookToOut(carNumber, parkingLotName)
                 .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST, "예약 정보가 존재하지 않습니다."));
 
+        book.setState(BookState.USED);
         book.setOutTime(LocalDateTime.now());
         bookRepository.save(book);
 

@@ -61,18 +61,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query(value = "select b from Book b " +
             "where b.carNumber=:carNumber " +
             "and b.parkingLotName=:parkingLotName " +
-            "and b.enterTime is not null " +
-            "and b.outTime is null")
+            "and b.state='3'")
     public Optional<Book> findBookToOut(
             @Param("carNumber")String carNumber,
             @Param("parkingLotName")String parkingLotName
     );
 
     @Query(value = "select b from Book b " +
-            "where b.state=:state " +
+            "where b.state='1' " +
             "and b.endTime<=:currentTime")
     public List<Book> findChangeToFinish(
-            @Param("state")BookState state,
             @Param("currentTime")LocalDateTime currentTime
     );
 }
