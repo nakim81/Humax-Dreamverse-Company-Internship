@@ -8,6 +8,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Pagination from "@mui/material/Pagination";
 import { API_BASE_URL } from "../constants";
 import { useNavigate } from "react-router-dom";
+import CalculateCost from "../components/CalculateCost";
+import moment from "moment";
 
 const BookListPage = () => {
   const navigate = useNavigate();
@@ -34,6 +36,8 @@ const BookListPage = () => {
       console.error("book data error", err);
     }
   };
+
+  console.log(bookData);
 
   useEffect(() => {
     fetchBookData(page, state, token);
@@ -90,6 +94,22 @@ const BookListPage = () => {
     hour12: true,
   };
 
+  const calculateCost = (enterTime, outTime, price) => {
+    var cost = CalculateCost(
+      30,
+      15,
+      2000,
+      500,
+      25000,
+      moment(enterTime, "YYYY-MM-DD HH:mm"),
+      moment(outTime, "YYYY-MM-DD HH:mm")
+    );
+    cost = cost - price;
+    console.log(enterTime, outTime, price);
+    console.log(cost);
+    return cost;
+  };
+
   return (
     <>
       <div>
@@ -131,6 +151,11 @@ const BookListPage = () => {
                     ) : (
                       <></>
                     )}
+                    {book.state === "이용중" ? (
+                      <div className={styles.bookStateUse}>{book.state}</div>
+                    ) : (
+                      <></>
+                    )}
                     {book.parkingLotName}
                   </div>
                   <button
@@ -157,7 +182,23 @@ const BookListPage = () => {
                       )}
                     </div>
                   </div>
-                  <div className={styles.priceText}>{book.price} 원</div>
+                  <div className={styles.priceText}>
+                    {/* {book.price} */}
+                    {calculateCost(book.enterTime, book.outTime, book.price) >
+                    0 ? (
+                      <>
+                        {book.price +
+                          calculateCost(
+                            book.enterTime,
+                            book.outTime,
+                            book.price
+                          )}
+                      </>
+                    ) : (
+                      <>{book.price}</>
+                    )}
+                    원
+                  </div>
                 </div>
 
                 <div className={styles.bookBtnContainer}>
@@ -188,24 +229,53 @@ const BookListPage = () => {
                         <div className={styles.mediumText}>{book.payName}</div>
                       </div>
                       {book.enterTime !== null && (
-                      <div>
-                          <div className={styles.colorMediumText}>입차 시간</div>
-                          <div className={styles.mediumText}>
-                              {new Intl.DateTimeFormat("ko-KR", options).format(
-                                  new Date(book.enterTime)
-                              )}
+                        <div>
+                          <div className={styles.colorMediumText}>
+                            입차 시간
                           </div>
-                      </div>
-                      )}
-                      {book.outTime !== null && (
-                      <div>
-                          <div className={styles.colorMediumText}>출차 시간</div>
                           <div className={styles.mediumText}>
                             {new Intl.DateTimeFormat("ko-KR", options).format(
-                                new Date(book.outTime)
+                              new Date(book.enterTime)
                             )}
                           </div>
-                      </div>
+                        </div>
+                      )}
+                      {book.outTime !== null && (
+                        <div>
+                          <div className={styles.colorMediumText}>
+                            출차 시간
+                          </div>
+                          <div className={styles.mediumText}>
+                            {new Intl.DateTimeFormat("ko-KR", options).format(
+                              new Date(book.outTime)
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      {calculateCost(book.enterTime, book.outTime, book.price) >
+                        0 && (
+                        <div>
+                          <div className={styles.colorMediumText}>
+                            이용 금액
+                          </div>
+                          <div className={styles.costContainer}>
+                            <div className={styles.mediumText}>
+                              {book.price}
+                            </div>
+                            <div className={styles.plus}> + </div>
+                            <div className={styles.addPriceTexts}>
+                              <div className={styles.addPriceText}>
+                                추가요금{" "}
+                                {calculateCost(
+                                  book.enterTime,
+                                  book.outTime,
+                                  book.price
+                                )}
+                              </div>
+                            </div>{" "}
+                            원
+                          </div>
+                        </div>
                       )}
                     </div>
                     <div className={styles.cancleTextContainer}>
@@ -245,22 +315,22 @@ const BookListPage = () => {
             ))
           )}
         </div>
-
-        {(bookData.length !== 0) && (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "20px",
-              }}
-            >
-              <Pagination
-                onChange={handlePageChange}
-                page={page}
-                count={totalPage}
-              />
-            </div>
-        )};
+        {bookData.length !== 0 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "20px",
+            }}
+          >
+            <Pagination
+              onChange={handlePageChange}
+              page={page}
+              count={totalPage}
+            />
+          </div>
+        )}
+        ;
       </div>
     </>
   );

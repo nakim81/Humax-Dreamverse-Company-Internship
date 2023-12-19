@@ -9,7 +9,6 @@ import "./PayPage.css";
 const PayPage = () => {
   const { token } = useContext(AuthContext);
   const [responseData, setResponseData] = useState(null);
-  const url = API_BASE_URL + `/user/pay`;
   const navigate = useNavigate();
 
   function PaymentList({ payments }) {
@@ -82,8 +81,6 @@ const PayPage = () => {
       });
 
       setShowAddPayment(false); // 추가 창을 닫습니다.
-
-
     };
 
     const handleEdit = (id, payment) => {
@@ -318,8 +315,7 @@ const PayPage = () => {
   useEffect(() => {
     // 토큰이 있을 때에만 전송
     if (token) {
-
-      const fetchData = async() => {
+      const fetchData = async () => {
         const url = API_BASE_URL + `/user/pay`;
         try {
           const res = await axios.get(url, {
@@ -327,14 +323,12 @@ const PayPage = () => {
           });
           setResponseData(res.data);
         } catch (err) {
-            console.error("결제수단 정보 갱신 실패");
+          console.error("결제수단 정보 갱신 실패");
         }
       };
 
       fetchData();
     }
-
-
   }, [token]);
 
   // 토큰이 없는 경우 로딩 중을 표시

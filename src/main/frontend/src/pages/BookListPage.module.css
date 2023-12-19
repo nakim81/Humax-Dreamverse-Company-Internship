@@ -47,6 +47,16 @@
   margin-right: 7px;
 }
 
+.bookStateUse {
+  color: #429cf5;
+  background-color: #edf6fe;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 2px 4px 0 3px;
+  border: none;
+  margin-right: 7px;
+}
+
 .bookContainer {
   border-bottom: 1px solid rgb(128, 128, 128);
   width: 80%;
@@ -136,6 +146,27 @@
 .priceText {
   font-size: 18px;
   font-weight: bold;
+  display: flex;
+  align-items: flex-end;
+}
+
+.addPriceTexts {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.addPriceText {
+  color: #ff3233;
+}
+
+.plus {
+  margin: 0 10px;
+}
+
+.costContainer {
+  display: flex;
+  font-size: 18px;
 }
 
 .nullListText {
