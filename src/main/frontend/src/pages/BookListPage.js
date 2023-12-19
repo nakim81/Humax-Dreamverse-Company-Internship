@@ -30,7 +30,6 @@ const BookListPage = () => {
       setBookData(response.data.body.content);
       setShowPay(Array(response.data.body.content.length).fill(false));
       setTotalPage(response.data.body.totalPages);
-      // console.log(response.data.body.content);
     } catch (err) {
       console.error("book data error", err);
     }
@@ -188,6 +187,26 @@ const BookListPage = () => {
                         <div className={styles.colorMediumText}>결제 수단</div>
                         <div className={styles.mediumText}>{book.payName}</div>
                       </div>
+                      {book.enterTime !== null && (
+                      <div>
+                          <div className={styles.colorMediumText}>입차 시간</div>
+                          <div className={styles.mediumText}>
+                              {new Intl.DateTimeFormat("ko-KR", options).format(
+                                  new Date(book.enterTime)
+                              )}
+                          </div>
+                      </div>
+                      )}
+                      {book.outTime !== null && (
+                      <div>
+                          <div className={styles.colorMediumText}>출차 시간</div>
+                          <div className={styles.mediumText}>
+                            {new Intl.DateTimeFormat("ko-KR", options).format(
+                                new Date(book.outTime)
+                            )}
+                          </div>
+                      </div>
+                      )}
                     </div>
                     <div className={styles.cancleTextContainer}>
                       <div className={styles.mediumText}>※ 취소/환불규정</div>
@@ -227,19 +246,21 @@ const BookListPage = () => {
           )}
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <Pagination
-            onChange={handlePageChange}
-            page={page}
-            count={totalPage}
-          />
-        </div>
+        {(bookData.length !== 0) && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "20px",
+              }}
+            >
+              <Pagination
+                onChange={handlePageChange}
+                page={page}
+                count={totalPage}
+              />
+            </div>
+        )};
       </div>
     </>
   );

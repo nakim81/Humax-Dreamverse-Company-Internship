@@ -269,7 +269,7 @@ function MyNavbar() {
                   onMouseLeave={() => setIsAdminCarHovered(false)}
                   onClick={handleAdminCarClick}
                 >
-                  차량 입차
+                  차량 입출차
                 </NavLink>
               )}
             </>
