@@ -1,7 +1,7 @@
 <image src="images/banner.png">
 
 <br>
-
+(Homepage usage is currently unavailable due to the deactivation of the Amazon EC2 instance)
 Direct Service Link: [https://dreambus.autonet.io/](https://dreambus.autonet.io/)
 
 Swagger File: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https://dreambus.autonet.io:3000/swagger-ui/index.html)
@@ -59,7 +59,7 @@ Swagger File: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https://d
 
 ## Key Features
 
-| Feature Name | Feature Description |
+| Features | Feature Description |
 | :---: | :---: |
 | Login / Sign Up | All features can be used after logging in. |
 | Parking Lot Search | You can search for information on nearby, specific, or all parking lots based on location, keyword, or parking lot ID. |
