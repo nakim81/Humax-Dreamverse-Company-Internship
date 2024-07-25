@@ -1,4 +1,5 @@
 <image src="images/banner.png">
+한글 깃헙 리포지토리 링크: [https://github.com/mii2026/sw15](https://github.com/mii2026/sw15)
 
 <br>
 (Homepage is currently inaccessible due to the deactivation of the Amazon EC2 instance)
