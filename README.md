@@ -1,13 +1,14 @@
 <image src="images/banner.png">
-한글 깃헙 리포지토리 링크: [https://github.com/mii2026/sw15](https://github.com/mii2026/sw15)
+[한글 깃헙 리포지토리로 이동](https://github.com/mii2026/sw15)
+<br>
 
 <br>
 (Homepage is currently inaccessible due to the deactivation of the Amazon EC2 instance)
 
 <br>
-Direct Service Link: [https://dreambus.autonet.io/](https://dreambus.autonet.io/)
+[Direct Service Link](https://dreambus.autonet.io/)
 
-Swagger File: [https://dreambus.autonet.io:3000/swagger-ui/index.html](https://dreambus.autonet.io:3000/swagger-ui/index.html)
+[Swagger File Link](https://dreambus.autonet.io:3000/swagger-ui/index.html)
 
 
 ## Table of Contents
