@@ -1,11 +1,12 @@
 <image src="images/banner.png">
+  
 [한글 깃헙 리포지토리로 이동](https://github.com/mii2026/sw15)
-<br>
+
 
 <br>
-(Homepage is currently inaccessible due to the deactivation of the Amazon EC2 instance)
 
-<br>
+(Homepage and Swagger page are currently inaccessible due to the deactivation of the Amazon EC2 instance)
+
 [Direct Service Link](https://dreambus.autonet.io/)
 
 [Swagger File Link](https://dreambus.autonet.io:3000/swagger-ui/index.html)
